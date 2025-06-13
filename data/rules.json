@@ -1,0 +1,66 @@
+[
+    {
+        "id": "diff1",
+        "found": false,
+        "circles": [
+            {
+                "centerX": 72,
+                "centerY": 84,
+                "radius": 20
+            }
+        ]
+    },
+    {
+        "id": "diff2",
+        "found": false,
+        "circles": [
+            {
+                "centerX": 634,
+                "centerY": 320,
+                "radius": 30
+            },
+            {
+                "centerX": 660,
+                "centerY": 280,
+                "radius": 30
+            },
+            {
+                "centerX": 686,
+                "centerY": 265,
+                "radius": 20
+            }
+        ]
+    },
+    {
+        "id": "diff3",
+        "found": false,
+        "circles": [
+            {
+                "centerX": 250,
+                "centerY": 200,
+                "radius": 10
+            },
+            {
+                "centerX": 265,
+                "centerY": 215,
+                "radius": 10
+            },
+            {
+                "centerX": 280,
+                "centerY": 205,
+                "radius": 10
+            }
+        ]
+    },
+    {
+        "id": "diff4",
+        "found": false,
+        "circles": [
+            {
+                "centerX": 350,
+                "centerY": 50,
+                "radius": 25
+            }
+        ]
+    }
+]
