@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube 검색 관리자</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>YouTube 검색 관리자</h1>
+
+      <div class="sort-section">
+        <div class="input-group">
+          <label for="sortOrder">정렬 기준:</label>
+          <select id="sortOrder">
+            <option value="viewCount">조회수순</option>
+            <option value="relevance">관련성</option>
+            <option value="date">최신순</option>
+            <option value="rating">평점순</option>
+            <option value="title">제목순</option>
+            <option value="videoCount">동영상 수 (채널 검색 시)</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="maxResults">결과 수:</label>
+          <input type="number" id="maxResults" value="50" min="1" max="50" />
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="search-section">
+        <div class="input-group">
+          <label for="channelId">채널 ID (channelId):</label>
+          <input
+            type="text"
+            id="channelId"
+            placeholder="예: UC_x5XGg2v9cwzERiJ_e_dHQ"
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="eventType">이벤트 타입 (eventType):</label>
+          <select id="eventType">
+            <option value="any">모두</option>
+            <option value="completed">완료된 이벤트</option>
+            <option value="live">라이브 중인 이벤트</option>
+            <option value="upcoming">예정된 이벤트</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="publishedAfter">게시일 이후 (publishedAfter):</label>
+          <input type="datetime-local" id="publishedAfter" />
+        </div>
+
+        <div class="input-group">
+          <label for="publishedBefore">게시일 이전 (publishedBefore):</label>
+          <input type="datetime-local" id="publishedBefore" />
+        </div>
+
+        <div class="input-group">
+          <label for="regionCode">지역 코드 (regionCode):</label>
+          <select id="regionCode">
+            <option value="any">모두</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="relevanceLanguage">관련 언어 (relevanceLanguage):</label>
+          <input
+            type="text"
+            id="relevanceLanguage"
+            placeholder="예: ko (ISO 639-1)"
+          />
+        </div>
+
+        <div class="input-group">
+          <label for="topicId">토픽 ID (topicId):</label>
+          <input type="text" id="topicId" placeholder="예: /m/02vx4 (게임)" />
+        </div>
+
+        <div class="input-group">
+          <label for="videoCaption">자막 (videoCaption):</label>
+          <select id="videoCaption">
+            <option value="any">모두</option>
+            <option value="closedCaption">자막 있음</option>
+            <option value="none">자막 없음</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="videoCategory">카테고리 ID (videoCategory):</label>
+          <select id="videoCategory">
+            <option value="any">모두</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="videoDefinition">해상도 (videoDefinition):</label>
+          <select id="videoDefinition">
+            <option value="any">모두</option>
+            <option value="high">고화질</option>
+            <option value="standard">표준 화질</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="videoDimension">차원 (videoDimension):</label>
+          <select id="videoDimension">
+            <option value="any">모두</option>
+            <option value="2d">2D</option>
+            <option value="3d">3D</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="videoDuration">길이 (videoDuration):</label>
+          <select id="videoDuration">
+            <option value="any">모두</option>
+            <option value="long">20분 이상</option>
+            <option value="medium">4분~20분</option>
+            <option value="short">4분 미만</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="videoEmbeddable">임베드 가능 (videoEmbeddable):</label>
+          <select id="videoEmbeddable">
+            <option value="any">모두</option>
+            <option value="true">임베드 가능</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="videoLicense">라이선스 (videoLicense):</label>
+          <select id="videoLicense">
+            <option value="any">모두</option>
+            <option value="creativeCommon">크리에이티브 커먼즈</option>
+            <option value="youtube">표준 YouTube</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="videoSyndicated">신디케이트 (videoSyndicated):</label>
+          <select id="videoSyndicated">
+            <option value="any">모두</option>
+            <option value="true">신디케이트 가능</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="videoType">동영상 타입 (videoType):</label>
+          <select id="videoType">
+            <option value="any">모두</option>
+            <option value="episode">에피소드</option>
+            <option value="movie">영화</option>
+            <option value="show">쇼</option>
+          </select>
+        </div>
+
+        <div class="search-input-area">
+          <input
+            type="text"
+            id="searchTerm"
+            placeholder="검색어를 입력하세요 (필수)"
+          />
+          <button id="searchButton">검색</button>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="results-section">
+        <h2>검색 결과</h2>
+        <p>현재 페이지: <span id="currentPageDisplay">1</span></p>
+        <table id="resultsTable">
+          <thead>
+            <tr>
+              <th>순번</th>
+              <th>썸네일</th>
+              <th>제목</th>
+              <th>채널</th>
+              <th>게시일</th>
+              <th>설명</th>
+              <th>조회수</th>
+              <th>좋아요 수</th>
+              <th>댓글 수</th>
+              <th>Video ID</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <p id="noResults" class="hidden">검색 결과가 없습니다.</p>
+
+        <div class="pagination-buttons">
+          <button id="prevPageButton" class="hidden">이전</button>
+          <button id="nextPageButton" class="hidden">다음</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script
+      async
+      defer
+      src="https://apis.google.com/js/api.js"
+      onload="gapiLoaded()"
+    ></script>
+  </body>
+</html>
