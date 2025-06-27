@@ -16,18 +16,17 @@ h1 {
 
 .viewer-wrapper {
   display: flex;
-  flex-wrap: wrap; /* !!! 추가: 아이템이 넘치면 다음 줄로 넘어감 !!! */
+  flex-wrap: wrap;
   gap: 2px;
   margin-bottom: 30px;
-  justify-content: center; /* 아이템이 한 줄일 때 중앙 정렬 */
-  width: 100%; /* 부모 너비에 맞춰 유동적으로 */
-  max-width: fit-content; /* content에 딱 맞게 최대 너비 설정 */
-  padding: 0 5px; /* 작은 화면에서 여백을 주기 위해 추가 (선택사항) */
-  box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
+  justify-content: center;
+  width: 100%;
+  max-width: 900px; /* 두 컨테이너 + 간격을 고려한 최대 너비 */
+  padding: 0 5px;
+  box-sizing: border-box;
 }
 
 .image-viewer-container {
-  /* 기존 스타일 유지 (JS가 동적으로 크기 설정) */
   border: 1px solid #ccc;
   overflow: hidden;
   position: relative;
@@ -35,12 +34,18 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   cursor: grab;
   touch-action: none;
-  min-width: 100px;
-  min-height: 75px;
 
-  /* 큰 화면에서는 JS가 설정한 크기를 사용하므로, 여기에 고정 너비를 두지 않음 */
-  /* 작은 화면을 위한 기본 설정 (나중에 미디어 쿼리에서 오버라이드될 수 있음) */
-  flex-shrink: 0; /* 컨테이너가 축소되지 않도록 함 (JS로 설정된 크기를 유지) */
+  /* !!! 변경: CSS가 width를 주도적으로 설정 !!! */
+  width: 400px; /* PC 환경에서 기본 너비 */
+  min-width: 300px; /* 최소 너비 유지 */
+
+  /* height는 JS가 설정할 것이므로 auto 또는 0으로 시작 */
+  height: auto;
+  /* padding-bottom 트릭 제거 */
+
+  flex-grow: 1; /* 작은 화면에서 공간을 채우도록 허용 */
+  flex-shrink: 1; /* 필요시 축소되도록 허용 */
+  flex-basis: auto; /* 기본 flex-basis */
 }
 
 .target-image {
@@ -50,7 +55,7 @@ h1 {
   transform-origin: 0% 0%;
   transform: translate(0px, 0px) scale(1);
   touch-action: none;
-  position: absolute;
+  position: absolute; /* 컨테이너의 크기에 맞춰 위치 */
   top: 0;
   left: 0;
 }
@@ -62,7 +67,7 @@ h1 {
   border-radius: 5px;
   width: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  max-width: 900px; /* 큰 화면에서의 최대 너비 (JS로 설정된 너비에 따라 유동적일 수 있음) */
+  max-width: 900px; /* viewer-wrapper와 동일하게 설정 */
 }
 
 #debug-info h2 {
@@ -79,40 +84,34 @@ h1 {
   color: #555;
 }
 
-/* !!! 모바일 화면을 위한 미디어 쿼리 추가 !!! */
+/* !!! 모바일 화면을 위한 미디어 쿼리 조정 !!! */
 @media (max-width: 768px) {
-  /* 브라우저 너비가 768px 이하일 때 적용 */
   .viewer-wrapper {
-    flex-direction: column; /* 위아래로 쌓이도록 변경 */
-    align-items: center; /* 수직으로 쌓일 때 중앙 정렬 */
-    gap: 10px; /* 세로 간격 조절 (선택사항, 2px 유지해도 됨) */
-    width: 100%; /* 모바일에서 전체 너비 사용 */
-    max-width: unset; /* 더 이상 최대 너비 제한 없음 */
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: unset;
   }
 
   .image-viewer-container {
-    width: 90vw !important; /* !!! 화면 너비의 90%로 설정 (viewport width) !!! */
-    /* JavaScript에서 설정하는 inline style을 오버라이드하기 위해 !important 사용 */
-    height: auto !important; /* 높이는 자동으로 비율 유지 */
-    max-width: 400px; /* 너무 커지는 것을 방지 (예시) */
-    margin-left: auto; /* 중앙 정렬 */
+    /* 모바일에서는 너비를 뷰포트에 상대적으로 설정 */
+    width: 90vw; /* 뷰포트 너비의 90% */
+    max-width: 400px; /* 모바일에서도 너무 커지는 것 방지 */
+    min-width: unset; /* 모바일에서는 min-width 고정 해제 (JS가 계산할 때 참고할 수 있도록) */
+
+    height: auto; /* JS가 설정할 것이므로 auto 유지 */
+
+    margin-left: auto;
     margin-right: auto;
   }
 
-  .target-image {
-    /* 이미지는 여전히 부모 컨테이너에 맞춰 100%를 유지 */
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* 비율 유지 */
-  }
-
   #debug-info {
-    width: 90vw; /* 디버그 정보 패널도 화면 너비에 맞춤 */
+    width: 90vw;
     box-sizing: border-box;
   }
 }
 
-/* !!! 폰트 크기 및 여백 조정 (선택 사항) !!! */
 @media (max-width: 480px) {
   h1 {
     font-size: 1.5em;
