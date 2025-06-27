@@ -1,91 +1,123 @@
+/* style.css */
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-    background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  background-color: #f4f4f4;
+  color: #333;
 }
 
 h1 {
-    color: #333;
-    margin-bottom: 30px;
+  color: #0056b3;
+  margin-bottom: 30px;
 }
 
-.game-container {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 20px;
-    flex-wrap: wrap; /* 작은 화면에서 이미지가 줄바꿈되도록 */
-    justify-content: center;
+.viewer-wrapper {
+  display: flex;
+  flex-wrap: wrap; /* !!! 추가: 아이템이 넘치면 다음 줄로 넘어감 !!! */
+  gap: 2px;
+  margin-bottom: 30px;
+  justify-content: center; /* 아이템이 한 줄일 때 중앙 정렬 */
+  width: 100%; /* 부모 너비에 맞춰 유동적으로 */
+  max-width: fit-content; /* content에 딱 맞게 최대 너비 설정 */
+  padding: 0 5px; /* 작은 화면에서 여백을 주기 위해 추가 (선택사항) */
+  box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
 }
 
-.image-wrapper {
-    position: relative; /* 자식 요소(오버레이)의 위치 기준이 됩니다. */
-    border: 2px solid #ccc;
-    cursor: pointer;
-    overflow: hidden; /* 이미지 밖으로 나가는 요소 숨김 */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.image-viewer-container {
+  /* 기존 스타일 유지 (JS가 동적으로 크기 설정) */
+  border: 1px solid #ccc;
+  overflow: hidden;
+  position: relative;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  cursor: grab;
+  touch-action: none;
+  min-width: 100px;
+  min-height: 75px;
+
+  /* 큰 화면에서는 JS가 설정한 크기를 사용하므로, 여기에 고정 너비를 두지 않음 */
+  /* 작은 화면을 위한 기본 설정 (나중에 미디어 쿼리에서 오버라이드될 수 있음) */
+  flex-shrink: 0; /* 컨테이너가 축소되지 않도록 함 (JS로 설정된 크기를 유지) */
 }
 
-.image-wrapper img {
-    display: block;
-    max-width: 400px; /* 이미지 크기 조절 */
-    height: auto; /* 비율 유지를 위해 자동 설정 */
+.target-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform-origin: 0% 0%;
+  transform: translate(0px, 0px) scale(1);
+  touch-action: none;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-/* 정답을 표시하는 빨간 원형 하이라이트 스타일 */
-.highlight {
-    position: absolute;
-    border: 2px solid red; /* 붉은색 원 테두리 */
-    background-color: rgba(255, 0, 0, 0.3); /* 붉은색 반투명 채우기 */
-    border-radius: 50%; /* 원형으로 만듭니다 */
-    pointer-events: none; /* 하이라이트 클릭 방지 (하이라이트 클릭 시 뒤의 이미지가 클릭되지 않도록) */
-    transform: translate(-50%, -50%); /* CSS left/top이 원의 중심점이 되도록 조정 */
-    transition: all 0.2s ease-out; /* 하이라이트 나타날 때 부드러운 효과 */
+#debug-info {
+  border: 1px solid #ddd;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 5px;
+  width: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  max-width: 900px; /* 큰 화면에서의 최대 너비 (JS로 설정된 너비에 따라 유동적일 수 있음) */
 }
 
-#message {
-    margin-top: 10px;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #555;
-    min-height: 1.5em; /* 메시지 영역이 갑자기 사라지지 않도록 최소 높이 설정 */
+#debug-info h2 {
+  margin-top: 0;
+  color: #007bff;
 }
 
-#resetButton {
-    padding: 12px 25px;
-    font-size: 1.1em;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    margin-top: 25px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, transform 0.1s ease;
+#debug-info p {
+  margin: 5px 0;
+  font-size: 0.9em;
 }
 
-#resetButton:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
+#debug-info strong {
+  color: #555;
 }
 
-#resetButton:active {
-    transform: translateY(0);
+/* !!! 모바일 화면을 위한 미디어 쿼리 추가 !!! */
+@media (max-width: 768px) {
+  /* 브라우저 너비가 768px 이하일 때 적용 */
+  .viewer-wrapper {
+    flex-direction: column; /* 위아래로 쌓이도록 변경 */
+    align-items: center; /* 수직으로 쌓일 때 중앙 정렬 */
+    gap: 10px; /* 세로 간격 조절 (선택사항, 2px 유지해도 됨) */
+    width: 100%; /* 모바일에서 전체 너비 사용 */
+    max-width: unset; /* 더 이상 최대 너비 제한 없음 */
+  }
+
+  .image-viewer-container {
+    width: 90vw !important; /* !!! 화면 너비의 90%로 설정 (viewport width) !!! */
+    /* JavaScript에서 설정하는 inline style을 오버라이드하기 위해 !important 사용 */
+    height: auto !important; /* 높이는 자동으로 비율 유지 */
+    max-width: 400px; /* 너무 커지는 것을 방지 (예시) */
+    margin-left: auto; /* 중앙 정렬 */
+    margin-right: auto;
+  }
+
+  .target-image {
+    /* 이미지는 여전히 부모 컨테이너에 맞춰 100%를 유지 */
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* 비율 유지 */
+  }
+
+  #debug-info {
+    width: 90vw; /* 디버그 정보 패널도 화면 너비에 맞춤 */
+    box-sizing: border-box;
+  }
 }
 
-#clickCoordDisplay {
-    position: absolute;
-    background-color: rgba(255, 255, 255, 0.9); /* 반투명 흰색 배경 */
-    border: 1px solid #333;
-    padding: 5px 8px;
-    border-radius: 3px;
-    font-size: 0.9em;
-    font-family: monospace; /* 좌표는 고정폭 글꼴이 보기 좋습니다. */
-    color: #333;
-    z-index: 100; /* 다른 요소 위에 표시 */
-    pointer-events: none; /* 마우스 이벤트를 통과시킴 */
-    display: none; /* 초기에는 숨김 */
-    white-space: nowrap; /* 내용이 줄바꿈되지 않도록 */
+/* !!! 폰트 크기 및 여백 조정 (선택 사항) !!! */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5em;
+  }
+  #debug-info p {
+    font-size: 0.8em;
+  }
 }

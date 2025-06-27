@@ -1,240 +1,249 @@
+// script.js
+import { ImageViewer } from './modules/imageViewer.js';
+
 document.addEventListener('DOMContentLoaded', () => {
-  const imageWrapper1 = document.getElementById('image1');
-  const imageWrapper2 = document.getElementById('image2');
-  const messageDisplay = document.getElementById('message');
-  const resetButton = document.getElementById('resetButton');
+  // 왼쪽 뷰어 요소
+  const imageElementLeft = document.getElementById('target-image-left');
+  const imageContainerLeft = document.getElementById('image-container-left');
 
-  // 틀린 부분의 좌표를 정의합니다.
-  // 각 diff 객체는 'circles' (클릭 인식용)와 'displayCircle' (하이라이트 표시용)을 가집니다.
-  // 'displayCircle'은 'circles' 정보를 기반으로 자동으로 계산됩니다.
-  const diffGames = [
-    {
-      gameId: 'game1',
-      images: ['images/image3-1.PNG', 'images/image3-2.PNG'],
-      diffAreas: [
-        {
-          id: 'diff1',
-          found: false,
-          // 클릭 인식을 위한 정확한 원들의 집합
-          circles: [{ centerX: 72, centerY: 84, radius: 20 }],
-        },
-        {
-          id: 'diff2',
-          found: false,
-          circles: [
-            { centerX: 634, centerY: 320, radius: 30 },
-            { centerX: 660, centerY: 280, radius: 30 },
-            { centerX: 686, centerY: 265, radius: 20 },
-          ],
-        },
-        {
-          id: 'diff3',
-          found: false,
-          circles: [
-            { centerX: 250, centerY: 200, radius: 10 },
-            { centerX: 265, centerY: 215, radius: 10 },
-            { centerX: 280, centerY: 205, radius: 10 },
-          ],
-        },
-        {
-          id: 'diff4',
-          found: false,
-          circles: [
-            { centerX: 350, centerY: 50, radius: 25 }, // 네 번째 틀린 그림 예시
-          ],
-        },
-      ],
-    },
-  ];
-  const targetGame = diffGames[0];
+  // 오른쪽 뷰어 요소
+  const imageElementRight = document.getElementById('target-image-right');
+  const imageContainerRight = document.getElementById('image-container-right');
 
-  // 각 틀린 그림에 대해 displayCircle을 계산하여 추가합니다.
-  // 이 부분은 diffAreas 정의 직후에 호출되어야 합니다.
-  targetGame.diffAreas.forEach((diff) => {
-    diff.displayCircle = calculateDisplayCircle(diff.circles);
-  });
+  // 디버그 정보 UI 요소
+  const debugState = document.getElementById('gesture-state');
+  const debugX = document.getElementById('debug-x');
+  const debugY = document.getElementById('debug-y');
+  const debugMovement = document.getElementById('debug-movement');
+  const debugScale = document.getElementById('debug-scale');
+  const debugDistance = document.getElementById('debug-distance');
+  const debugClickCount = document.getElementById('debug-click-count');
 
-  let foundDifferences = 0;
-  const totalDifferences = targetGame.diffAreas.length;
+  let clickCount = 0; // 클릭 횟수 추적
 
-  // 게임 초기화 함수
-  function initializeGame() {
-    foundDifferences = 0;
-    messageDisplay.textContent = `찾은 틀린 그림: ${foundDifferences} / ${totalDifferences}`;
-    targetGame.diffAreas.forEach((diff) => (diff.found = false)); // 모든 틀린 부분 찾지 않은 상태로 초기화
+  // 디버그 정보를 업데이트하는 콜백 함수
+  const updateDebugInfo = (info) => {
+    debugState.textContent = info.gestureState || '대기 중';
+    debugX.textContent = info.x ? info.x.toFixed(2) : '0';
+    debugY.textContent = info.y ? info.y.toFixed(2) : '0';
+    debugScale.textContent = info.scale ? info.scale.toFixed(2) : '1';
 
-    // 기존에 생성된 하이라이트 제거
-    const existingHighlights = document.querySelectorAll('.highlight');
-    existingHighlights.forEach((h) => h.remove());
+    debugMovement.textContent = `${info.mx ? info.mx.toFixed(2) : 0}, ${info.my ? info.my.toFixed(2) : 0}`;
+    debugDistance.textContent = info.distance ? info.distance.toFixed(2) : '0';
 
-    // 기존 이미지1 삭제 (새로운 이미지를 추가할 때마다 기존 이미지 제거)
-    while (imageWrapper1.firstChild) {
-      imageWrapper1.removeChild(imageWrapper1.firstChild);
+    if (info.gestureState === 'click') {
+      clickCount++;
+      debugClickCount.textContent = clickCount;
     }
-    const img1 = document.createElement('img');
-    img1.src = targetGame.images[0];
-    imageWrapper1.appendChild(img1);
+  };
 
-    // 기존 이미지2 삭제 (새로운 이미지를 추가할 때마다 기존 이미지 제거)
-    while (imageWrapper2.firstChild) {
-      imageWrapper2.removeChild(imageWrapper2.firstChild);
-    }
-    const img2 = document.createElement('img');
-    img2.src = targetGame.images[1];
-    imageWrapper2.appendChild(img2);
-  }
+  // ImageViewer 인스턴스 (초기에는 undefined)
+  let imageViewerLeft;
+  let imageViewerRight;
 
-  // 클릭 이벤트 핸들러
-  function handleClick(event) {
-    if (foundDifferences === totalDifferences) {
-      messageDisplay.textContent =
-        '모든 틀린 그림을 찾았습니다! 다시 시작 버튼을 눌러주세요.';
-      return;
-    }
-
-    const imgElement = event.currentTarget.querySelector('img');
-    const imgRect = imgElement.getBoundingClientRect();
-
-    // 클릭된 캔버스/이미지 내의 상대적 X, Y 좌표 (CSS 픽셀)
-    const clickX_css = event.clientX - imgRect.left;
-    const clickY_css = event.clientY - imgRect.top;
-
-    // 실제 이미지 픽셀 비율로 조정
-    const naturalWidth = imgElement.naturalWidth;
-    const naturalHeight = imgElement.naturalHeight;
-    const displayedWidth = imgElement.width;
-    const displayedHeight = imgElement.height;
-
-    const ratioX = naturalWidth / displayedWidth;
-    const ratioY = naturalHeight / displayedHeight;
-
-    // 원본 이미지 픽셀 기준의 클릭 좌표
-    const adjustedClickX = clickX_css * ratioX;
-    const adjustedClickY = clickY_css * ratioY;
-
-    let found = false;
-    // diffAreas 배열을 순회하며 틀린 그림을 찾습니다.
-    const foundDiffIndex = targetGame.diffAreas.findIndex((diff) => {
-      if (diff.found) return false; // 이미 찾은 틀린 그림은 건너뜁니다.
-
-      // 현재 틀린 그림(diff)에 포함된 모든 원(circle) 중 하나라도 클릭되었는지 확인합니다.
-      return diff.circles.some((circle) => {
-        const distance = Math.sqrt(
-          Math.pow(adjustedClickX - circle.centerX, 2) +
-            Math.pow(adjustedClickY - circle.centerY, 2)
-        );
-        return distance <= circle.radius;
-      });
-    });
-
-    if (foundDiffIndex !== -1) {
-      const foundDiff = targetGame.diffAreas[foundDiffIndex];
-      foundDiff.found = true; // 해당 틀린 그림을 찾음으로 표시
-      foundDifferences++; // 전체 찾은 틀린 그림 수 증가
-
-      messageDisplay.textContent = `찾은 틀린 그림: ${foundDifferences} / ${totalDifferences}`;
-      // 여기서 'displayCircle' 정보를 사용하여 하이라이트 함수 호출
-      highlightDifference(
-        foundDiff.displayCircle,
-        displayedWidth,
-        displayedHeight,
-        naturalWidth,
-        naturalHeight
-      );
-      found = true;
-    } else {
-      messageDisplay.textContent =
-        '아쉽지만 틀린 부분이 아닙니다. 다시 시도해보세요!';
-      // 잠시 메시지 표시 후 초기화
-      setTimeout(() => {
-        messageDisplay.textContent = `찾은 틀린 그림: ${foundDifferences} / ${totalDifferences}`;
-      }, 1000);
-    }
-
-    if (foundDifferences === totalDifferences) {
-      messageDisplay.textContent = '축하합니다! 모든 틀린 그림을 찾았습니다!';
-    }
-  }
-
-  // 틀린 부분을 하이라이트하는 함수 (displayCircle 정보를 사용)
-  function highlightDifference(
-    circleInfo,
-    displayedWidth,
-    displayedHeight,
-    naturalWidth,
-    naturalHeight
+  /**
+   * 이미지가 로드된 후 컨테이너 크기를 설정하고 ImageViewer를 초기화하는 함수
+   * @param {HTMLImageElement} imageElement - 대상 이미지 요소
+   * @param {HTMLElement} containerElement - 이미지 컨테이너 요소
+   * @param {Function} debugCallback - 디버그 정보 업데이트 콜백
+   * @param {Function} onStateChangeCallback - 상태 변경 알림 콜백 (미러링용)
+   * @param {Object} options - ImageViewer에 전달할 옵션 (minScale, maxScale 등)
+   * @returns {Promise<ImageViewer>} ImageViewer 인스턴스를 resolve하는 Promise
+   */
+  function setupImageViewer(
+    imageElement,
+    containerElement,
+    debugCallback,
+    onStateChangeCallback,
+    options
   ) {
-    const ratioX = displayedWidth / naturalWidth;
-    const ratioY = displayedHeight / naturalHeight;
+    return new Promise((resolve) => {
+      const setImageDimensions = () => {
+        // 이미지의 자연(원본) 크기를 사용하여 컨테이너 크기 설정
+        containerElement.style.width = `${imageElement.naturalWidth}px`;
+        containerElement.style.height = `${imageElement.naturalHeight}px`;
+        console.log(
+          `컨테이너 '${containerElement.id}' 크기 설정됨: ${imageElement.naturalWidth}x${imageElement.naturalHeight}`
+        );
 
-    const highlightDiv = document.createElement('div');
-    highlightDiv.classList.add('highlight'); // 기존 highlight CSS 클래스 사용
+        // ImageViewer 인스턴스 생성 및 반환
+        const viewer = new ImageViewer(
+          imageElement,
+          containerElement,
+          debugCallback,
+          onStateChangeCallback,
+          options
+        );
+        resolve(viewer);
+      };
 
-    // displayCircle의 중심점과 반지름을 사용하여 위치와 크기 설정
-    highlightDiv.style.left = `${circleInfo.centerX * ratioX}px`;
-    highlightDiv.style.top = `${circleInfo.centerY * ratioY}px`;
-    highlightDiv.style.width = `${circleInfo.radius * 2 * ratioX}px`;
-    highlightDiv.style.height = `${circleInfo.radius * 2 * ratioY}px`;
-
-    imageWrapper1.appendChild(highlightDiv.cloneNode(true)); // 원본 이미지에도 표시
-    imageWrapper2.appendChild(highlightDiv); // 수정된 이미지에 표시
+      if (imageElement.complete && imageElement.naturalWidth > 0) {
+        // 이미지가 이미 로드되어 있거나 캐시된 경우
+        setImageDimensions();
+      } else {
+        // 이미지가 아직 로드되지 않은 경우, 'load' 이벤트를 기다림
+        imageElement.addEventListener('load', setImageDimensions, {
+          once: true,
+        });
+        // 이미지 로드 실패 시의 처리 (필요에 따라 폴백 크기 설정 등)
+        imageElement.addEventListener(
+          'error',
+          () => {
+            console.error(
+              `Error loading image: ${imageElement.src}. Using fallback dimensions.`
+            );
+            containerElement.style.width = `400px`; // 폴백 크기
+            containerElement.style.height = `300px`;
+            const viewer = new ImageViewer(
+              imageElement,
+              containerElement,
+              debugCallback,
+              onStateChangeCallback,
+              options
+            );
+            resolve(viewer);
+          },
+          { once: true }
+        );
+      }
+    });
   }
 
   /**
-   * 주어진 여러 개의 원(circles)을 모두 포괄하는 하나의 "러프한" 원(displayCircle)을 계산합니다.
-   * @param {Array<Object>} circles - {centerX, centerY, radius} 형태의 원 객체 배열
-   * @returns {Object} {centerX, centerY, radius} 형태의 displayCircle 객체
+   * 모든 이미지 뷰어를 초기화하고 제스처를 바인딩하는 비동기 함수
    */
-  function calculateDisplayCircle(circles) {
-    if (circles.length === 0) {
-      return { centerX: 0, centerY: 0, radius: 0 };
-    }
+  async function initializeAllViewers() {
+    // 왼쪽 뷰어 설정
+    imageViewerLeft = await setupImageViewer(
+      imageElementLeft,
+      imageContainerLeft,
+      updateDebugInfo,
+      (state) => {
+        if (imageViewerRight) {
+          // 오른쪽 뷰어가 존재할 때만 미러링
+          imageViewerRight.setState(state);
+        }
+      },
+      { minScale: 1, maxScale: 2 }
+    );
 
-    // 1. 모든 원의 경계를 포함하는 최소/최대 X, Y 좌표를 찾습니다.
-    let minOverallX = Infinity;
-    let maxOverallX = -Infinity;
-    let minOverallY = Infinity;
-    let maxOverallY = -Infinity;
+    // 오른쪽 뷰어 설정
+    imageViewerRight = await setupImageViewer(
+      imageElementRight,
+      imageContainerRight,
+      updateDebugInfo,
+      (state) => {
+        if (imageViewerLeft) {
+          // 왼쪽 뷰어가 존재할 때만 미러링
+          imageViewerLeft.setState(state);
+        }
+      },
+      { minScale: 1, maxScale: 3 }
+    );
 
-    circles.forEach((circle) => {
-      minOverallX = Math.min(minOverallX, circle.centerX - circle.radius);
-      maxOverallX = Math.max(maxOverallX, circle.centerX + circle.radius);
-      minOverallY = Math.min(minOverallY, circle.centerY - circle.radius);
-      maxOverallY = Math.max(maxOverallY, circle.centerY + circle.radius);
-    });
+    // 두 뷰어의 초기화(크기 설정 포함)가 완료된 후 제스처 바인딩
+    bindGestures(imageViewerLeft, imageContainerLeft);
+    bindGestures(imageViewerRight, imageContainerRight);
 
-    // 2. 이 직사각형의 중심을 displayCircle의 중심으로 설정합니다.
-    const displayCenterX = (minOverallX + maxOverallX) / 2;
-    const displayCenterY = (minOverallY + maxOverallY) / 2;
+    // 디버그 정보 패널의 너비를 동적으로 계산하여 설정
+    const leftWidth = imageContainerLeft.offsetWidth;
+    const rightWidth = imageContainerRight.offsetWidth;
+    const borderThickness = 1; // 컨테이너 테두리 두께
+    const gap = 2; // 컨테이너 사이 간격
+    const totalCalculatedWidth =
+      leftWidth + rightWidth + gap + borderThickness * 4; // 두 뷰어 너비 + 간격 + 양쪽 컨테이너의 좌우 테두리
 
-    // 3. displayCircle의 반지름을 계산합니다.
-    let maxDistance = 0;
-    circles.forEach((circle) => {
-      // 현재 원의 중심과 displayCircle의 중심 간의 거리
-      const distToCircleCenter = Math.sqrt(
-        Math.pow(circle.centerX - displayCenterX, 2) +
-          Math.pow(circle.centerY - displayCenterY, 2)
-      );
-      // 이 거리 + 현재 원의 반지름이 displayCircle이 커버해야 할 최소 거리입니다.
-      maxDistance = Math.max(maxDistance, distToCircleCenter + circle.radius);
-    });
+    document.getElementById('debug-info').style.width =
+      `${totalCalculatedWidth}px`;
 
-    // 사용자에게 '러프하게' 보이도록 약간의 버퍼를 추가할 수 있습니다.
-    const buffer = 5; // 픽셀 단위로 조정 가능
-    const displayRadius = maxDistance + buffer;
-
-    return {
-      centerX: displayCenterX,
-      centerY: displayCenterY,
-      radius: displayRadius,
-    };
+    console.log(
+      '두 개의 이미지 뷰어에 Hammer.js 및 휠 제스처가 바인딩 되었고 미러링이 설정되었습니다.'
+    );
+    console.log(
+      '컨테이너 크기가 이미지의 원본 크기에 맞춰 동적으로 설정되었습니다.'
+    );
   }
 
-  // 이벤트 리스너 등록
-  imageWrapper1.addEventListener('click', handleClick);
-  imageWrapper2.addEventListener('click', handleClick);
-  resetButton.addEventListener('click', initializeGame);
+  // 모든 초기화 프로세스 시작
+  initializeAllViewers();
 
-  // 페이지 로드 시 게임 초기화
-  initializeGame();
+  // --- Hammer.js 및 Wheel 이벤트 바인딩 함수 (이전과 동일, 별도 변경 없음) ---
+  function bindGestures(viewer, container) {
+    const hammer = new Hammer(container);
+
+    hammer.get('pinch').set({ enable: true });
+    hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+    hammer.get('tap').set({ enable: true });
+
+    // 이미지 요소의 HTML 기본 드래그 방지 (이전 수정사항)
+    const imgElement = container.querySelector('.target-image');
+    if (imgElement) {
+      imgElement.addEventListener('dragstart', (e) => {
+        e.preventDefault();
+      });
+    }
+    container.addEventListener('dragstart', (e) => {
+      e.preventDefault();
+    });
+
+    // Pan 제스처
+    hammer.on('panstart', (e) => {
+      viewer.startPan();
+      container.style.cursor = 'grabbing';
+    });
+    hammer.on('panmove', (e) => {
+      viewer.pan(e.deltaX, e.deltaY);
+    });
+    hammer.on('panend', (e) => {
+      viewer.endPan();
+      container.style.cursor = 'grab';
+      updateDebugInfo({
+        gestureState: '대기 중',
+        x: viewer.state.x,
+        y: viewer.state.y,
+        scale: viewer.state.scale,
+        mx: 0,
+        my: 0,
+      });
+    });
+
+    // Pinch 제스처
+    hammer.on('pinchstart', (e) => {
+      viewer.startPinch();
+    });
+    hammer.on('pinchmove', (e) => {
+      viewer.pinch(e.scale, e.center);
+    });
+    hammer.on('pinchend', (e) => {
+      viewer.endPinch();
+      updateDebugInfo({
+        gestureState: '대기 중',
+        x: viewer.state.x,
+        y: viewer.state.y,
+        scale: viewer.state.scale,
+        distance: 0,
+      });
+    });
+
+    // Tap (Click) 제스처
+    hammer.on('tap', (e) => {
+      viewer.click();
+      updateDebugInfo({
+        gestureState: '대기 중',
+        x: viewer.state.x,
+        y: viewer.state.y,
+        scale: viewer.state.scale,
+      });
+    });
+
+    // Wheel 이벤트 (마우스 휠 확대/축소)
+    container.addEventListener(
+      'wheel',
+      (e) => {
+        e.preventDefault();
+        viewer.wheelZoom(e.deltaY, e.clientX, e.clientY);
+      },
+      { passive: false }
+    );
+  }
 });

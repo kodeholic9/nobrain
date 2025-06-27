@@ -3,22 +3,52 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NO TITLE</title>
+    <title>미러링 제스처 인식 프로그램</title>
     <link rel="stylesheet" href="style.css" />
+
+    <script src="./libs/hammer.min.js"></script>
   </head>
   <body>
-    <!-- <h1>틀린그림찾기</h1> -->
-    <div class="game-container">
-      <div class="image-wrapper" id="image1">
-        <img src="./images/image3-1.PNG" alt="원본 이미지" />
+    <h1>이미지 제스처 미러링 데모</h1>
+
+    <div class="viewer-wrapper">
+      <div class="image-viewer-container" id="image-container-left">
+        <img
+          class="target-image"
+          id="target-image-left"
+          src="https://www.jjangnan.xyz/images/1_1.jpg"
+          alt="왼쪽 이미지"
+        />
       </div>
-      <div class="image-wrapper" id="image2">
-        <img src="./images/image3-2.PNG" alt="수정된 이미지" />
+
+      <div class="image-viewer-container" id="image-container-right">
+        <img
+          class="target-image"
+          id="target-image-right"
+          src="https://www.jjangnan.xyz/images/1_2.jpg"
+          alt="오른쪽 이미지"
+        />
       </div>
     </div>
-    <div id="message"></div>
-    <button id="resetButton">다시 시작</button>
 
-    <script src="script.js"></script>
+    <div id="debug-info">
+      <h2>디버그 정보</h2>
+      <p>
+        <strong>제스처 상태:</strong> <span id="gesture-state">대기 중</span>
+      </p>
+      <p>
+        <strong>X:</strong> <span id="debug-x">0</span>, <strong>Y:</strong>
+        <span id="debug-y">0</span>
+      </p>
+      <p><strong>스케일:</strong> <span id="debug-scale">1</span></p>
+      <p>
+        <strong>이동 거리 (dx, dy):</strong>
+        <span id="debug-movement">0, 0</span>
+      </p>
+      <p><strong>핀치 거리:</strong> <span id="debug-distance">0</span></p>
+      <p><strong>클릭 횟수:</strong> <span id="debug-click-count">0</span></p>
+    </div>
+
+    <script type="module" src="script.js"></script>
   </body>
 </html>
