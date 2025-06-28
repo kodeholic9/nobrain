@@ -8,8 +8,6 @@
     <script src="../libs/hammer.min.js"></script>
   </head>
   <body>
-    <h1>이미지 제스처 미러링 데모</h1>
-
     <div class="game-controls">
       <button id="startGameBtn">게임 시작</button>
       <button id="resetGameBtn" style="display: none">게임 리셋</button>
@@ -39,29 +37,7 @@
       <button id="toggle-debug-btn">디버그 정보 토글</button>
     </div>
 
-    <div id="debug-info">
-      <h2>디버그 정보</h2>
-      <p>
-        <strong>제스처 상태:</strong> <span id="gesture-state">대기 중</span>
-      </p>
-      <p>X: <span id="debug-x">0</span>, Y: <span id="debug-y">0</span></p>
-      <p>Scale: <span id="debug-scale">1</span></p>
-      <p>Image Natural WxH: <span id="debug-natural-wh"></span></p>
-      <p>Container WxH: <span id="debug-container-wh"></span></p>
-      <p>Rendered WxH (1x): <span id="debug-rendered-wh"></span></p>
-      <p>
-        Click Container X: <span id="click-container-x">N/A</span>, Y:
-        <span id="click-container-y">N/A</span>
-      </p>
-      <p>
-        Click Rendered Img X: <span id="click-rendered-x">N/A</span>, Y:
-        <span id="click-rendered-y">N/A</span>
-      </p>
-      <p>
-        Click Original Img X: <span id="click-original-x">N/A</span>, Y:
-        <span id="click-original-y">N/A</span>
-      </p>
-    </div>
+    <div id="debug-info"></div>
 
     <script type="module" src="script.js"></script>
   </body>

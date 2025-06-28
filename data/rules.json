@@ -1,8 +1,8 @@
 [
   {
-    "ruleId": "rule1",
-    "originImage": "https://jjangnan.xyz/images/1-1.png",
-    "variantImage": "https://jjangnan.xyz/images/1-2.png",
+    "ruleId": 1,
+    "originImage": "https://jjangnan.xyz/images/1_1.png",
+    "variantImage": "https://jjangnan.xyz/images/1_2.png",
     "spots": [
       {
         "circles": [
@@ -16,7 +16,7 @@
     ]
   },
   {
-    "ruleId": "rule2",
+    "ruleId": 2,
     "originImage": "https://jjangnan.xyz/images/1_1.jpg",
     "variantImage": "https://jjangnan.xyz/images/1_2.jpg",
     "spots": [

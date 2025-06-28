@@ -5,12 +5,12 @@ body {
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #2c3e50; /* 어두운 남색 계열 배경 */
+  color: #ecf0f1; /* 밝은 회색 텍스트 */
 }
 
 h1 {
-  color: #0056b3;
+  color: #3498db; /* 밝은 파란색 헤더 */
   margin-bottom: 30px;
 }
 
@@ -27,11 +27,11 @@ h1 {
 }
 
 .image-viewer-container {
-  border: 1px solid #ccc;
+  border: 1px solid #4a627a; /* 어두운 테두리 */
   overflow: hidden;
   position: relative;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: #34495e; /* 컨테이너 배경색 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 그림자도 어둡게 */
   cursor: grab;
   touch-action: none;
 
@@ -71,7 +71,7 @@ h1 {
 .controls button {
   padding: 10px 20px;
   font-size: 1em;
-  background-color: #007bff;
+  background-color: #3498db; /* 밝은 파란색 버튼 */
   color: white;
   border: none;
   border-radius: 5px;
@@ -80,16 +80,17 @@ h1 {
 }
 
 .controls button:hover {
-  background-color: #0056b3;
+  background-color: #2980b9; /* 호버 시 더 진한 파란색 */
 }
 
 #debug-info {
-  border: 1px solid #ddd;
+  border: 1px solid #4a627a; /* 어두운 테두리 */
   padding: 15px;
-  background-color: #fff;
+  background-color: #34495e; /* 컨테이너 배경색과 동일 */
+  color: #ecf0f1; /* 밝은 텍스트 */
   border-radius: 5px;
   width: auto;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   max-width: 900px;
   margin-bottom: 20px; /* 아래쪽 여백 추가 */
 
@@ -102,17 +103,13 @@ h1 {
 }
 
 #debug-info h2 {
-  margin-top: 0;
-  color: #007bff;
+  color: #3498db; /* 디버그 정보 제목도 파란색으로 */
 }
 
-#debug-info p {
-  margin: 5px 0;
-  font-size: 0.9em;
-}
-
-#debug-info strong {
-  color: #555;
+#debug-info pre {
+  white-space: pre-wrap; /* 긴 줄바꿈 처리 */
+  word-wrap: break-word; /* 긴 단어 줄바꿈 처리 */
+  color: #ecf0f1; /* pre 태그 내부 텍스트 색상 */
 }
 
 /* !!! 추가: 게임 컨트롤 및 정보 UI 스타일 !!! */
@@ -121,10 +118,11 @@ h1 {
   align-items: center;
   gap: 15px;
   margin-bottom: 20px;
-  background-color: #e0f2f7;
+  background-color: #3f5870; /* 게임 컨트롤 배경 (메인 배경보다 살짝 밝게) */
   padding: 15px 25px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 더 진한 그림자 */
+  color: #ecf0f1; /* 밝은 텍스트 */
 }
 
 .game-controls button {
@@ -140,29 +138,29 @@ h1 {
 }
 
 #startGameBtn {
-  background-color: #28a745;
+  background-color: #27ae60; /* 녹색 버튼 */
   color: white;
 }
 
 #startGameBtn:hover {
-  background-color: #218838;
+  background-color: #2ecc71; /* 호버 시 밝은 녹색 */
   transform: translateY(-1px);
 }
 
 #resetGameBtn {
-  background-color: #ffc107;
-  color: #333;
+  background-color: #f1c40f; /* 노란색 버튼 */
+  color: #333; /* 어두운 텍스트 */
 }
 
 #resetGameBtn:hover {
-  background-color: #e0a800;
+  background-color: #f39c12; /* 호버 시 진한 노란색 */
   transform: translateY(-1px);
 }
 
 .timer {
   font-size: 1.2em;
   font-weight: bold;
-  color: #0056b3;
+  color: #3498db; /* 밝은 파란색 타이머 텍스트 */
   min-width: 120px; /* 타이머 길이가 변해도 레이아웃이 깨지지 않도록 */
   text-align: center;
 }
@@ -177,14 +175,14 @@ h1 {
 }
 
 .game-message.success {
-  background-color: #d4edda;
-  color: #155724;
+  background-color: #d4edda; /* 밝은 녹색 배경 */
+  color: #155724; /* 어두운 녹색 텍스트 */
   border: 1px solid #c3e6cb;
 }
 
 .game-message.failure {
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: #f8d7da; /* 밝은 빨간색 배경 */
+  color: #721c24; /* 어두운 빨간색 텍스트 */
   border: 1px solid #f5c6cb;
 }
 
@@ -201,7 +199,7 @@ h1 {
   .image-viewer-container {
     /* 모바일에서는 너비를 뷰포트에 상대적으로 설정 */
     width: 90vw; /* 뷰포트 너비의 90% */
-    max-width: 400px; /* 모바일에서도 너무 커지는 것 방지 */
+    max-width: 300px; /* 모바일에서도 너무 커지는 것 방지 */
     min-width: unset; /* 모바일에서는 min-width 고정 해제 (JS가 계산할 때 참고할 수 있도록) */
 
     height: auto; /* JS가 설정할 것이므로 auto 유지 */
@@ -232,8 +230,5 @@ h1 {
 @media (max-width: 480px) {
   h1 {
     font-size: 1.5em;
-  }
-  #debug-info p {
-    font-size: 0.8em;
   }
 }
