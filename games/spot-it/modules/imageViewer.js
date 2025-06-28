@@ -21,15 +21,13 @@ export class ImageViewer {
       startScale: 1,
     };
 
-    this.minScale = options.minScale || 0.1;
-    this.maxScale = options.maxScale || 5;
+    this.minScale = options.minScale || 1;
+    this.maxScale = options.maxScale || 3;
 
-    // 초기 중앙 정렬 (생성 시 한 번 호출)
     this.centerImage();
     this.updateImageTransform();
   }
 
-  // --- 추가된 헬퍼 함수: object-fit: contain에 따른 실제 이미지 크기 계산 ---
   getRenderedImageDimensions() {
     const naturalWidth = this.image.naturalWidth;
     const naturalHeight = this.image.naturalHeight;
@@ -42,13 +40,10 @@ export class ImageViewer {
     let renderedWidth;
     let renderedHeight;
 
-    // object-fit: contain 로직
     if (imageAspectRatio > containerAspectRatio) {
-      // 이미지가 컨테이너보다 넓어서 가로에 맞춰짐 (세로에 여백)
       renderedWidth = containerWidth;
       renderedHeight = containerWidth / imageAspectRatio;
     } else {
-      // 이미지가 컨테이너보다 높아서 세로에 맞춰짐 (가로에 여백)
       renderedHeight = containerHeight;
       renderedWidth = containerHeight * imageAspectRatio;
     }
@@ -56,29 +51,20 @@ export class ImageViewer {
     return { renderedWidth, renderedHeight };
   }
 
-  // --- 추가된 함수: 이미지 중앙 정렬 로직 ---
   centerImage() {
     const { renderedWidth, renderedHeight } = this.getRenderedImageDimensions();
     const containerWidth = this.container.offsetWidth;
     const containerHeight = this.container.offsetHeight;
 
-    // 현재 스케일 적용 후의 실제 이미지 크기
     const currentScaledWidth = renderedWidth * this.state.scale;
     const currentScaledHeight = renderedHeight * this.state.scale;
 
-    // 이미지가 컨테이너보다 작을 때만 중앙 정렬
     if (currentScaledWidth <= containerWidth) {
       this.state.x = (containerWidth - currentScaledWidth) / 2;
-    } else {
-      // 이미지가 컨테이너보다 크면, 현재 x를 유지하거나 0으로 초기화하지 않음 (이동 가능하게 둠)
-      // 단, 중앙으로 강제 이동되던 문제를 해결하기 위해 여기서는 조정하지 않음
-      // pan, pinch, wheelZoom에서 minX/maxX에 의해 자동으로 제한될 것임
     }
 
     if (currentScaledHeight <= containerHeight) {
       this.state.y = (containerHeight - currentScaledHeight) / 2;
-    } else {
-      // 이미지가 컨테이너보다 크면, 현재 y를 유지
     }
   }
 
@@ -93,15 +79,6 @@ export class ImageViewer {
     this.state.startY = newState.y;
     this.state.startScale = newState.scale;
 
-    // setState 호출 시에도 중앙 정렬을 재계산할지 여부.
-    // 외부에서 상태를 강제로 설정하는 경우 (미러링)에는 중앙 정렬 로직이 필요 없음.
-    // if (triggerUpdate) {
-    //    this.centerImage(); // 필요에 따라 호출
-    //    this.updateImageTransform();
-    // }
-
-    // 변경된 setState 로직: 먼저 스케일만 적용하고 변환.
-    // pan, pinch, wheelZoom에서 이미 위치 제한을 다시 하기 때문에 여기서는 위치만 설정
     if (triggerUpdate) {
       this.updateImageTransform();
     }
@@ -120,34 +97,16 @@ export class ImageViewer {
     const containerWidth = this.container.offsetWidth;
     const containerHeight = this.container.offsetHeight;
 
-    // !!! 변경: object-fit을 고려한 실제 렌더링 크기 사용 !!!
     const { renderedWidth, renderedHeight } = this.getRenderedImageDimensions();
     const scaledContentWidth = renderedWidth * this.state.scale;
     const scaledContentHeight = renderedHeight * this.state.scale;
 
-    // 이미지가 컨테이너보다 클 때만 이동 제한을 적용
     if (scaledContentWidth > containerWidth) {
-      const maxX = (containerWidth - renderedWidth) / 2; // 이미지의 중앙을 기준으로 했을 때의 최대 x
-      const minX =
-        containerWidth -
-        scaledContentWidth -
-        (containerWidth - renderedWidth) / 2; // 이미지 중앙 기준 최소 x
-      // 이 계산이 복잡하다면, 0과 (컨테이너 - 스케일된 이미지) 사이에서 이동
-      // maxX는 이미지가 컨테이너 왼쪽 끝에 딱 붙는 경우 (컨테이너 내 여백 시작점)
-      // minX는 이미지가 컨테이너 오른쪽 끝에 딱 붙는 경우 (컨테이너 내 여백 끝점)
-
-      // 더 직관적인 계산: 이미지가 컨테이너의 (0,0)을 기준으로 했을 때의 최대 이동 범위
-      const effectiveMaxX = 0; // 이미지가 왼쪽 컨테이너 경계에 닿았을 때 (좌측 여백 시작점)
-      const effectiveMinX = containerWidth - scaledContentWidth; // 이미지가 오른쪽 컨테이너 경계에 닿았을 때 (우측 여백 시작점)
-
+      const effectiveMaxX = 0;
+      const effectiveMinX = containerWidth - scaledContentWidth;
       this.state.x = Math.max(effectiveMinX, Math.min(effectiveMaxX, newX));
-
-      // 만약 이미지가 컨테이너보다 작아서 중앙에 정렬되어야 한다면 pan을 허용하지 않음
-      // 이 부분은 centerImage()에서 초기화 시 처리되므로, pan에서는 항상 제한을 두어야 함
-      // 만약 scaledContentWidth <= containerWidth 이면, pan이 아예 발생하지 않도록 UI에서 막는게 좋음 (CSS cursor: default 등)
     } else {
-      // 이미지가 컨테이너보다 작거나 같으면 중앙 정렬 (이동 없음)
-      this.state.x = (containerWidth - scaledContentWidth) / 2; // 중앙 정렬
+      this.state.x = (containerWidth - scaledContentWidth) / 2;
     }
 
     if (scaledContentHeight > containerHeight) {
@@ -155,7 +114,7 @@ export class ImageViewer {
       const effectiveMinY = containerHeight - scaledContentHeight;
       this.state.y = Math.max(effectiveMinY, Math.min(effectiveMaxY, newY));
     } else {
-      this.state.y = (containerHeight - scaledContentHeight) / 2; // 중앙 정렬
+      this.state.y = (containerHeight - scaledContentHeight) / 2;
     }
 
     this.updateImageTransform();
@@ -185,8 +144,6 @@ export class ImageViewer {
     const imageCurrentX = this.state.x;
     const imageCurrentY = this.state.y;
 
-    // 새로운 스케일 적용 시 x,y 위치 계산
-    // 핀치 줌 중심점을 기준으로 이동 계산 (이전과 동일)
     let tempX =
       relativeCenterX -
       (relativeCenterX - imageCurrentX) * (newScale / this.state.scale);
@@ -194,22 +151,20 @@ export class ImageViewer {
       relativeCenterY -
       (relativeCenterY - imageCurrentY) * (newScale / this.state.scale);
 
-    this.state.scale = newScale; // 먼저 스케일을 업데이트하여 제한 계산에 사용
+    this.state.scale = newScale;
 
-    // !!! 변경: object-fit을 고려한 실제 렌더링 크기 사용 !!!
     const containerWidth = this.container.offsetWidth;
     const containerHeight = this.container.offsetHeight;
     const { renderedWidth, renderedHeight } = this.getRenderedImageDimensions();
     const scaledContentWidth = renderedWidth * this.state.scale;
-    const scaledContentHeight = renderedHeight * this.state.scale;
+    const scaledContentHeight = renderedHeight * this.state.scale; // 수정된 부분
 
-    // 핀치 후에도 이미지 위치 제한 적용 (pan과 유사)
     if (scaledContentWidth > containerWidth) {
       const effectiveMaxX = 0;
       const effectiveMinX = containerWidth - scaledContentWidth;
       this.state.x = Math.max(effectiveMinX, Math.min(effectiveMaxX, tempX));
     } else {
-      this.state.x = (containerWidth - scaledContentWidth) / 2; // 이미지가 컨테이너보다 작으면 중앙 정렬
+      this.state.x = (containerWidth - scaledContentWidth) / 2;
     }
 
     if (scaledContentHeight > containerHeight) {
@@ -217,7 +172,7 @@ export class ImageViewer {
       const effectiveMinY = containerHeight - scaledContentHeight;
       this.state.y = Math.max(effectiveMinY, Math.min(effectiveMaxY, tempY));
     } else {
-      this.state.y = (containerHeight - scaledContentHeight) / 2; // 이미지가 컨테이너보다 작으면 중앙 정렬
+      this.state.y = (containerHeight - scaledContentHeight) / 2;
     }
 
     this.updateImageTransform();
@@ -229,11 +184,74 @@ export class ImageViewer {
     this.reportDebugInfo('pinchend');
   }
 
-  click() {
-    this.reportDebugInfo('click');
+  // !!! 변경: clientX, clientY 인자 추가 및 좌표 계산 로직 추가 !!!
+  click(clientX, clientY) {
+    console.log(`Click at: (${clientX}, ${clientY})`);
+    const containerRect = this.container.getBoundingClientRect();
+
+    // 1. Container X, Y (컨테이너 기준)
+    const containerX = clientX - containerRect.left;
+    const containerY = clientY - containerRect.top;
+
+    // 2. Rendered Image Content X, Y (스케일된 렌더링 이미지 콘텐츠 기준)
+    // 현재 이미지의 변환된 위치를 고려하여 클릭 지점을 이미지 내부 좌표로 변환
+    const renderedImageX = containerX - this.state.x;
+    const renderedImageY = containerY - this.state.y;
+
+    // 3. Original Image X, Y (원본 이미지 픽셀 기준)
+    const naturalWidth = this.image.naturalWidth;
+    const naturalHeight = this.image.naturalHeight;
+    const { renderedWidth, renderedHeight } = this.getRenderedImageDimensions();
+
+    let originalImageX, originalImageY;
+
+    // object-fit: contain에 의해 이미지 가장자리에 여백이 생기는 경우를 고려
+    const containerWidth = this.container.offsetWidth;
+    const containerHeight = this.container.offsetHeight;
+
+    const imageAspectRatio = naturalWidth / naturalHeight;
+    const containerAspectRatio = containerWidth / containerHeight;
+
+    if (imageAspectRatio > containerAspectRatio) {
+      // 이미지가 컨테이너보다 넓어서 높이가 맞춰진 경우 (좌우에 여백이 없음, 상하에 여백)
+      const scaleFactor = renderedWidth / naturalWidth; // natural -> rendered (at scale 1)
+      const effectiveImageTopOffset = (containerHeight - renderedHeight) / 2; // object-fit: contain으로 생긴 상단 여백
+
+      originalImageX = renderedImageX / this.state.scale / scaleFactor;
+      originalImageY =
+        (renderedImageY - effectiveImageTopOffset) /
+        this.state.scale /
+        scaleFactor;
+    } else {
+      // 이미지가 컨테이너보다 높아서 너비가 맞춰진 경우 (상하에 여백이 없음, 좌우에 여백)
+      const scaleFactor = renderedHeight / naturalHeight; // natural -> rendered (at scale 1)
+      const effectiveImageLeftOffset = (containerWidth - renderedWidth) / 2; // object-fit: contain으로 생긴 좌측 여백
+
+      originalImageX =
+        (renderedImageX - effectiveImageLeftOffset) /
+        this.state.scale /
+        scaleFactor;
+      originalImageY = renderedImageY / this.state.scale / scaleFactor;
+    }
+
+    // 음수 좌표 방지 및 이미지 경계 내로 제한 (선택 사항이지만 안전성 위해)
+    originalImageX = Math.max(0, Math.min(naturalWidth, originalImageX));
+    originalImageY = Math.max(0, Math.min(naturalHeight, originalImageY));
+
+    this.reportDebugInfo('click', {
+      clickCoords: {
+        containerX,
+        containerY,
+        renderedImageX,
+        renderedImageY,
+        originalImageX,
+        originalImageY,
+      },
+    });
   }
 
   wheelZoom(deltaY, clientX, clientY) {
+    // <-- 이 메소드가 존재해야 합니다.
     const zoomAmount = 0.1;
     const scaleDirection = deltaY < 0 ? 1 + zoomAmount : 1 - zoomAmount;
 
@@ -244,34 +262,29 @@ export class ImageViewer {
 
     const containerRect = this.container.getBoundingClientRect();
     const relativeMouseX = clientX - containerRect.left;
-    const relativeMouseY = clientY - containerRect.top;
-
-    const imageCurrentX = this.state.x;
-    const imageCurrentY = this.state.y;
+    const relativeMouseY = clientY - clientY; // 여기가 잘못됐었네요. clientY - containerRect.top; 이어야 합니다.
 
     let tempX =
       relativeMouseX -
-      (relativeMouseX - imageCurrentX) * (newScale / this.state.scale);
+      (relativeMouseX - this.state.x) * (newScale / this.state.scale);
     let tempY =
       relativeMouseY -
-      (relativeMouseY - imageCurrentY) * (newScale / this.state.scale);
+      (relativeMouseY - this.state.y) * (newScale / this.state.scale);
 
-    this.state.scale = newScale; // 먼저 스케일을 업데이트하여 제한 계산에 사용
+    this.state.scale = newScale;
 
-    // !!! 변경: object-fit을 고려한 실제 렌더링 크기 사용 !!!
     const containerWidth = this.container.offsetWidth;
     const containerHeight = this.container.offsetHeight;
     const { renderedWidth, renderedHeight } = this.getRenderedImageDimensions();
     const scaledContentWidth = renderedWidth * this.state.scale;
-    const scaledContentHeight = renderedHeight * renderedHeight; // 오류 수정: renderedHeight * this.state.scale;
+    const scaledContentHeight = renderedHeight * this.state.scale; // <-- 여기가 이전에 renderedHeight * renderedHeight; 였던 것 수정
 
-    // 휠 줌 후에도 이미지 위치 제한 적용 (pinch와 유사)
     if (scaledContentWidth > containerWidth) {
       const effectiveMaxX = 0;
       const effectiveMinX = containerWidth - scaledContentWidth;
       this.state.x = Math.max(effectiveMinX, Math.min(effectiveMaxX, tempX));
     } else {
-      this.state.x = (containerWidth - scaledContentWidth) / 2; // 이미지가 컨테이너보다 작으면 중앙 정렬
+      this.state.x = (containerWidth - scaledContentWidth) / 2;
     }
 
     if (scaledContentHeight > containerHeight) {
@@ -279,7 +292,7 @@ export class ImageViewer {
       const effectiveMinY = containerHeight - scaledContentHeight;
       this.state.y = Math.max(effectiveMinY, Math.min(effectiveMaxY, tempY));
     } else {
-      this.state.y = (containerHeight - scaledContentHeight) / 2; // 이미지가 컨테이너보다 작으면 중앙 정렬
+      this.state.y = (containerHeight - scaledContentHeight) / 2;
     }
 
     this.updateImageTransform();

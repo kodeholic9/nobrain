@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>미러링 제스처 인식 프로그램</title>
     <link rel="stylesheet" href="style.css" />
-
     <script src="./libs/hammer.min.js"></script>
   </head>
   <body>
     <h1>이미지 제스처 미러링 데모</h1>
-
     <div class="viewer-wrapper">
       <div class="image-viewer-container" id="image-container-left">
         <img
@@ -20,7 +18,6 @@
           alt="왼쪽 이미지"
         />
       </div>
-
       <div class="image-viewer-container" id="image-container-right">
         <img
           class="target-image"
@@ -31,22 +28,32 @@
       </div>
     </div>
 
+    <div class="controls">
+      <button id="toggle-debug-btn">디버그 정보 토글</button>
+    </div>
+
     <div id="debug-info">
       <h2>디버그 정보</h2>
       <p>
         <strong>제스처 상태:</strong> <span id="gesture-state">대기 중</span>
       </p>
+      <p>X: <span id="debug-x">0</span>, Y: <span id="debug-y">0</span></p>
+      <p>Scale: <span id="debug-scale">1</span></p>
+      <p>Image Natural WxH: <span id="debug-natural-wh"></span></p>
+      <p>Container WxH: <span id="debug-container-wh"></span></p>
+      <p>Rendered WxH (1x): <span id="debug-rendered-wh"></span></p>
       <p>
-        <strong>X:</strong> <span id="debug-x">0</span>, <strong>Y:</strong>
-        <span id="debug-y">0</span>
+        Click Container X: <span id="click-container-x">N/A</span>, Y:
+        <span id="click-container-y">N/A</span>
       </p>
-      <p><strong>스케일:</strong> <span id="debug-scale">1</span></p>
       <p>
-        <strong>이동 거리 (dx, dy):</strong>
-        <span id="debug-movement">0, 0</span>
+        Click Rendered Img X: <span id="click-rendered-x">N/A</span>, Y:
+        <span id="click-rendered-y">N/A</span>
       </p>
-      <p><strong>핀치 거리:</strong> <span id="debug-distance">0</span></p>
-      <p><strong>클릭 횟수:</strong> <span id="debug-click-count">0</span></p>
+      <p>
+        Click Original Img X: <span id="click-original-x">N/A</span>, Y:
+        <span id="click-original-y">N/A</span>
+      </p>
     </div>
 
     <script type="module" src="script.js"></script>

@@ -58,6 +58,29 @@ h1 {
   position: absolute; /* 컨테이너의 크기에 맞춰 위치 */
   top: 0;
   left: 0;
+
+  /* !!! 추가: 이미지 드래그 방지 !!! */
+  user-drag: none; /* 표준 속성 */
+  -webkit-user-drag: none; /* WebKit 브라우저용 */
+}
+
+.controls {
+  margin-bottom: 20px;
+}
+
+.controls button {
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.controls button:hover {
+  background-color: #0056b3;
 }
 
 #debug-info {
@@ -67,7 +90,15 @@ h1 {
   border-radius: 5px;
   width: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  max-width: 900px; /* viewer-wrapper와 동일하게 설정 */
+  max-width: 900px;
+  margin-bottom: 20px; /* 아래쪽 여백 추가 */
+
+  /* !!! 변경: 초기에는 숨김 !!! */
+  display: none;
+}
+
+#debug-info.active {
+  display: block; /* 활성화 시 보이도록 */
 }
 
 #debug-info h2 {
