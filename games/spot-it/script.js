@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggleDebugBtn = document.getElementById('toggle-debug-btn');
   if (toggleDebugBtn) {
     // debugInfo 인스턴스의 toggleDebugMode 메서드 호출
-    toggleDebugBtn.addEventListener('click', () => debugInfo.toggleDebugMode());
+    toggleDebugBtn.addEventListener('click', () => {
+      debugInfo.toggleDebugMode();
+      //spotGame.drawAllSpots();
+    });
   }
 
   // gameCore 인스턴스의 initializeGameCore 메서드 호출
