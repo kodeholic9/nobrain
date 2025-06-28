@@ -9,6 +9,13 @@
   </head>
   <body>
     <h1>이미지 제스처 미러링 데모</h1>
+
+    <div class="game-controls">
+      <button id="startGameBtn">게임 시작</button>
+      <button id="resetGameBtn" style="display: none">게임 리셋</button>
+      <div class="timer">남은 시간: <span id="remainingTime">00:00</span></div>
+      <div class="game-message" id="gameMessage" style="display: none"></div>
+    </div>
     <div class="viewer-wrapper">
       <div class="image-viewer-container" id="image-container-left">
         <img

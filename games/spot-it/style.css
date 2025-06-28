@@ -115,6 +115,79 @@ h1 {
   color: #555;
 }
 
+/* !!! 추가: 게임 컨트롤 및 정보 UI 스타일 !!! */
+.game-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  background-color: #e0f2f7;
+  padding: 15px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.game-controls button {
+  padding: 12px 25px;
+  font-size: 1.1em;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    transform 0.1s ease;
+}
+
+#startGameBtn {
+  background-color: #28a745;
+  color: white;
+}
+
+#startGameBtn:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+}
+
+#resetGameBtn {
+  background-color: #ffc107;
+  color: #333;
+}
+
+#resetGameBtn:hover {
+  background-color: #e0a800;
+  transform: translateY(-1px);
+}
+
+.timer {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #0056b3;
+  min-width: 120px; /* 타이머 길이가 변해도 레이아웃이 깨지지 않도록 */
+  text-align: center;
+}
+
+.game-message {
+  font-size: 1.3em;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-align: center;
+  min-width: 200px;
+}
+
+.game-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.game-message.failure {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
 /* !!! 모바일 화면을 위한 미디어 쿼리 조정 !!! */
 @media (max-width: 768px) {
   .viewer-wrapper {
@@ -140,6 +213,19 @@ h1 {
   #debug-info {
     width: 90vw;
     box-sizing: border-box;
+  }
+
+  .game-controls {
+    flex-direction: column;
+    gap: 10px;
+    width: 90vw;
+    padding: 15px;
+  }
+  .game-controls button,
+  .timer,
+  .game-message {
+    width: 100%;
+    text-align: center;
   }
 }
 
