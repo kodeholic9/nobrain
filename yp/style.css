@@ -1,0 +1,325 @@
+/* 기본 스타일 */
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f7f6;
+  color: #333;
+  line-height: 1.6;
+}
+
+header {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+h1 {
+  color: #c4302b; /* YouTube Red */
+  margin-top: 0;
+}
+
+/* API 키 섹션 */
+.api-key-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.api-key-section label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.api-key-section input[type='text'] {
+  width: 300px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.api-key-section button {
+  background-color: #03a9f4; /* Sky Blue */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.api-key-section button:hover {
+  background-color: #039be5;
+}
+
+.status-message {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.status-message.success {
+  color: #28a745; /* Green */
+}
+
+.status-message.error {
+  color: #dc3545; /* Red */
+}
+
+/* 주요 콘텐츠 영역 (API 키 등록 전 숨김) */
+.content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.content-wrapper.hidden {
+  display: none;
+}
+
+/* 각 기능 섹션 카드 */
+.section-card {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  flex: 1;
+  min-width: 400px;
+}
+
+.section-card.common-settings {
+  flex-basis: 100%; /* 너비를 꽉 채움 */
+  margin-bottom: 20px;
+}
+
+.section-card h2 {
+  color: #333;
+  margin-top: 0;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+/* 입력 그룹 */
+.input-group {
+  display: flex;
+  align-items: center; /* 세로 중앙 정렬 */
+  margin-bottom: 15px;
+  flex-wrap: wrap; /* 작은 화면에서 줄바꿈 */
+}
+
+.input-group label {
+  margin-right: 10px;
+  font-weight: bold;
+  white-space: nowrap; /* 라벨 줄바꿈 방지 */
+}
+
+.input-group input[type='text'],
+.input-group input[type='number'] {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+  min-width: 150px; /* 입력 필드 최소 너비 */
+}
+
+.input-group button {
+  background-color: #ff9800; /* Orange */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+  white-space: nowrap; /* 버튼 줄바꿈 방지 */
+}
+
+.input-group button:hover {
+  background-color: #fb8c00;
+}
+
+/* part 선택 옵션 스타일 */
+.part-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+  background-color: #e9ecef;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  font-size: 0.9em;
+}
+
+.part-options label {
+  white-space: nowrap;
+}
+
+.part-options input[type='checkbox'] {
+  margin-right: 5px;
+}
+
+/* 추가 조건 (정렬, 길이 등) */
+.additional-conditions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #eaf6ff; /* Light Blue */
+  border-radius: 4px;
+  border: 1px solid #cceeff;
+}
+
+.additional-conditions label {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.additional-conditions select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
+/* 결과 표시 영역 */
+.results-area {
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  padding: 15px;
+  border-radius: 4px;
+  min-height: 100px;
+  max-height: 400px;
+  overflow-y: auto;
+  font-size: 0.9em;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.results-area p {
+  color: #666;
+}
+
+.results-area pre {
+  background-color: #eef;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-x: auto; /* 긴 JSON도 스크롤되도록 */
+}
+
+/* 아이템 카드 스타일 */
+.item-card {
+  display: flex;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+  align-items: flex-start;
+}
+
+.item-card:last-child {
+  border-bottom: none; /* 마지막 아이템은 선 없음 */
+}
+
+.item-card img {
+  width: 120px;
+  height: 90px;
+  margin-right: 15px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.item-card div {
+  flex-grow: 1;
+}
+
+.item-card h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.item-card p {
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+
+.item-card a {
+  color: #0645ad;
+  text-decoration: none;
+}
+
+.item-card a:hover {
+  text-decoration: underline;
+}
+
+/* 메타데이터 버튼 */
+.section-card button:not(#saveApiKeyBtn, .input-group button) {
+  background-color: #5cb85c; /* Green for metadata buttons */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.section-card button:not(#saveApiKeyBtn, .input-group button):hover {
+  background-color: #4cae4c;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column;
+  }
+  .section-card {
+    min-width: unset;
+    width: 100%;
+  }
+  .api-key-section input[type='text'] {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  .api-key-section button {
+    width: 100%;
+  }
+  .item-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .item-card img {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  .input-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .input-group label,
+  .input-group input,
+  .input-group button {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  .input-group button {
+    margin-bottom: 0;
+  }
+  .additional-conditions {
+    flex-direction: column;
+    gap: 10px;
+  }
+}

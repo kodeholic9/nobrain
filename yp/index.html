@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube Data API 모든 읽기 전용 기능 파일럿</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>YouTube Data API 모든 읽기 전용 기능 파일럿</h1>
+      <div class="api-key-section">
+        <label for="apiKeyInput">YouTube API Key:</label>
+        <input
+          type="text"
+          id="apiKeyInput"
+          placeholder="여기에 API 키를 입력하세요"
+        />
+        <button id="saveApiKeyBtn">API 키 등록</button>
+        <p id="apiKeyStatus" class="status-message"></p>
+      </div>
+    </header>
+
+    <main class="content-wrapper hidden">
+      <section class="section-card common-settings">
+        <h2>⚙️ 공통 설정</h2>
+        <div class="input-group">
+          <label for="maxResultsInput">최대 결과 수 (maxResults):</label>
+          <input
+            type="number"
+            id="maxResultsInput"
+            value="10"
+            min="1"
+            max="50"
+          />
+        </div>
+        <div class="input-group">
+          <label for="commonRegionCodeSelect">기본 국가 코드:</label>
+          <select id="commonRegionCodeSelect">
+            <option value="">-- 국가 선택 --</option>
+          </select>
+          <p class="note">
+            동영상 카테고리 조회 및 인기 동영상 조회에 사용됩니다.
+          </p>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2>🔎 채널 정보 조회 (`channels.list`)</h2>
+        <div class="input-group">
+          <input
+            type="text"
+            id="channelIdInput"
+            placeholder="채널 ID 또는 사용자 이름 (예: YouTube)"
+          />
+          <button id="searchChannelBtn">채널 검색</button>
+        </div>
+        <div class="part-options" data-target="channel">
+          <label
+            ><input type="checkbox" value="snippet" checked /> snippet</label
+          >
+          <label
+            ><input type="checkbox" value="statistics" checked />
+            statistics</label
+          >
+          <label
+            ><input type="checkbox" value="contentDetails" />
+            contentDetails</label
+          >
+          <label
+            ><input type="checkbox" value="brandingSettings" />
+            brandingSettings</label
+          >
+          <label><input type="checkbox" value="status" /> status</label>
+          <label
+            ><input type="checkbox" value="topicDetails" /> topicDetails</label
+          >
+          <label
+            ><input type="checkbox" value="localizations" />
+            localizations</label
+          >
+        </div>
+        <div id="channelResults" class="results-area">
+          <p>여기에 채널 정보가 표시됩니다.</p>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2>🎬 동영상 검색 (`search.list`)</h2>
+        <div class="input-group">
+          <input
+            type="text"
+            id="videoSearchInput"
+            placeholder="검색할 동영상 키워드 입력 (예: 개발 튜토리얼)"
+          />
+          <button id="searchVideosBtn">동영상 검색</button>
+        </div>
+        <div class="part-options" data-target="videoSearch">
+          <label
+            ><input type="checkbox" value="snippet" checked /> snippet</label
+          >
+        </div>
+        <div class="additional-conditions">
+          <label for="videoSearchOrder">정렬 (order):</label>
+          <select id="videoSearchOrder">
+            <option value="relevance">관련성</option>
+            <option value="date">최신순</option>
+            <option value="viewCount">조회수순</option>
+            <option value="rating">평점순</option>
+            <option value="title">제목순</option>
+          </select>
+          <label for="videoDuration">동영상 길이 (videoDuration):</label>
+          <select id="videoDuration">
+            <option value="any">모두</option>
+            <option value="short">짧음 (4분 미만)</option>
+            <option value="medium">중간 (4~20분)</option>
+            <option value="long">김 (20분 초과)</option>
+          </select>
+        </div>
+        <div id="videoSearchResults" class="results-area">
+          <p>여기에 동영상 검색 결과가 표시됩니다.</p>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2>🔥 인기 동영상 조회 (`videos.list` - mostPopular)</h2>
+        <button id="searchPopularVideosBtn">인기 동영상 검색</button>
+        <div class="part-options" data-target="popularVideo">
+          <label
+            ><input type="checkbox" value="snippet" checked /> snippet</label
+          >
+          <label
+            ><input type="checkbox" value="statistics" checked />
+            statistics</label
+          >
+          <label
+            ><input type="checkbox" value="contentDetails" />
+            contentDetails</label
+          >
+          <label><input type="checkbox" value="player" /> player</label>
+          <label><input type="checkbox" value="status" /> status</label>
+          <label
+            ><input type="checkbox" value="topicDetails" /> topicDetails</label
+          >
+        </div>
+        <div id="popularVideoResults" class="results-area">
+          <p>여기에 인기 동영상 결과가 표시됩니다.</p>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2>📜 채널 플레이리스트 조회 (`playlists.list`)</h2>
+        <div class="input-group">
+          <input
+            type="text"
+            id="channelPlaylistIdInput"
+            placeholder="채널 ID (예: UC...)"
+          />
+          <button id="searchChannelPlaylistsBtn">플레이리스트 검색</button>
+        </div>
+        <div class="part-options" data-target="playlist">
+          <label
+            ><input type="checkbox" value="snippet" checked /> snippet</label
+          >
+          <label
+            ><input type="checkbox" value="contentDetails" checked />
+            contentDetails</label
+          >
+          <label><input type="checkbox" value="status" /> status</label>
+          <label><input type="checkbox" value="player" /> player</label>
+          <label
+            ><input type="checkbox" value="localizations" />
+            localizations</label
+          >
+        </div>
+        <div id="channelPlaylistResults" class="results-area">
+          <p>여기에 채널의 플레이리스트 목록이 표시됩니다.</p>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2>🔗 플레이리스트 내 동영상 조회 (`playlistItems.list`)</h2>
+        <div class="input-group">
+          <input
+            type="text"
+            id="playlistItemsIdInput"
+            placeholder="플레이리스트 ID (예: PL...)"
+          />
+          <button id="searchPlaylistItemsBtn">동영상 조회</button>
+        </div>
+        <div class="part-options" data-target="playlistItem">
+          <label
+            ><input type="checkbox" value="snippet" checked /> snippet</label
+          >
+          <label
+            ><input type="checkbox" value="contentDetails" checked />
+            contentDetails</label
+          >
+          <label><input type="checkbox" value="status" /> status</label>
+        </div>
+        <div id="playlistItemsResults" class="results-area">
+          <p>여기에 플레이리스트 내 동영상 목록이 표시됩니다.</p>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2>💬 동영상 댓글 조회 (`commentThreads.list`)</h2>
+        <div class="input-group">
+          <input
+            type="text"
+            id="videoCommentIdInput"
+            placeholder="동영상 ID (예: qC0A9XJ-yK8)"
+          />
+          <button id="searchVideoCommentsBtn">댓글 검색</button>
+        </div>
+        <div class="part-options" data-target="comment">
+          <label
+            ><input type="checkbox" value="snippet" checked /> snippet</label
+          >
+          <label><input type="checkbox" value="replies" /> replies</label>
+        </div>
+        <div id="videoCommentResults" class="results-area">
+          <p>여기에 동영상 댓글이 표시됩니다.</p>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2>ℹ️ 동영상 상세 정보 조회 (`videos.list` - ID)</h2>
+        <div class="input-group">
+          <input
+            type="text"
+            id="specificVideoIdInput"
+            placeholder="동영상 ID (예: qC0A9XJ-yK8)"
+          />
+          <button id="searchSpecificVideoBtn">동영상 상세 조회</button>
+        </div>
+        <div class="part-options" data-target="specificVideo">
+          <label
+            ><input type="checkbox" value="snippet" checked /> snippet</label
+          >
+          <label
+            ><input type="checkbox" value="statistics" checked />
+            statistics</label
+          >
+          <label
+            ><input type="checkbox" value="contentDetails" checked />
+            contentDetails</label
+          >
+          <label><input type="checkbox" value="player" /> player</label>
+          <label><input type="checkbox" value="status" /> status</label>
+          <label
+            ><input type="checkbox" value="topicDetails" /> topicDetails</label
+          >
+          <label
+            ><input type="checkbox" value="liveStreamingDetails" />
+            liveStreamingDetails</label
+          >
+          <label
+            ><input type="checkbox" value="recordingDetails" />
+            recordingDetails</label
+          >
+          <label
+            ><input type="checkbox" value="localizations" />
+            localizations</label
+          >
+        </div>
+        <div id="specificVideoResults" class="results-area">
+          <p>여기에 동영상 상세 정보가 표시됩니다.</p>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2>📢 채널 활동 피드 조회 (`activities.list`)</h2>
+        <div class="input-group">
+          <input
+            type="text"
+            id="activityChannelIdInput"
+            placeholder="채널 ID (예: UC...)"
+          />
+          <button id="searchActivitiesBtn">활동 검색</button>
+        </div>
+        <div class="part-options" data-target="activity">
+          <label
+            ><input type="checkbox" value="snippet" checked /> snippet</label
+          >
+          <label
+            ><input type="checkbox" value="contentDetails" />
+            contentDetails</label
+          >
+        </div>
+        <div id="activityResults" class="results-area">
+          <p>여기에 채널 활동 피드가 표시됩니다.</p>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2>🗂️ 동영상 카테고리 조회 (`videoCategories.list`)</h2>
+        <p class="note">공통 설정의 '기본 국가 코드'를 사용하여 조회합니다.</p>
+        <button id="listVideoCategoriesBtn">동영상 카테고리 목록</button>
+        <div id="videoCategoryResults" class="results-area">
+          <p>여기에 동영상 카테고리가 표시됩니다.</p>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2>🌐 국가/언어 코드 목록 조회</h2>
+        <div class="input-group">
+          <label for="commonLanguageCodeSelect">언어 코드:</label>
+          <select id="commonLanguageCodeSelect">
+            <option value="">-- 언어 선택 (선택 사항) --</option>
+          </select>
+          <p class="note">
+            언어 목록 조회 시, 조회할 언어를 지정합니다 (선택 사항).
+          </p>
+        </div>
+        <button id="listRegionsBtn">국가 코드 목록 조회</button>
+        <button id="listLanguagesBtn">언어 코드 목록 조회</button>
+        <div id="metadataResults" class="results-area">
+          <p>여기에 조회된 국가/언어 코드가 표시됩니다.</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
