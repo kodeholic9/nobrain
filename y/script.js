@@ -23,14 +23,14 @@ let _currentQuotaUsage = 0;
 let _searchPageCount = 0;
 
 // gapi.js 스크립트 로드 완료 시 호출되는 함수 (index.html의 onload="gapiLoaded()"에 연결됨)
-function gapiLoaded() {
+function gapiLoad() {
   console.log('gapi library loaded.');
   // 'client' 모듈이 로드되면 이제 gapi.client 객체를 사용할 수 있습니다.
   gapi.load('client', async () => {
     try {
       // gapi.client.init을 호출하여 API 키와 discoveryDocs를 설정합니다.
       await gapi.client.init({
-        apiKey: 'AIzaSyCaSE1XDt8COCuIw3kEu0qTH-Az1hMSbvk', // 여기에 실제 YouTube Data API 키를 입력하세요!
+        apiKey: globalApiKey, // 여기에 실제 YouTube Data API 키를 입력하세요!
         discoveryDocs: [
           'https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest',
         ],
@@ -124,11 +124,13 @@ function populateRegionCodes() {
 
 document.addEventListener('DOMContentLoaded', () => {
   // --- DOM 요소 참조 ---
+  const apiKeyInput = document.getElementById('apiKeyInput');
   const searchTermInput = document.getElementById('searchTerm');
   const sortOrderSelect = document.getElementById('sortOrder');
   const minViewCountInput = document.getElementById('minViewCount');
   const maxResultsInput = document.getElementById('maxResults');
   const searchButton = document.getElementById('searchButton');
+  const apiKeyButton = document.getElementById('apiKeyButton');
   const resultsTableBody = document.querySelector('#resultsTable tbody');
   const noResultsMessage = document.getElementById('noResults');
   const currentPageDisplay = document.getElementById('currentPageDisplay');
@@ -149,6 +151,16 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentPrevPageToken = null;
 
   // --- 이벤트 리스너 설정 ---
+  apiKeyButton.addEventListener('click', () => {
+    const apiKey = apiKeyInput.value.trim();
+    if (!apiKey) {
+      alert('API 키를 입력해주세요.');
+      return;
+    }
+
+    gapiLoad(apiKey);
+  });
+
   searchButton.addEventListener('click', () => {
     if (!gapiInitialized) {
       alert(
