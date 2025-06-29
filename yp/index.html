@@ -40,7 +40,7 @@
             <option value="">-- 국가 선택 --</option>
           </select>
           <p class="note">
-            동영상 카테고리 조회 및 인기 동영상 조회에 사용됩니다.
+            동영상 카테고리, 인기 동영상, 가이드 카테고리 조회에 사용됩니다.
           </p>
         </div>
       </section>
@@ -294,11 +294,44 @@
       </section>
 
       <section class="section-card">
+        <h2>🗄️ 채널 섹션 조회 (`channelSections.list`)</h2>
+        <div class="input-group">
+          <input
+            type="text"
+            id="channelSectionChannelIdInput"
+            placeholder="채널 ID (예: UC...)"
+          />
+          <button id="listChannelSectionsBtn">채널 섹션 목록</button>
+        </div>
+        <div class="part-options" data-target="channelSection">
+          <label
+            ><input type="checkbox" value="snippet" checked /> snippet</label
+          >
+          <label
+            ><input type="checkbox" value="contentDetails" />
+            contentDetails</label
+          >
+        </div>
+        <div id="channelSectionResults" class="results-area">
+          <p>여기에 채널 섹션이 표시됩니다.</p>
+        </div>
+      </section>
+
+      <section class="section-card">
         <h2>🗂️ 동영상 카테고리 조회 (`videoCategories.list`)</h2>
         <p class="note">공통 설정의 '기본 국가 코드'를 사용하여 조회합니다.</p>
         <button id="listVideoCategoriesBtn">동영상 카테고리 목록</button>
         <div id="videoCategoryResults" class="results-area">
           <p>여기에 동영상 카테고리가 표시됩니다.</p>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <h2>📚 가이드 카테고리 조회 (`guideCategories.list`)</h2>
+        <p class="note">공통 설정의 '기본 국가 코드'를 사용하여 조회합니다.</p>
+        <button id="listGuideCategoriesBtn">가이드 카테고리 목록</button>
+        <div id="guideCategoryResults" class="results-area">
+          <p>여기에 가이드 카테고리가 표시됩니다.</p>
         </div>
       </section>
 

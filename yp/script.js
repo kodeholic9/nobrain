@@ -1,16 +1,16 @@
-// DOM 요소 가져오기 (전체적으로 업데이트)
+// DOM 요소 가져오기 (기존 요소 + 새로운 요소)
 const apiKeyInput = document.getElementById('apiKeyInput');
 const saveApiKeyBtn = document.getElementById('saveApiKeyBtn');
 const apiKeyStatus = document.getElementById('apiKeyStatus');
 const contentWrapper = document.querySelector('.content-wrapper');
 
-const maxResultsInput = document.getElementById('maxResultsInput'); // 공통 설정
+const maxResultsInput = document.getElementById('maxResultsInput');
 const commonRegionCodeSelect = document.getElementById(
   'commonRegionCodeSelect'
-); // 공통 국가 코드 선택
+);
 const commonLanguageCodeSelect = document.getElementById(
   'commonLanguageCodeSelect'
-); // 공통 언어 코드 선택 (메타데이터 조회 섹션)
+);
 
 const channelIdInput = document.getElementById('channelIdInput');
 const searchChannelBtn = document.getElementById('searchChannelBtn');
@@ -85,15 +85,34 @@ const activityPartOptions = document.querySelector(
   '.part-options[data-target="activity"]'
 );
 
+// --- 새로 추가된 채널 섹션 관련 DOM 요소 ---
+const channelSectionChannelIdInput = document.getElementById(
+  'channelSectionChannelIdInput'
+);
+const listChannelSectionsBtn = document.getElementById(
+  'listChannelSectionsBtn'
+);
+const channelSectionResults = document.getElementById('channelSectionResults');
+const channelSectionPartOptions = document.querySelector(
+  '.part-options[data-target="channelSection"]'
+);
+
 const listVideoCategoriesBtn = document.getElementById(
   'listVideoCategoriesBtn'
 );
 const videoCategoryResults = document.getElementById('videoCategoryResults');
+
+// --- 새로 추가된 가이드 카테고리 관련 DOM 요소 ---
+const listGuideCategoriesBtn = document.getElementById(
+  'listGuideCategoriesBtn'
+);
+const guideCategoryResults = document.getElementById('guideCategoryResults');
+
 const listRegionsBtn = document.getElementById('listRegionsBtn');
 const listLanguagesBtn = document.getElementById('listLanguagesBtn');
 const metadataResults = document.getElementById('metadataResults');
 
-// --- gapi 초기화 및 API 로드 ---
+// --- gapi 초기화 및 API 로드 (기존과 동일) ---
 let YOUTUBE_API_KEY = '';
 
 function loadApiKeyAndInitGapi() {
@@ -101,7 +120,7 @@ function loadApiKeyAndInitGapi() {
   if (storedKey) {
     apiKeyInput.value = storedKey;
     YOUTUBE_API_KEY = storedKey;
-    initGapiClient(storedKey); // gapi 클라이언트 초기화 호출
+    initGapiClient(storedKey);
   } else {
     apiKeyStatus.textContent = 'API 키를 입력하고 등록해주세요.';
     apiKeyStatus.className = 'status-message';
@@ -128,10 +147,10 @@ function initGapiClient(key) {
       console.log('gapi.client 초기화 및 YouTube API 로드 완료.');
       apiKeyStatus.textContent = 'API 키가 성공적으로 등록되었습니다!';
       apiKeyStatus.className = 'status-message success';
-      YOUTUBE_API_KEY = key; // 클라이언트 라이브러리에 키 설정 후 내부 변수도 업데이트
+      YOUTUBE_API_KEY = key;
       localStorage.setItem('youtube_api_key', key);
       contentWrapper.classList.remove('hidden');
-      loadCommonMetaData(); // 공통 메타데이터 로드
+      loadCommonMetaData();
     } catch (error) {
       console.error('gapi.client 초기화 또는 YouTube API 로드 실패:', error);
       let errorMessage = 'API 키가 유효하지 않거나 API 로드에 실패했습니다.';
@@ -151,7 +170,7 @@ saveApiKeyBtn.addEventListener('click', () => {
 
 document.addEventListener('DOMContentLoaded', loadApiKeyAndInitGapi);
 
-// --- part 선택 값 가져오는 헬퍼 함수 ---
+// --- part 선택 값 가져오는 헬퍼 함수 (기존과 동일) ---
 function getSelectedParts(containerElement) {
   const checkboxes = containerElement.querySelectorAll(
     'input[type="checkbox"]:checked'
@@ -160,7 +179,7 @@ function getSelectedParts(containerElement) {
   return parts.join(',');
 }
 
-// --- gapi.client 호출 및 에러 처리 함수 ---
+// --- gapi.client 호출 및 에러 처리 함수 (기존과 동일) ---
 async function executeGapiCall(
   apiCallFunction,
   params,
@@ -177,7 +196,7 @@ async function executeGapiCall(
   resultsArea.innerHTML = `<p>${loadingMessage}</p>`;
   try {
     const response = await apiCallFunction(params);
-    const data = response.result; // gapi.client 응답은 result 필드에 실제 데이터를 포함
+    const data = response.result;
 
     if (response.status === 200) {
       if (showRawJson) {
@@ -217,7 +236,7 @@ async function executeGapiCall(
   }
 }
 
-// --- 공통 메타데이터 (국가, 언어) 로드 함수 (gapi.client 사용) ---
+// --- 공통 메타데이터 (국가, 언어) 로드 함수 (기존과 동일) ---
 async function loadCommonMetaData() {
   if (!gapi.client.youtube) {
     console.warn(
@@ -274,9 +293,9 @@ async function loadCommonMetaData() {
   }
 }
 
-// --- API 호출 로직 (gapi.client로 변경) ---
+// --- API 호출 로직 (gapi.client) ---
 
-// 채널 정보 탐색 (channels.list)
+// 채널 정보 탐색 (channels.list) - 기존과 동일
 searchChannelBtn.addEventListener('click', async () => {
   const channelIdentifier = channelIdInput.value.trim();
   if (!channelIdentifier) {
@@ -336,7 +355,7 @@ searchChannelBtn.addEventListener('click', async () => {
   }
 });
 
-// 동영상 검색 (search.list)
+// 동영상 검색 (search.list) - 기존과 동일
 searchVideosBtn.addEventListener('click', async () => {
   const query = videoSearchInput.value.trim();
   if (!query) {
@@ -350,7 +369,7 @@ searchVideosBtn.addEventListener('click', async () => {
   const duration = videoDuration.value;
 
   const params = {
-    part: 'snippet', // search.list는 part로 snippet만 지원
+    part: 'snippet',
     q: query,
     type: 'video',
     maxResults: maxResults,
@@ -395,7 +414,7 @@ searchVideosBtn.addEventListener('click', async () => {
   }
 });
 
-// 인기 동영상 조회 (videos.list - chart=mostPopular)
+// 인기 동영상 조회 (videos.list - chart=mostPopular) - 기존과 동일
 searchPopularVideosBtn.addEventListener('click', async () => {
   const regionCode = commonRegionCodeSelect.value;
   if (!regionCode) {
@@ -461,7 +480,7 @@ searchPopularVideosBtn.addEventListener('click', async () => {
   }
 });
 
-// 채널 플레이리스트 조회 (playlists.list)
+// 채널 플레이리스트 조회 (playlists.list) - 기존과 동일
 searchChannelPlaylistsBtn.addEventListener('click', async () => {
   const channelId = channelPlaylistIdInput.value.trim();
   if (!channelId) {
@@ -520,7 +539,7 @@ searchChannelPlaylistsBtn.addEventListener('click', async () => {
   }
 });
 
-// 플레이리스트 내 동영상 조회 (playlistItems.list)
+// 플레이리스트 내 동영상 조회 (playlistItems.list) - 기존과 동일
 searchPlaylistItemsBtn.addEventListener('click', async () => {
   const playlistId = playlistItemsIdInput.value.trim();
   if (!playlistId) {
@@ -567,7 +586,7 @@ searchPlaylistItemsBtn.addEventListener('click', async () => {
                 <div class="item-card">
                     ${thumbnailUrl ? `<img src="${thumbnailUrl}" alt="${title} 썸네일">` : ''}
                     <div>
-                        <h4><a href="https://www.youtube.com/watch?v=${videoId}" target="_blank">${title}</a></h4>
+                        <h4><a href="https://www.youtube.com/watch?v=${videoId}&list=${playlistId}" target="_blank">${title}</a></h4>
                         <p style="font-size: 0.9em; color: #555;">채널: ${channelTitle}</p>
                     </div>
                 </div>
@@ -577,7 +596,7 @@ searchPlaylistItemsBtn.addEventListener('click', async () => {
   }
 });
 
-// 동영상 댓글 조회 (commentThreads.list)
+// 동영상 댓글 조회 (commentThreads.list) - 기존과 동일
 searchVideoCommentsBtn.addEventListener('click', async () => {
   const videoId = videoCommentIdInput.value.trim();
   if (!videoId) {
@@ -648,7 +667,7 @@ searchVideoCommentsBtn.addEventListener('click', async () => {
   }
 });
 
-// 특정 동영상 상세 정보 조회 (videos.list - ID)
+// 특정 동영상 상세 정보 조회 (videos.list - ID) - 기존과 동일
 searchSpecificVideoBtn.addEventListener('click', async () => {
   const videoId = specificVideoIdInput.value.trim();
   if (!videoId) {
@@ -712,7 +731,7 @@ searchSpecificVideoBtn.addEventListener('click', async () => {
   }
 });
 
-// 채널 활동 피드 조회 (activities.list)
+// 채널 활동 피드 조회 (activities.list) - 기존과 동일
 searchActivitiesBtn.addEventListener('click', async () => {
   const channelId = activityChannelIdInput.value.trim();
   if (!channelId) {
@@ -749,12 +768,12 @@ searchActivitiesBtn.addEventListener('click', async () => {
       let activityType = snippet.type;
       let title = '';
       let thumbnailUrl = '';
-      let link = '#';
+      let link = '#'; // 기본값
 
       if (activityType === 'upload' && contentDetails.upload) {
         title = snippet.title || '새 동영상 업로드';
         thumbnailUrl = snippet.thumbnails.default.url;
-        link = `https://www.youtube.com/watch?v=$${contentDetails.upload.videoId}`;
+        link = `https://www.youtube.com/watch?v=${contentDetails.upload.videoId}`;
       } else if (activityType === 'like' && contentDetails.like) {
         title = snippet.title || '동영상 좋아요';
         thumbnailUrl = snippet.thumbnails.default.url;
@@ -765,7 +784,7 @@ searchActivitiesBtn.addEventListener('click', async () => {
       ) {
         title = snippet.title || '플레이리스트에 동영상 추가';
         thumbnailUrl = snippet.thumbnails.default.url;
-        link = `https://www.youtube.com/playlist?list=${contentDetails.playlistItem.playlistId}&v=${contentDetails.playlistItem.resourceId.videoId}`;
+        link = `https://www.youtube.com/watch?v=${contentDetails.playlistItem.resourceId.videoId}&list=${contentDetails.playlistItem.playlistId}`;
       } else if (snippet.title) {
         title = snippet.title;
         thumbnailUrl = snippet.thumbnails ? snippet.thumbnails.default.url : '';
@@ -789,7 +808,75 @@ searchActivitiesBtn.addEventListener('click', async () => {
   }
 });
 
-// 메타데이터 조회 공통 함수 (gapi.client 사용, Raw JSON 숨김)
+// --- 채널 섹션 조회 로직 (channelSections.list) (새로 추가) ---
+listChannelSectionsBtn.addEventListener('click', async () => {
+  const channelId = channelSectionChannelIdInput.value.trim();
+  if (!channelId) {
+    channelSectionResults.innerHTML =
+      '<p class="error">채널 ID를 입력해주세요.</p>';
+    return;
+  }
+
+  const selectedParts = getSelectedParts(channelSectionPartOptions);
+  if (!selectedParts) {
+    channelSectionResults.innerHTML =
+      '<p class="error">조회할 part를 최소 하나 이상 선택해주세요.</p>';
+    return;
+  }
+
+  const params = {
+    part: selectedParts,
+    channelId: channelId,
+  };
+
+  const items = await executeGapiCall(
+    gapi.client.youtube.channelSections.list,
+    params,
+    channelSectionResults,
+    `채널 ID ${channelId}의 섹션을 불러오는 중입니다...`
+  );
+
+  if (items) {
+    let html = `<h3>채널 섹션 (${channelId}):</h3><ul>`;
+    items.forEach((section) => {
+      const title = section.snippet ? section.snippet.title : '제목 없음';
+      const type = section.snippet ? section.snippet.type : '유형 없음';
+      const position = section.snippet ? section.snippet.position : 'N/A';
+      const contentDetails = section.contentDetails;
+
+      html += `<li><strong>제목:</strong> ${title} (${type}, 위치: ${position})`;
+
+      if (contentDetails) {
+        if (contentDetails.playlists && contentDetails.playlists.length > 0) {
+          html += `<p style="margin-left: 20px;">포함된 플레이리스트: <ul>`;
+          contentDetails.playlists.forEach((playlistId) => {
+            html += `<li><a href="https://www.youtube.com/playlist?list=${playlistId}" target="_blank">${playlistId}</a></li>`;
+          });
+          html += `</ul></p>`;
+        }
+        if (contentDetails.channels && contentDetails.channels.length > 0) {
+          html += `<p style="margin-left: 20px;">포함된 채널: <ul>`;
+          contentDetails.channels.forEach((chId) => {
+            html += `<li><a href="https://www.youtube.com/channel/${chId}" target="_blank">${chId}</a></li>`;
+          });
+          html += `</ul></p>`;
+        }
+        if (
+          contentDetails.channels === undefined &&
+          contentDetails.playlists === undefined
+        ) {
+          // 예: popularUploads, latestUploads 등은 contentDetails에 특정 ID를 포함하지 않음
+          html += `<p style="margin-left: 20px;">(특정 콘텐츠 ID 없음)</p>`;
+        }
+      }
+      html += `</li>`;
+    });
+    html += `</ul>`;
+    channelSectionResults.insertAdjacentHTML('beforeend', html);
+  }
+});
+
+// 메타데이터 조회 공통 함수 (gapi.client 사용, Raw JSON 숨김) - 기존과 동일
 async function fetchAndDisplayMetadataGapi(
   apiCallFunction,
   params,
@@ -807,7 +894,7 @@ async function fetchAndDisplayMetadataGapi(
     const data = response.result;
 
     if (response.status === 200 && data.items) {
-      resultsArea.innerHTML = ''; // Raw JSON을 숨기므로 미리 비움
+      resultsArea.innerHTML = '';
       let html = `<h3>${loadingMessage.replace('를 불러오는 중입니다...', '')} 목록:</h3><ul>`;
       data.items.sort((a, b) =>
         (a.snippet.name || a.snippet.title).localeCompare(
@@ -842,7 +929,7 @@ async function fetchAndDisplayMetadataGapi(
 
 // --- 이벤트 리스너 업데이트 (gapi.client 함수로 연결) ---
 
-// 동영상 카테고리 목록 조회
+// 동영상 카테고리 목록 조회 - 기존과 동일
 listVideoCategoriesBtn.addEventListener('click', () => {
   const regionCode = commonRegionCodeSelect.value;
   if (!regionCode) {
@@ -858,9 +945,23 @@ listVideoCategoriesBtn.addEventListener('click', () => {
   );
 });
 
-// 국가 코드 목록 조회 (이제 공통 드롭다운 로드 시 한 번만 호출됨)
-// 이 버튼은 이제 드롭다운에 로드된 내용을 다시 보여주는 역할로 변경될 수 있습니다.
-// 하지만 API 호출 자체는 이미 loadCommonMetaData에서 처리되므로, 여기서는 그대로 둡니다.
+// 가이드 카테고리 목록 조회 (새로 추가)
+listGuideCategoriesBtn.addEventListener('click', () => {
+  const regionCode = commonRegionCodeSelect.value;
+  if (!regionCode) {
+    guideCategoryResults.innerHTML =
+      '<p class="error">가이드 카테고리 조회 시 공통 설정에서 국가 코드를 선택해주세요.</p>';
+    return;
+  }
+  fetchAndDisplayMetadataGapi(
+    gapi.client.youtube.guideCategories.list,
+    { part: 'snippet', regionCode: regionCode },
+    guideCategoryResults,
+    '가이드 카테고리'
+  );
+});
+
+// 국가 코드 목록 조회 - 기존과 동일
 listRegionsBtn.addEventListener('click', () => {
   fetchAndDisplayMetadataGapi(
     gapi.client.youtube.i18nRegions.list,
@@ -870,7 +971,7 @@ listRegionsBtn.addEventListener('click', () => {
   );
 });
 
-// 언어 코드 목록 조회
+// 언어 코드 목록 조회 - 기존과 동일
 listLanguagesBtn.addEventListener('click', () => {
   const languageCode = commonLanguageCodeSelect.value;
   const params = { part: 'snippet' };
