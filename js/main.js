@@ -2,16 +2,20 @@ document.addEventListener('DOMContentLoaded', function () {
   // 게임 데이터를 JavaScript 배열로 정의
   const games = [
     {
+      name: '2048키우기',
+      description: '걍 게임!',
+      icon: '🔍', // 돋보기 이모티콘 추가
+      link: './games/ballpool', // 실제 게임 페이지 링크로 변경 예정
+    },
+    {
       name: '틀린그림찾기',
       description: '두뇌를 자극하는 시각 인지 게임!',
-      // imageUrl: "https://via.placeholder.com/600x400/FF5733/FFFFFF?text=틀린그림찾기", // 이미지 URL 제거
       icon: '🔍', // 돋보기 이모티콘 추가
       link: './games/spot-it', // 실제 게임 페이지 링크로 변경 예정
     },
     {
       name: '메모리 게임',
       description: '기억력 향상을 위한 최고의 선택!',
-      // imageUrl: "https://via.placeholder.com/600x400/33FF57/FFFFFF?text=메모리+게임", // 이미지 URL 제거
       icon: '🧠', // 뇌 이모티콘 추가
       link: '#', // 실제 게임 페이지 링크로 변경 예정
     },
