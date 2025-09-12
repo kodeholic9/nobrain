@@ -213,6 +213,10 @@ export class BallPoolGameEngine {
     Object.entries(ballConfig).forEach(([key, config]) => {
       if (!config.image && config.imgPath) {
         config.image = new Image();
+        // 이미지 렌더링 설정 추가
+        config.image.style.imageRendering = 'pixelated';
+        //config.image.style.imageRendering = 'crisp-edges';
+
         config.image.src = config.imgPath;
       }
     });
@@ -906,9 +910,7 @@ export class BallPoolGameEngine {
       }
 
       ctx.save();
-      const roundedX = Math.round(pos.x);
-      const roundedY = Math.round(pos.y);
-      ctx.translate(roundedX, roundedY);
+      ctx.translate(pos.x, pos.y);
 
       // 충돌 후에만 회전 적용
       if (rolling.collidedAt) {
