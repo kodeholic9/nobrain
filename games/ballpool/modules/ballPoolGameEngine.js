@@ -238,8 +238,15 @@ export class BallPoolGameEngine {
 
     ctx.scale(pixelRatio, pixelRatio);
 
+    // 이 설정들 추가해보세요
+    //ctx.imageSmoothingEnabled = false; // 픽셀 완벽하게 선명하게
+    // 또는
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high'; // 부드러운 고품질
+    console.log('Canvas pixel ratio:', pixelRatio);
+    console.log('Canvas size set:', this.canvas.width, 'x', this.canvas.height);
     console.log(
-      'Canvas size set:',
+      'Logical size:',
       this.logicalSize.width,
       'x',
       this.logicalSize.height
