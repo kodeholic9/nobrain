@@ -169,6 +169,9 @@ export class BallPoolGameEngine {
     this.lastBallValue = null;
     this.consecutiveCount = 0;
 
+    // 컨테이너의 크기
+    this.logicalSize = { width: 0, height: 0 };
+
     // 게임 이펙트
     this.ballPoolEffects = new BallPoolEffects(this.canvas, ballConfig);
 
@@ -218,14 +221,29 @@ export class BallPoolGameEngine {
   setupCanvas() {
     const container = this.canvas.parentElement;
     const rect = container.getBoundingClientRect();
+    const ctx = this.canvas.getContext('2d');
 
     // 캔버스 크기 설정
-    this.canvas.width = rect.width;
-    this.canvas.height = rect.height;
-    this.canvas.style.width = rect.width + 'px';
-    this.canvas.style.height = rect.height + 'px';
+    const pixelRatio = window.devicePixelRatio || 1;
 
-    console.log('Canvas size set:', rect.width, 'x', rect.height);
+    this.logicalSize = {
+      width: rect.width,
+      height: rect.height,
+    };
+
+    this.canvas.width = this.logicalSize.width * pixelRatio;
+    this.canvas.height = this.logicalSize.height * pixelRatio;
+    this.canvas.style.width = this.logicalSize.width + 'px';
+    this.canvas.style.height = this.logicalSize.height + 'px';
+
+    ctx.scale(pixelRatio, pixelRatio);
+
+    console.log(
+      'Canvas size set:',
+      this.logicalSize.width,
+      'x',
+      this.logicalSize.height
+    );
   }
 
   setupEngine() {
@@ -248,8 +266,11 @@ export class BallPoolGameEngine {
       canvas: this.canvas,
       engine: this.engine,
       options: {
-        width: this.canvas.width,
-        height: this.canvas.height,
+        //        width: this.canvas.width,
+        //        height: this.canvas.height,
+
+        width: this.logicalSize.width,
+        height: this.logicalSize.height,
         background: 'transparent',
         wireframes: this.config.debugMode,
         showDebug: this.config.debugMode,
@@ -260,11 +281,17 @@ export class BallPoolGameEngine {
         showIds: this.config.debugMode,
         showAngleIndicator: this.config.debugMode,
         showStats: this.config.debugMode,
+        pixelRatio: 'auto', // 또는 window.devicePixelRatio
       },
     });
   }
 
   setupEventListeners() {
+    window.addEventListener('resize', () => {
+      this.setupCanvas();
+      // Matter.js 렌더러 크기도 업데이트 필요
+    });
+
     // Pointer 이벤트 사용
     this.canvas.addEventListener('pointerdown', this.boundHandlePointerDown);
     this.canvas.addEventListener('pointerup', this.boundHandlePointerUp);
@@ -293,8 +320,10 @@ export class BallPoolGameEngine {
     }
 
     // 현재 캔버스 크기 가져오기
-    const canvasWidth = this.canvas.width;
-    const canvasHeight = this.canvas.height;
+    // const canvasWidth = this.canvas.width;
+    // const canvasHeight = this.canvas.height;
+    const canvasWidth = this.logicalSize.width;
+    const canvasHeight = this.logicalSize.height;
     const wallThickness = this.config.wallThickness;
     const groundThickness = this.config.groundThickness;
     this.walls = [
@@ -438,7 +467,8 @@ export class BallPoolGameEngine {
     if (this.gameOver) return;
     const rect = this.canvas.getBoundingClientRect();
     this.dropX = event.clientX - rect.left;
-    this.dropX = Math.max(0, Math.min(this.canvas.width, this.dropX));
+    //    this.dropX = Math.max(0, Math.min(this.canvas.width, this.dropX));
+    this.dropX = Math.max(0, Math.min(this.logicalSize.width, this.dropX));
     this.emit('drop-zone-update', this.dropX);
   }
 
@@ -447,7 +477,7 @@ export class BallPoolGameEngine {
     if (this.isDropping || this.gameOver) return;
 
     const current = Date.now();
-    this.dropX = Math.max(0, Math.min(this.canvas.width, this.dropX));
+    this.dropX = Math.max(0, Math.min(this.logicalSize.width, this.dropX));
     this.emit('drop-zone-update', this.dropX);
 
     this.isDropping = true;
@@ -886,7 +916,7 @@ export class BallPoolGameEngine {
       ctx.strokeStyle = 'rgba(0,0,0,1)';
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.arc(0, 0, radius - 1.5, 0, Math.PI * 2);
+      ctx.arc(0, 0, radius - 1, 0, Math.PI * 2);
       ctx.stroke();
 
       ctx.restore();
@@ -897,10 +927,11 @@ export class BallPoolGameEngine {
     if (this.gameOver) return;
 
     const ctx = this.render.canvas.getContext('2d');
+    const rect = this.canvas.parentElement.getBoundingClientRect();
     ctx.save();
 
     // 그라데이션 효과
-    const gradient = ctx.createLinearGradient(0, 0, this.canvas.width, 0);
+    const gradient = ctx.createLinearGradient(0, 0, rect.width, 0);
     gradient.addColorStop(0, 'rgba(255, 107, 107, 0.3)'); // 연한 빨강
     gradient.addColorStop(0.5, 'rgba(255, 107, 107, 0.8)'); // 진한 빨강
     gradient.addColorStop(1, 'rgba(255, 107, 107, 0.3)'); // 연한 빨강
@@ -911,7 +942,7 @@ export class BallPoolGameEngine {
     ctx.setLineDash([10, 8]);
     ctx.beginPath();
     ctx.moveTo(0, this.config.gameOverLine + 2);
-    ctx.lineTo(this.canvas.width, this.config.gameOverLine + 2);
+    ctx.lineTo(rect.width, this.config.gameOverLine + 2);
     ctx.stroke();
 
     // 메인 라인
@@ -920,18 +951,14 @@ export class BallPoolGameEngine {
     ctx.setLineDash([12, 6]);
     ctx.beginPath();
     ctx.moveTo(0, this.config.gameOverLine);
-    ctx.lineTo(this.canvas.width, this.config.gameOverLine);
+    ctx.lineTo(rect.width, this.config.gameOverLine);
     ctx.stroke();
 
     // 경고 텍스트 (선택사항)
     ctx.font = '14px Arial';
     ctx.fillStyle = 'rgba(255, 107, 107, 0.7)';
     ctx.textAlign = 'right';
-    ctx.fillText(
-      'DANGER LINE',
-      this.canvas.width - 10,
-      this.config.gameOverLine - 8
-    );
+    ctx.fillText('DANGER LINE', rect.width - 10, this.config.gameOverLine - 8);
 
     ctx.setLineDash([]);
     ctx.restore();
