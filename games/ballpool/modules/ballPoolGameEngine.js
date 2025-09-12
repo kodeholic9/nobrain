@@ -934,12 +934,14 @@ export class BallPoolGameEngine {
       // ctx.stroke();
 
       // 디버그: 물리 바디 경계선 표시
+      /*
+      const dpr = window.devicePixelRatio || 1;
       ctx.strokeStyle = 'rgba(0,0,0,1)';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 2 / dpr;
       ctx.beginPath();
       ctx.arc(0, 0, radius - 1, 0, Math.PI * 2);
       ctx.stroke();
-
+      */
       ctx.restore();
     });
   }
