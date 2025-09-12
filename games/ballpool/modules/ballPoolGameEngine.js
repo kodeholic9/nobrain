@@ -239,18 +239,29 @@ export class BallPoolGameEngine {
     ctx.scale(pixelRatio, pixelRatio);
 
     // 이 설정들 추가해보세요
-    //ctx.imageSmoothingEnabled = false; // 픽셀 완벽하게 선명하게
+    ctx.imageSmoothingEnabled = false; // 픽셀 완벽하게 선명하게
     // 또는
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high'; // 부드러운 고품질
+    //ctx.imageSmoothingEnabled = true;
+    //ctx.imageSmoothingQuality = 'high'; // 부드러운 고품질
+
+    // 추가 설정
+    ctx.textBaseline = 'top';
+    ctx.textAlign = 'left';
+
     console.log('Canvas pixel ratio:', pixelRatio);
-    console.log('Canvas size set:', this.canvas.width, 'x', this.canvas.height);
     console.log(
-      'Logical size:',
+      'Canvas physical size:',
+      this.canvas.width,
+      'x',
+      this.canvas.height
+    );
+    console.log(
+      'Canvas logical size:',
       this.logicalSize.width,
       'x',
       this.logicalSize.height
     );
+    console.log('Container rect:', rect.width, 'x', rect.height);
   }
 
   setupEngine() {
@@ -288,7 +299,7 @@ export class BallPoolGameEngine {
         showIds: this.config.debugMode,
         showAngleIndicator: this.config.debugMode,
         showStats: this.config.debugMode,
-        pixelRatio: 'auto', // 또는 window.devicePixelRatio
+        pixelRatio: window.devicePixelRatio || 1,
       },
     });
   }
@@ -895,8 +906,9 @@ export class BallPoolGameEngine {
       }
 
       ctx.save();
-      ctx.imageSmoothingEnabled = false; // 안티앨리어싱 끄기
-      ctx.translate(pos.x, pos.y);
+      const roundedX = Math.round(pos.x);
+      const roundedY = Math.round(pos.y);
+      ctx.translate(roundedX, roundedY);
 
       // 충돌 후에만 회전 적용
       if (rolling.collidedAt) {
