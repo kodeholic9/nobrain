@@ -2,302 +2,91 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>숫자 키우기 게임</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>2048 키우기 게임</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="game-header">
-      <div class="level" id="level">Level 1</div>
-    </div>
-    <div class="controls">
-      <div class="score" id="score">0</div>
-      <button class="control-btn" id="resetBtn">새 게임</button>
-      <button class="control-btn" id="settingsBtn">설정</button>
-      <button class="control-btn" id="debugBtn">디버그</button>
-      <button class="control-btn" id="shakeBtn">흔들기</button>
-    </div>
     <div class="game-container">
-      <div class="drop-zone" id="dropZone">↓</div>
-      <div class="next-ball" id="nextBall"></div>
-      <canvas id="gameCanvas" width="400" height="600"></canvas>
+      <!-- 상단 헤더 -->
+      <header class="header">
+        <div class="header-content">
+          <h1 class="game-title">2048 키우기 게임</h1>
+          <button class="settings-btn" id="settingsBtn">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="3"></circle>
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V6a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </header>
 
-      <div class="game-over" id="gameOver">
-        <h3>게임 오버!</h3>
-        <p>최종 점수: <span id="finalScore">0</span></p>
-        <button class="control-btn" onclick="resetGame()">다시 시작</button>
-      </div>
-    </div>
-
-    <div class="bodies" id="bodies" style="display: none"></div>
-
-    <div class="settings" id="settings" style="display: none">
-      <h4>🎯 기본 물리</h4>
-      <div class="setting-group">
-        <label>중력 세기:</label>
-        <input
-          type="range"
-          id="gravitySlider"
-          min="0.3"
-          max="2"
-          step="0.1"
-          value="1.0"
-        />
-        <span class="setting-value" id="gravityValue">1.0</span>
-      </div>
-      <div class="setting-group">
-        <label>공 반발력 (탄성):</label>
-        <input
-          type="range"
-          id="restitutionSlider"
-          min="0"
-          max="1"
-          step="0.05"
-          value="0.4"
-        />
-        <span class="setting-value" id="restitutionValue">0.4</span>
-      </div>
-      <div class="setting-group">
-        <label>공과 공 마찰력:</label>
-        <input
-          type="range"
-          id="ballFrictionSlider"
-          min="0"
-          max="1"
-          step="0.01"
-          value="0.3"
-        />
-        <span class="setting-value" id="ballFrictionValue">0.3</span>
-      </div>
-      <div class="setting-group">
-        <label>벽/바닥 마찰력:</label>
-        <input
-          type="range"
-          id="wallFrictionSlider"
-          min="0"
-          max="1"
-          step="0.01"
-          value="0.01"
-        />
-        <span class="setting-value" id="wallFrictionValue">0.01</span>
-      </div>
-      <div class="setting-group">
-        <label>공기 저항:</label>
-        <input
-          type="range"
-          id="frictionAirSlider"
-          min="0"
-          max="0.1"
-          step="0.005"
-          value="0.02"
-        />
-        <span class="setting-value" id="frictionAirValue">0.02</span>
-      </div>
-      <div class="setting-group">
-        <label>정적 마찰력:</label>
-        <input
-          type="range"
-          id="frictionStaticSlider"
-          min="0"
-          max="2"
-          step="0.1"
-          value="0.5"
-        />
-        <span class="setting-value" id="frictionStaticValue">0.5</span>
-      </div>
-      <div class="setting-group">
-        <label>밀도:</label>
-        <input
-          type="range"
-          id="densitySlider"
-          min="0.0001"
-          max="0.01"
-          step="0.0001"
-          value="0.001"
-        />
-        <span class="setting-value" id="densityValue">0.001</span>
+      <!-- 설정 팝업 -->
+      <div class="settings-popup" id="settingsPopup">
+        <div class="settings-content">
+          <div class="settings-header">
+            <h3>게임 설정</h3>
+            <button class="close-btn" id="closeSettingsBtn">×</button>
+          </div>
+          <div class="settings-buttons">
+            <button class="setting-btn" id="newGame">새게임</button>
+            <button class="setting-btn" id="debugBtn">디버그</button>
+            <button class="setting-btn" id="gameSettingsBtn">게임설정</button>
+            <button class="setting-btn" id="ballCheckBtn">공 확인</button>
+            <button class="setting-btn" id="autoDropBtn">자동 drop</button>
+            <!-- 확장성을 위한 추가 버튼 영역 -->
+            <div class="additional-buttons" id="additionalButtons">
+              <!-- 동적으로 추가될 버튼들 -->
+            </div>
+          </div>
+        </div>
       </div>
 
-      <h4>⚙️ 엔진 성능</h4>
-      <div class="setting-group">
-        <label>속도 반복 계산:</label>
-        <input
-          type="range"
-          id="velocityIterationsSlider"
-          min="1"
-          max="10"
-          step="1"
-          value="2"
-        />
-        <span class="setting-value" id="velocityIterationsValue">2</span>
-      </div>
-      <div class="setting-group">
-        <label>위치 반복 계산:</label>
-        <input
-          type="range"
-          id="positionIterationsSlider"
-          min="1"
-          max="15"
-          step="1"
-          value="6"
-        />
-        <span class="setting-value" id="positionIterationsValue">6</span>
-      </div>
-      <div class="setting-group">
-        <label>제약 조건 반복:</label>
-        <input
-          type="range"
-          id="constraintIterationsSlider"
-          min="1"
-          max="10"
-          step="1"
-          value="2"
-        />
-        <span class="setting-value" id="constraintIterationsValue">2</span>
-      </div>
-      <div class="setting-group">
-        <label>시간 배속:</label>
-        <input
-          type="range"
-          id="timeScaleSlider"
-          min="0.1"
-          max="3"
-          step="0.1"
-          value="1.0"
-        />
-        <span class="setting-value" id="timeScaleValue">1.0</span>
-      </div>
+      <!-- 게임 영역 -->
+      <main class="game-area">
+        <div class="game-board">
+          <!-- 점수 영역 -->
+          <div class="score-area">
+            <div class="score-item">
+              <span class="score-label">점수</span>
+              <span class="score-value" id="scoreValue">0</span>
+            </div>
+            <div class="score-item">
+              <span class="score-label">다음공</span>
+              <img
+                class="score-value"
+                src=""
+                id="nextBall"
+                style="width: 16px; height: 16px"
+              />
+            </div>
+          </div>
 
-      <h4>🛡️ 안정성 & 최적화</h4>
-      <div class="setting-group">
-        <label>슬립 모드 활성화:</label>
-        <input type="checkbox" id="enableSleepingCheckbox" checked />
-      </div>
-      <div class="setting-group">
-        <label>슬립 임계값:</label>
-        <input
-          type="range"
-          id="sleepThresholdSlider"
-          min="10"
-          max="200"
-          step="10"
-          value="60"
-        />
-        <span class="setting-value" id="sleepThresholdValue">60</span>
-      </div>
-      <div class="setting-group">
-        <label>최대 속도 제한:</label>
-        <input
-          type="range"
-          id="maxVelocitySlider"
-          min="5"
-          max="50"
-          step="1"
-          value="20"
-        />
-        <span class="setting-value" id="maxVelocityValue">20</span>
-      </div>
-      <div class="setting-group">
-        <label>위치 보정 강도:</label>
-        <input
-          type="range"
-          id="correctionFactorSlider"
-          min="0.1"
-          max="1"
-          step="0.05"
-          value="0.4"
-        />
-        <span class="setting-value" id="correctionFactorValue">0.4</span>
-      </div>
+          <!-- 캔버스 영역 -->
+          <div class="canvas-container">
+            <canvas id="gameCanvas"></canvas>
+            <div class="drop-guide" id="dropGuide"></div>
+          </div>
+        </div>
+      </main>
 
-      <h4>🎮 감쇠 및 댐핑</h4>
-      <div class="setting-group">
-        <label>감쇠 계수:</label>
-        <input
-          type="range"
-          id="dampingFactorSlider"
-          min="0.9"
-          max="1"
-          step="0.005"
-          value="0.99"
-        />
-        <span class="setting-value" id="dampingFactorValue">0.99</span>
-      </div>
-      <div class="setting-group">
-        <label>각속도 감쇠:</label>
-        <input
-          type="range"
-          id="angularDampingSlider"
-          min="0"
-          max="0.5"
-          step="0.01"
-          value="0.1"
-        />
-        <span class="setting-value" id="angularDampingValue">0.1</span>
-      </div>
-      <div class="setting-group">
-        <label>선속도 감쇠:</label>
-        <input
-          type="range"
-          id="linearDampingSlider"
-          min="0"
-          max="0.1"
-          step="0.005"
-          value="0.01"
-        />
-        <span class="setting-value" id="linearDampingValue">0.01</span>
-      </div>
-
-      <h4>🎯 게임 설정</h4>
-      <div class="setting-group">
-        <label>합치기 민감도:</label>
-        <input
-          type="range"
-          id="mergeDistanceSlider"
-          min="0.5"
-          max="3"
-          step="0.1"
-          value="1.1"
-        />
-        <span class="setting-value" id="mergeDistanceValue">1.1</span>
-      </div>
-      <div class="setting-group">
-        <label>공 크기 배율:</label>
-        <input
-          type="range"
-          id="sizeMultiplierSlider"
-          min="0.5"
-          max="2"
-          step="0.1"
-          value="1"
-        />
-        <span class="setting-value" id="sizeMultiplierValue">1</span>
-      </div>
-      <div class="setting-group">
-        <label>벽 두께:</label>
-        <input
-          type="range"
-          id="wallThicknessSlider"
-          min="10"
-          max="50"
-          step="5"
-          value="20"
-        />
-        <span class="setting-value" id="wallThicknessValue">20</span>
-      </div>
-      <div class="setting-group">
-        <label>게임오버 라인:</label>
-        <input
-          type="range"
-          id="gameOverLineSlider"
-          min="80"
-          max="200"
-          step="10"
-          value="120"
-        />
-        <span class="setting-value" id="gameOverLineValue">120</span>
-      </div>
+      <!-- 하단 카피라이트 -->
+      <footer class="footer">
+        <p>&copy; jjangnan.xyz</p>
+      </footer>
     </div>
 
     <script type="module" src="script.js"></script>

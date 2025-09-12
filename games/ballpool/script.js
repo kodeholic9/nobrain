@@ -1,276 +1,217 @@
-import { BallGameEngine } from './modules/ballPoolEngine.js';
+import {
+  ballConfig,
+  BallPoolGameEngine,
+} from './modules/ballPoolGameEngine.js';
 
-// 게임 인스턴스
-let gameEngine;
+// 게임 상태 관리
+class GameUI {
+  constructor() {
+    this.isGameRunning = false;
+    this.currentDropX = 0;
+    this.gameEngine = null;
 
-// UI 업데이트 함수들
-function updateUI() {
-  const state = gameEngine.getGameState();
-  document.getElementById('score').textContent = state.score.toLocaleString();
-  document.getElementById('level').textContent = `Level ${state.level}`;
-}
+    // DOM 요소 참조
+    this.elements = {
+      settingsBtn: document.getElementById('settingsBtn'),
+      settingsPopup: document.getElementById('settingsPopup'),
+      closeSettingsBtn: document.getElementById('closeSettingsBtn'),
+      gameCanvas: document.getElementById('gameCanvas'),
+      dropGuide: document.getElementById('dropGuide'),
+      scoreValue: document.getElementById('scoreValue'),
+      nextBall: document.getElementById('nextBall'),
 
-function updateDropZone(dropX) {
-  const dropZone = document.getElementById('dropZone');
-  dropZone.style.left = `${dropX}px`;
-}
+      newGame: document.getElementById('newGame'),
+      debugBtn: document.getElementById('debugBtn'),
+      gameSettingsBtn: document.getElementById('gameSettingsBtn'),
+      ballCheckBtn: document.getElementById('ballCheckBtn'),
+      autoDropBtn: document.getElementById('autoDropBtn'),
+      additionalButtons: document.getElementById('additionalButtons'),
+    };
 
-function updateNextBall(ballValue) {
-  if (!ballValue) return;
-  const nextBallEl = document.getElementById('nextBall');
-  const bcfg = ballConfig[ballValue];
-  nextBallEl.style.backgroundColor = bcfg.color;
-  nextBallEl.textContent = ballValue;
-  nextBallEl.style.fontSize = `${Math.min(bcfg.size * 0.4, 14)}px`;
-}
+    // 설정 상태
+    this.settings = {
+      debug: false,
+      autoDrop: false,
+      gameSettings: {},
+      ballCheck: false,
+    };
 
-function showGameOver(finalScore) {
-  document.getElementById('finalScore').textContent =
-    finalScore.toLocaleString();
-  document.getElementById('gameOver').style.display = 'block';
-}
+    this.gameState = {
+      score: 0,
+      nextBalls: [],
+    };
 
-function hideGameOver() {
-  document.getElementById('gameOver').style.display = 'none';
-}
-
-function shake() {
-  console.log('흔들기 버튼 클릭됨');
-  if (gameEngine) {
-    gameEngine.shakeAllBalls(50); // 강하게 흔들기
+    this.init();
   }
-}
 
-function debugBodies(balls) {
-  const bodiesDiv = document.getElementById('bodies');
-
-  // 기존 내용 지우기
-  bodiesDiv.innerHTML = '';
-
-  // 헤더 추가
-  const header = document.createElement('h3');
-  header.textContent = `공 정보 (총 ${balls.length}개)`;
-  header.style.cssText = 'color: #fff; margin-bottom: 10px; font-size: 14px;';
-  bodiesDiv.appendChild(header);
-
-  balls.forEach((ball, index) => {
-    if (!ball) {
-      const errorDiv = document.createElement('div');
-      errorDiv.textContent = `공 ${index}: null 또는 undefined`;
-      errorDiv.style.cssText =
-        'color: #ff6b6b; margin: 2px 0; font-size: 12px;';
-      bodiesDiv.appendChild(errorDiv);
-      return;
-    }
-
-    const ballDiv = document.createElement('div');
-    ballDiv.style.cssText = `
-                    background: rgba(255,255,255,0.1);
-                    margin: 5px 0;
-                    padding: 8px;
-                    border-radius: 4px;
-                    font-size: 11px;
-                    color: #fff;
-                    border-left: 3px solid #4ecdc4;
-                `;
-
-    const inWorld =
-      Matter.Composite.get(gameEngine.world, ball.id, 'body') !== null;
-    const velocity = ball.velocity || { x: 0, y: 0 };
-    const speed = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
-    const angle = (Math.atan2(velocity.y, velocity.x) * 180) / Math.PI;
-
-    ballDiv.innerHTML = `
-                    <div>ID: <strong>${ball.id}</strong></div>
-                    <div>값: ${ball.ballValue || 'N/A'}</div>
-                    <div>위치: (${Math.round(ball.position.x)}, ${Math.round(ball.position.y)})</div>
-                    <div>반지름: ${ball.circleRadius}</div>
-                    <div>속도: (${velocity.x.toFixed(2)}, ${velocity.y.toFixed(2)})</div>
-                    <div>속력: ${speed.toFixed(2)}</div>
-                    <div>각도: ${angle.toFixed(1)}°</div>                    
-                    <div>월드 내: <span style="color: ${inWorld ? '#4ecdc4' : '#ff6b6b'}">${inWorld ? '✓' : '✗'}</span></div>
-                `;
-
-    bodiesDiv.appendChild(ballDiv);
-  });
-}
-
-// 전역 함수들 (HTML에서 호출)
-function resetGame() {
-  if (gameEngine) {
-    gameEngine.reset();
-    hideGameOver();
+  init() {
+    this.setupCanvas();
+    this.bindEvents();
+    this.initializeGame();
+    this.setupSettingsButtons();
   }
-}
 
-function toggleSettings() {
-  const settings = document.getElementById('settings');
-  settings.style.display = settings.style.display === 'none' ? 'block' : 'none';
-}
+  setupCanvas() {}
 
-function toggleDebug() {
-  if (gameEngine) {
-    gameEngine.updateConfig({ debugMode: !gameEngine.config.debugMode });
-  }
-}
+  bindEvents() {
+    // 설정 팝업 이벤트
+    this.elements.settingsBtn.addEventListener('click', () => {
+      this.toggleSettings(true);
+    });
 
-// 설정 이벤트 리스너들
-function setupSettingListeners() {
-  const allSliders = [
-    'gravity',
-    'restitution',
-    'ballFriction',
-    'wallFriction',
-    'frictionAir',
-    'frictionStatic',
-    'density',
-    'velocityIterations',
-    'positionIterations',
-    'constraintIterations',
-    'timeScale',
-    'sleepThreshold',
-    'maxVelocity',
-    'correctionFactor',
-    'dampingFactor',
-    'angularDamping',
-    'linearDamping',
-    'mergeDistance',
-    'sizeMultiplier',
-    'wallThickness',
-    'gameOverLine',
-  ];
+    this.elements.closeSettingsBtn.addEventListener('click', () => {
+      this.toggleSettings(false);
+    });
 
-  // 각 설정값을 HTML 슬라이더에 적용
-  allSliders.forEach((setting) => {
-    const slider = document.getElementById(setting + 'Slider');
-    const valueSpan = document.getElementById(setting + 'Value');
+    this.elements.settingsPopup.addEventListener('click', (e) => {
+      if (e.target === this.elements.settingsPopup) {
+        this.toggleSettings(false);
+      }
+    });
 
-    if (slider && valueSpan && defaultGameConfig[setting] !== undefined) {
-      slider.value = defaultGameConfig[setting];
-      valueSpan.textContent = defaultGameConfig[setting];
-    }
-  });
-
-  allSliders.forEach((setting) => {
-    const slider = document.getElementById(setting + 'Slider');
-    const valueSpan = document.getElementById(setting + 'Value');
-
-    if (slider && valueSpan) {
-      slider.addEventListener('input', (e) => {
-        const value = parseFloat(e.target.value);
-        valueSpan.textContent = value;
-
-        if (gameEngine) {
-          gameEngine.updateConfig({ [setting]: value });
-        }
-      });
-    }
-  });
-
-  // 슬립 모드 체크박스
-  const sleepCheckbox = document.getElementById('enableSleepingCheckbox');
-  if (sleepCheckbox) {
-    sleepCheckbox.addEventListener('change', (e) => {
-      if (gameEngine) {
-        gameEngine.updateConfig({ enableSleeping: e.target.checked });
+    // ESC 키로 설정 닫기
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        this.toggleSettings(false);
       }
     });
   }
+
+  initializeGame() {
+    try {
+      this.gameEngine = new BallPoolGameEngine(this.elements.gameCanvas, {
+        ...this.settings.gameSettings,
+      });
+      this.gameEngine.on((action, args) => {
+        console.log('게임 이벤트:', action, args);
+        switch (action) {
+          case 'score-update':
+            this.gameState.score = args;
+            break;
+
+          case 'next-ball-update':
+            this.gameState.nextBalls = args;
+            break;
+        }
+        this.updateState();
+      });
+
+      // 게임 엔진 이벤트 리스너 등록
+      this.isGameRunning = true;
+      console.log('게임 엔진이 초기화되었습니다.');
+    } catch (error) {
+      console.error('게임 초기화 중 오류 발생:', error);
+      this.setupFallbackMode();
+    }
+  }
+
+  setupFallbackMode() {
+    // 게임 엔진이 없을 때의 대체 모드
+    console.log('Fallback 모드로 실행됩니다.');
+    this.isGameRunning = false;
+
+    // 더미 데이터로 UI 테스트
+    this.gameState.score = 0;
+    this.gameState.nextBalls = [];
+    this.updateState();
+  }
+
+  toggleSettings(show) {
+    if (show) {
+      this.elements.settingsPopup.classList.add('active');
+    } else {
+      this.elements.settingsPopup.classList.remove('active');
+    }
+  }
+
+  setupSettingsButtons() {
+    // 디버그 버튼
+    this.elements.newGame.addEventListener('click', () => {
+      this.restartGame();
+    });
+
+    // 디버그 버튼
+    this.elements.debugBtn.addEventListener('click', () => {
+      this.settings.debug = !this.settings.debug;
+    });
+
+    // 게임설정 버튼
+    this.elements.gameSettingsBtn.addEventListener('click', () => {});
+
+    // 공 확인 버튼
+    this.elements.ballCheckBtn.addEventListener('click', () => {});
+
+    // 자동 드롭 버튼
+    this.elements.autoDropBtn.addEventListener('click', () => {});
+  }
+
+  // 확장성을 위한 버튼 추가 메서드
+  addSettingButton(text, callback, options = {}) {
+    const button = document.createElement('button');
+    button.className = 'setting-btn';
+    button.textContent = text;
+    button.addEventListener('click', callback);
+
+    if (options.color) {
+      button.style.background = options.color;
+    }
+
+    this.elements.additionalButtons.appendChild(button);
+    return button;
+  }
+
+  showGameSettings() {
+    alert('게임 설정 기능은 개발 중입니다.');
+    // TODO: 게임 설정 모달 구현
+  }
+
+  showBallInfo() {
+    if (this.gameEngine && typeof ballConfig !== 'undefined') {
+      let info = '공 정보:\n\n';
+      Object.entries(ballConfig).forEach(([value, config]) => {
+        info += `${value}: 크기 ${config.size}, 점수 ${config.point}\n`;
+      });
+      alert(info);
+    } else {
+      alert('공 정보를 불러올 수 없습니다.');
+    }
+  }
+
+  updateState() {
+    this.elements.scoreValue.textContent =
+      this.gameState.score.toLocaleString();
+    if (this.gameState.nextBalls.length > 0) {
+      this.elements.nextBall.src =
+        ballConfig[this.gameState.nextBalls[0]].imgPath;
+    }
+  }
+
+  handleGameOver(data) {
+    this.isGameRunning = false;
+    this.stopAutoDrop();
+    alert(`게임 오버!\n최종 점수: ${data.score}`);
+  }
+
+  handleBallMerged(data) {
+    console.log('공 합성:', data);
+    // TODO: 합성 이펙트 구현
+  }
+
+  // 게임 재시작
+  restartGame() {
+    if (this.gameEngine) {
+      this.gameEngine.reset();
+      this.isGameRunning = true;
+      console.log('게임이 재시작되었습니다.');
+    }
+  }
 }
 
-// 기본 게임 설정
-const defaultGameConfig = {
-  // 기본 물리 속성
-  gravity: 1.1,
-  restitution: 0.2,
-  ballFriction: 0.05,
-  wallFriction: 0,
-  frictionAir: 0,
+// DOM 로드 완료 후 게임 초기화
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM 로드 완료. 게임 UI를 초기화합니다.');
+  const gameUI = new GameUI();
+  gameUI.restartGame();
 
-  // 엔진 성능
-  velocityIterations: 6,
-  positionIterations: 8,
-  constraintIterations: 4,
-
-  // 안정성
-  enableSleeping: true,
-  sleepThreshold: 120,
-  timeScale: 1.0,
-  density: 0.01,
-  frictionStatic: 0.1,
-  maxVelocity: 20,
-  correctionFactor: 0.4,
-
-  // 감쇠
-  dampingFactor: 0.99,
-  angularDamping: 0.1,
-  linearDamping: 0.01,
-  slop: 0.05,
-
-  // 게임 설정
-  mergeDistance: 1,
-  sizeMultiplier: 1,
-  wallThickness: 20,
-  gameOverLine: 120,
-  debugMode: false,
-};
-
-// 숫자별 색상과 크기 설정
-const ballConfig = {
-  2: { color: '#f4a7e4', size: 18, point: 1, imgPath: './ball.png' },
-  4: { color: '#a6e98f', size: 22, point: 2, imgPath: './ball.png' },
-  8: { color: '#6ce2e2', size: 25, point: 4, imgPath: './ball.png' },
-  16: { color: '#87b9ee', size: 28, point: 6, imgPath: './ball.png' },
-  32: { color: '#ec9a8a', size: 36, point: 8, imgPath: './ball.png' },
-  64: { color: '#a8a0f6', size: 45, point: 10, imgPath: './ball.png' },
-  128: { color: '#c5c1bb', size: 54, point: 12, imgPath: './ball.png' },
-  256: { color: '#fbd5a2', size: 63, point: 14, imgPath: './ball.png' },
-  512: { color: '#ffb8c1', size: 71, point: 16, imgPath: './ball.png' },
-  1024: { color: '#9bcf1e', size: 88, point: 18, imgPath: './ball.png' },
-  2048: { color: '#33a64b', size: 110, point: 20, imgPath: './ball.png' },
-};
-
-// 게임 시작
-window.onload = () => {
-  document.getElementById('resetBtn').addEventListener('click', resetGame);
-  document
-    .getElementById('settingsBtn')
-    .addEventListener('click', toggleSettings);
-  document.getElementById('debugBtn').addEventListener('click', toggleDebug);
-  document.getElementById('shakeBtn').addEventListener('click', shake);
-
-  const canvas = document.getElementById('gameCanvas');
-  gameEngine = new BallGameEngine(canvas, defaultGameConfig);
-
-  // 이벤트 콜백 등록
-  gameEngine.on('scoreUpdate', (score, level) => {
-    updateUI();
-  });
-
-  gameEngine.on('dropZoneUpdate', (dropX) => {
-    updateDropZone(dropX);
-  });
-
-  gameEngine.on('nextBallUpdate', (ballValues) => {
-    updateNextBall(ballValues[0]);
-  });
-
-  gameEngine.on('gameOver', (finalScore) => {
-    showGameOver(finalScore);
-  });
-
-  gameEngine.on('gameReset', () => {
-    updateUI();
-    updateNextBall(gameEngine.armingBalls[0]);
-  });
-
-  gameEngine.on('debugUpdate', (balls) => {
-    debugBodies(balls);
-  });
-
-  // 초기 UI 업데이트
-  updateUI();
-  updateNextBall(gameEngine.armingBalls[0]);
-
-  setupSettingListeners();
-};
+  console.log('게임 UI가 초기화되었습니다.');
+});
