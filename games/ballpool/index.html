@@ -58,6 +58,12 @@
       <!-- 게임 영역 -->
       <main class="game-area">
         <div class="game-board">
+          <!-- 캔버스 영역 -->
+          <div class="canvas-container">
+            <canvas id="gameCanvas"></canvas>
+            <div class="drop-guide" id="dropGuide"></div>
+          </div>
+
           <!-- 점수 영역 -->
           <div class="score-area">
             <div class="score-item">
@@ -73,12 +79,6 @@
                 style="width: 16px; height: 16px"
               />
             </div>
-          </div>
-
-          <!-- 캔버스 영역 -->
-          <div class="canvas-container">
-            <canvas id="gameCanvas"></canvas>
-            <div class="drop-guide" id="dropGuide"></div>
           </div>
         </div>
       </main>

@@ -29,11 +29,8 @@ class GameUI {
     };
 
     // 설정 상태
-    this.settings = {
-      debug: false,
-      autoDrop: false,
-      gameSettings: {},
-      ballCheck: false,
+    this.gameSettings = {
+      debugMode: false,
     };
 
     this.gameState = {
@@ -79,9 +76,10 @@ class GameUI {
 
   initializeGame() {
     try {
-      this.gameEngine = new BallPoolGameEngine(this.elements.gameCanvas, {
-        ...this.settings.gameSettings,
-      });
+      this.gameEngine = new BallPoolGameEngine(
+        this.elements.gameCanvas,
+        this.gameSettings
+      );
       this.gameEngine.on((action, args) => {
         console.log('게임 이벤트:', action, args);
         switch (action) {
@@ -125,14 +123,15 @@ class GameUI {
   }
 
   setupSettingsButtons() {
-    // 디버그 버튼
+    // 새게임 버튼
     this.elements.newGame.addEventListener('click', () => {
       this.restartGame();
     });
 
     // 디버그 버튼
     this.elements.debugBtn.addEventListener('click', () => {
-      this.settings.debug = !this.settings.debug;
+      this.gameSettings.debugMode = !this.gameSettings.debugMode;
+      this.applyGameSettings();
     });
 
     // 게임설정 버튼
@@ -165,17 +164,7 @@ class GameUI {
     // TODO: 게임 설정 모달 구현
   }
 
-  showBallInfo() {
-    if (this.gameEngine && typeof ballConfig !== 'undefined') {
-      let info = '공 정보:\n\n';
-      Object.entries(ballConfig).forEach(([value, config]) => {
-        info += `${value}: 크기 ${config.size}, 점수 ${config.point}\n`;
-      });
-      alert(info);
-    } else {
-      alert('공 정보를 불러올 수 없습니다.');
-    }
-  }
+  showBallInfo() {}
 
   updateState() {
     this.elements.scoreValue.textContent =
@@ -183,6 +172,13 @@ class GameUI {
     if (this.gameState.nextBalls.length > 0) {
       this.elements.nextBall.src =
         ballConfig[this.gameState.nextBalls[0]].imgPath;
+    }
+  }
+
+  applyGameSettings() {
+    if (this.gameEngine) {
+      this.gameEngine.updateConfig(this.gameSettings);
+      console.log('게임 설정이 적용되었습니다:', this.gameSettings);
     }
   }
 

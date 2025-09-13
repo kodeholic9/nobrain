@@ -41,6 +41,7 @@ const defaultGameConfig = {
   correctionFactor: 0.4,
   stiffness: 1.0, // 강성도 최대 (변형 방지)
   inertia: 1000, // 회전 관성 무한대
+  minVelocityThreshold: 0.05, // 최소 속도 임계값
 
   // 감쇠
   dampingFactor: 0.99,
@@ -200,8 +201,8 @@ export class BallPoolGameEngine {
   }
 
   init() {
-    this.setupBallConfig();
     this.setupCanvas();
+    this.setupBallConfig();
     this.setupEngine();
     this.setupRender();
     this.setupEventListeners();
@@ -214,7 +215,7 @@ export class BallPoolGameEngine {
       if (!config.image && config.imgPath) {
         config.image = new Image();
         // 이미지 렌더링 설정 추가
-        config.image.style.imageRendering = 'pixelated';
+        //config.image.style.imageRendering = 'pixelated';
         //config.image.style.imageRendering = 'crisp-edges';
 
         config.image.src = config.imgPath;
@@ -228,19 +229,18 @@ export class BallPoolGameEngine {
     const ctx = this.canvas.getContext('2d');
 
     // 캔버스 크기 설정
-    const pixelRatio = window.devicePixelRatio || 1;
-
     this.logicalSize = {
+      dpr: window.devicePixelRatio || 1,
       width: rect.width,
       height: rect.height,
     };
 
-    this.canvas.width = this.logicalSize.width * pixelRatio;
-    this.canvas.height = this.logicalSize.height * pixelRatio;
+    this.canvas.width = this.logicalSize.width * this.logicalSize.dpr;
+    this.canvas.height = this.logicalSize.height * this.logicalSize.dpr;
     this.canvas.style.width = this.logicalSize.width + 'px';
     this.canvas.style.height = this.logicalSize.height + 'px';
 
-    ctx.scale(pixelRatio, pixelRatio);
+    ctx.scale(this.logicalSize.dpr, this.logicalSize.dpr);
 
     // 이 설정들 추가해보세요
     ctx.imageSmoothingEnabled = false; // 픽셀 완벽하게 선명하게
@@ -252,7 +252,7 @@ export class BallPoolGameEngine {
     ctx.textBaseline = 'top';
     ctx.textAlign = 'left';
 
-    console.log('Canvas pixel ratio:', pixelRatio);
+    console.log('Canvas pixel ratio:', this.logicalSize);
     console.log(
       'Canvas physical size:',
       this.canvas.width,
@@ -303,7 +303,7 @@ export class BallPoolGameEngine {
         showIds: this.config.debugMode,
         showAngleIndicator: this.config.debugMode,
         showStats: this.config.debugMode,
-        pixelRatio: window.devicePixelRatio || 1,
+        pixelRatio: this.logicalSize.dpr,
       },
     });
   }
@@ -352,7 +352,7 @@ export class BallPoolGameEngine {
       // 바닥: 캔버스 하단 중앙, 전체 너비
       Bodies.rectangle(
         canvasWidth / 2,
-        canvasHeight + groundThickness / 2,
+        canvasHeight + groundThickness / 2 - 10,
         canvasWidth,
         groundThickness,
         {
@@ -783,19 +783,29 @@ export class BallPoolGameEngine {
   limitVelocities() {
     this.balls.forEach((ball) => {
       const velocity = Vector.magnitude(ball.velocity);
+
+      // 1. 최대 속도 제한
       if (velocity > this.config.maxVelocity) {
         const scale = this.config.maxVelocity / velocity;
         Body.setVelocity(ball, Vector.mult(ball.velocity, scale));
       }
 
-      Body.setVelocity(
-        ball,
-        Vector.mult(ball.velocity, this.config.dampingFactor)
-      );
-      Body.setAngularVelocity(
-        ball,
-        ball.angularVelocity * (1 - this.config.angularDamping)
-      );
+      // 2. 미세한 진동 정지 (핵심 로직)
+      if (velocity < this.config.minVelocityThreshold) {
+        Body.setVelocity(ball, { x: 0, y: 0 });
+        Body.setAngularVelocity(ball, 0);
+      }
+      // 3. 감쇠 적용 (속도 감소)
+      else {
+        Body.setVelocity(
+          ball,
+          Vector.mult(ball.velocity, this.config.dampingFactor)
+        );
+        Body.setAngularVelocity(
+          ball,
+          ball.angularVelocity * (1 - this.config.angularDamping)
+        );
+      }
     });
   }
 
@@ -817,7 +827,8 @@ export class BallPoolGameEngine {
   handleAfterRender() {
     if (!this.config.debugMode) {
       //this.drawBalls();
-      this.drawImgBalls();
+      //this.drawImgBalls();
+      this.drawCachedBalls();
     }
     this.drawGameOverLine();
     //this.emit('debug-update', this.balls);
@@ -934,16 +945,124 @@ export class BallPoolGameEngine {
       // ctx.stroke();
 
       // 디버그: 물리 바디 경계선 표시
-      /*
-      const dpr = window.devicePixelRatio || 1;
       ctx.strokeStyle = 'rgba(0,0,0,1)';
-      ctx.lineWidth = 2 / dpr;
+      ctx.lineWidth = 1 / this.logicalSize.dpr;
       ctx.beginPath();
       ctx.arc(0, 0, radius - 1, 0, Math.PI * 2);
       ctx.stroke();
-      */
       ctx.restore();
     });
+  }
+
+  getAdjustDisplayAngle2(ball) {
+    if (!ball) return;
+    if (!ball.rolling) {
+      ball.rolling = {
+        prevX: ball.position.x,
+        prevY: ball.position.y,
+        displayAngle: 0,
+      };
+    }
+    const rolling = ball.rolling;
+    const velocity = ball.velocity;
+
+    // 속도 기반 회전 계산
+    const angularVelocity = velocity.x / ball.circleRadius; // x축 속도를 기반으로 한 각속도
+    // 미세한 움직임을 무시하는 임계값 설정
+    const speedThreshold = 0.05; // 필요에 따라 이 값을 조절하세요.
+    if (
+      Math.abs(velocity.x) > speedThreshold ||
+      Math.abs(velocity.y) > speedThreshold
+    ) {
+      // 회전 각도 누적 (y축 방향 회전은 반대 방향으로 적용)
+      rolling.displayAngle += angularVelocity;
+    }
+    return rolling.displayAngle;
+  }
+
+  getAdjustDisplayAngle(ball) {
+    if (!ball) return;
+    if (!ball.rolling) {
+      ball.rolling = {
+        prevX: ball.position.x,
+        prevY: ball.position.y,
+        displayAngle: 0,
+      };
+    }
+    const rolling = ball.rolling;
+    const deltaX = ball.position.x - rolling.prevX;
+    const deltaY = ball.position.y - rolling.prevY;
+    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    if (distance > 0.1) {
+      const rollAngle = distance / ball.circleRadius;
+      const rotationDirection = deltaX < 0 ? -1 : 1;
+      rolling.displayAngle += rollAngle * rotationDirection;
+      rolling.prevX = ball.position.x;
+      rolling.prevY = ball.position.y;
+    }
+
+    return rolling.displayAngle;
+  }
+
+  drawCachedBalls() {
+    const ctx = this.render.canvas.getContext('2d');
+
+    this.balls.forEach((ball) => {
+      const pos = ball.position;
+      const bcfg = ballConfig[ball.ballValue];
+      // const radius = bcfg.size * this.config.sizeMultiplier;
+      const radius = ball.circleRadius; // Matter.js 실제 반지름 사용
+
+      const displayAngle = this.getAdjustDisplayAngle(ball);
+
+      ctx.save();
+      ctx.translate(pos.x, pos.y);
+
+      // 충돌 후에만 회전 적용
+      if (ball.rolling.collidedAt) {
+        ctx.rotate(displayAngle);
+        //ctx.rotate(ball.angle); // Matter.js 회전도 추가
+      }
+
+      // 이미지 그리기 (중심점 기준)
+      if (!bcfg.cachedCanvas) {
+        bcfg.cachedCanvas = this.createCacheOfBallRender(
+          bcfg,
+          radius,
+          '#000',
+          2
+        );
+      }
+      const size = radius * 2;
+      ctx.drawImage(bcfg.cachedCanvas, -radius, -radius, size, size);
+
+      ctx.restore();
+    });
+  }
+
+  createCacheOfBallRender(bcfg, radius, strokeColor = '#000', strokeWidth = 2) {
+    const size = radius * 2;
+
+    // 오프스크린 캔버스 생성
+    const offCanvas = document.createElement('canvas');
+    offCanvas.width = size * this.logicalSize.dpr;
+    offCanvas.height = size * this.logicalSize.dpr;
+
+    const offCtx = offCanvas.getContext('2d');
+    offCtx.setTransform(this.logicalSize.dpr, 0, 0, this.logicalSize.dpr, 0, 0);
+
+    // 공 이미지 그리기
+    offCtx.drawImage(bcfg.image, 0, 0, size, size);
+
+    // 테두리 stroke (항상 화면에서 2px)
+    offCtx.lineWidth = strokeWidth / this.logicalSize.dpr;
+    offCtx.strokeStyle = strokeColor;
+    offCtx.beginPath();
+    offCtx.arc(radius, radius, radius - 1, 0, Math.PI * 2);
+    offCtx.stroke();
+
+    return offCanvas;
   }
 
   drawGameOverLine() {
