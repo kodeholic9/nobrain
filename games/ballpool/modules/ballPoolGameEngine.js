@@ -73,28 +73,28 @@ export const ballConfig = {
     color: '#a6e98f',
     size: 20,
     point: 2,
-    mass: 0.3,
+    mass: 0.5,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall2.png',
   }, // 당구
   8: {
     color: '#6ce2e2',
     size: 30,
     point: 3,
-    mass: 0.3,
+    mass: 0.25,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall3.png',
   }, // 테니스
   16: {
     color: '#87b9ee',
     size: 35,
     point: 4,
-    mass: 0.3,
+    mass: 0.25,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall4.png',
   }, // 야구
   32: {
     color: '#ec9a8a',
     size: 45,
     point: 5,
-    mass: 0.01,
+    mass: 0.02,
     restitution: 0.7,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall5.png',
   }, // 물놀이
@@ -102,43 +102,42 @@ export const ballConfig = {
     color: '#a8a0f6',
     size: 53,
     point: 6,
-    mass: 0.3,
+    mass: 0.25,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall6.png',
   }, // 핸드볼
   128: {
     color: '#c5c1bb',
     size: 60,
     point: 7,
-    mass: 0.3,
+    mass: 0.25,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall7.png',
   }, // 배구
   256: {
     color: '#fbd5a2',
     size: 65,
     point: 8,
-    mass: 0.3,
-    restitution: 0.7,
+    mass: 0.25,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall8.png',
   }, // 볼링
   512: {
     color: '#ffb8c1',
     size: 72,
     point: 9,
-    mass: 0.3,
+    mass: 0.25,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall9.png',
   }, // 축구
   1024: {
     color: '#9bcf1e',
     size: 80,
     point: 10,
-    mass: 0.3,
+    mass: 0.25,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall10.png',
   }, // 농구
   2048: {
     color: '#33a64b',
     size: 115,
     point: 1000,
-    mass: 0.35,
+    mass: 0.25,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall11.png',
   }, // 골프
 };
@@ -367,12 +366,12 @@ export class BallPoolGameEngine {
       // 바닥: 캔버스 하단 중앙, 전체 너비
       Bodies.rectangle(
         canvasWidth / 2,
-        canvasHeight + groundThickness / 2 - 20,
+        canvasHeight + groundThickness / 2 - 10,
         canvasWidth,
         groundThickness,
         {
           isStatic: true,
-          render: { fillStyle: '#ddd' },
+          render: { fillStyle: '#5f4339' },
           friction: this.config.groundFriction,
           frictionStatic: this.config.groundFriction * 1.2, // 정지마찰 추가
           restitution: 0,
@@ -692,6 +691,9 @@ export class BallPoolGameEngine {
 
     // 파티클 애니메이션 효과
     this.ballPoolEffects.defaultEffect(mergePair.originBall);
+    // this.ballPoolEffects.spiralSmoke(mergePair.originBall);
+    // this.ballPoolEffects.dustExplosion(mergePair.originBall);
+    // this.ballPoolEffects.defaultEffect(mergePair.originBall);
     // this.ballPoolEffects.ringWave(mergePair.originBall)        // 링 웨이브 효과
     // this.ballPoolEffects.sparkBurst(mergePair.originBall);      // 스파크 버스트
     // this.ballPoolEffects.energyConverge(mergePair.originBall);  // 에너지 수렴
@@ -1389,5 +1391,44 @@ export class BallPoolGameEngine {
       this.isDropping = false;
       this.emit('ball-ready');
     }, 10 * 1000);
+  }
+
+  handleResize() {
+    console.log('Handling resize...');
+
+    // 이전 크기 저장
+    const previousSize = { ...this.logicalSize };
+    try {
+      // 1. 캔버스 크기 재조정
+      this.setupCanvas();
+
+      // 2. Matter.js 렌더러 크기 업데이트
+      this.updateRenderSize();
+
+      // 3. 게임 월드 경계 업데이트 (벽 등)
+      this.createWalls();
+    } catch (error) {
+      console.error('Error during resize:', error);
+    }
+  }
+
+  // Matter.js 렌더러 크기 업데이트
+  updateRenderSize() {
+    if (this.render && this.render.options) {
+      // 렌더러 옵션 업데이트
+      this.render.options.width = this.logicalSize.width;
+      this.render.options.height = this.logicalSize.height;
+      this.render.options.pixelRatio = this.logicalSize.dpr;
+
+      // 렌더러 캔버스 정보 업데이트
+      this.render.canvas.width = this.canvas.width;
+      this.render.canvas.height = this.canvas.height;
+
+      // 렌더러 바운드 업데이트
+      if (this.render.bounds) {
+        this.render.bounds.max.x = this.logicalSize.width;
+        this.render.bounds.max.y = this.logicalSize.height;
+      }
+    }
   }
 }

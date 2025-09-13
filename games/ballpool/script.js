@@ -38,6 +38,7 @@ class GameUI {
       nextBalls: [],
     };
 
+    this.resizeTimeout = null;
     this.init();
   }
 
@@ -46,6 +47,7 @@ class GameUI {
     this.bindEvents();
     this.initializeGame();
     this.setupSettingsButtons();
+    this.setupResizeHandler();
   }
 
   setupCanvas() {}
@@ -204,6 +206,40 @@ class GameUI {
       this.gameEngine.reset();
       this.isGameRunning = true;
       console.log('게임이 재시작되었습니다.');
+    }
+  }
+
+  // 리사이즈 이벤트 핸들러 설정
+  setupResizeHandler() {
+    const handleResize = () => {
+      // 디바운싱을 통해 리사이즈 이벤트 최적화
+      clearTimeout(this.resizeTimeout);
+      this.resizeTimeout = setTimeout(() => {
+        this.gameEngine.handleResize();
+      }, 100); // 100ms 지연
+    };
+
+    // 리사이즈 이벤트 등록
+    window.addEventListener('resize', handleResize);
+
+    // 화면 회전 이벤트도 처리 (모바일)
+    window.addEventListener('orientationchange', () => {
+      // 화면 회전 후 약간의 지연 필요
+      setTimeout(() => {
+        this.gameEngine.handleResize();
+      }, 300);
+    });
+
+    // 디바이스 픽셀 비율 변경 감지 (확대/축소 등)
+    if ('matchMedia' in window) {
+      const mediaQuery = window.matchMedia(
+        `(resolution: ${window.devicePixelRatio}dppx)`
+      );
+      mediaQuery.addListener(() => {
+        setTimeout(() => {
+          this.gameEngine.handleResize();
+        }, 100);
+      });
     }
   }
 }
