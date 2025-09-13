@@ -790,22 +790,15 @@ export class BallPoolGameEngine {
         Body.setVelocity(ball, Vector.mult(ball.velocity, scale));
       }
 
-      // 2. 미세한 진동 정지 (핵심 로직)
-      if (velocity < this.config.minVelocityThreshold) {
-        Body.setVelocity(ball, { x: 0, y: 0 });
-        Body.setAngularVelocity(ball, 0);
-      }
-      // 3. 감쇠 적용 (속도 감소)
-      else {
-        Body.setVelocity(
-          ball,
-          Vector.mult(ball.velocity, this.config.dampingFactor)
-        );
-        Body.setAngularVelocity(
-          ball,
-          ball.angularVelocity * (1 - this.config.angularDamping)
-        );
-      }
+      // 2. 감쇠 적용 (속도 감소)
+      Body.setVelocity(
+        ball,
+        Vector.mult(ball.velocity, this.config.dampingFactor)
+      );
+      Body.setAngularVelocity(
+        ball,
+        ball.angularVelocity * (1 - this.config.angularDamping)
+      );
     });
   }
 
