@@ -55,29 +55,53 @@
         </div>
       </div>
 
+      <!-- 게임오버 팝업 -->
+      <div class="settings-popup" id="gamePopup">
+        <div class="settings-content">
+          <div class="settings-header">
+            <h3>알림</h3>
+            <button class="close-btn" id="closeGameBtn">×</button>
+          </div>
+          <div class="settings-buttons">
+            <div
+              id="additionalText"
+              style="
+                white-space: pre-wrap;
+                text-align: left;
+                margin-bottom: 16px;
+              "
+            >
+              <!-- 동적으로 추가될 버튼들 -->
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- 게임 영역 -->
       <main class="game-area">
         <div class="game-board">
           <!-- 캔버스 영역 -->
           <div class="canvas-container">
             <canvas id="gameCanvas"></canvas>
-            <div class="drop-guide" id="dropGuide"></div>
-          </div>
-
-          <!-- 점수 영역 -->
-          <div class="score-area">
-            <div class="score-item">
-              <span class="score-label">점수</span>
-              <span class="score-value" id="scoreValue">0</span>
-            </div>
-            <div class="score-item">
-              <span class="score-label">다음공</span>
-              <img
-                class="score-value"
-                src=""
-                id="nextBall"
-                style="width: 16px; height: 16px"
-              />
+            <!-- 점수 영역 -->
+            <div class="score-area">
+              <div class="score-item">
+                <span class="score-label">최고점수</span>
+                <span class="score-value" id="bestScoreValue">0</span>
+              </div>
+              <div class="score-item">
+                <span class="score-label">점수</span>
+                <span class="score-value" id="scoreValue">0</span>
+              </div>
+              <div class="score-item">
+                <span class="score-label">다음공</span>
+                <img
+                  class="score-value"
+                  src=""
+                  id="nextBall"
+                  style="width: 16px; height: 16px"
+                />
+              </div>
             </div>
           </div>
         </div>

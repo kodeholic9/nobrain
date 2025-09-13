@@ -15,8 +15,11 @@ class GameUI {
       settingsBtn: document.getElementById('settingsBtn'),
       settingsPopup: document.getElementById('settingsPopup'),
       closeSettingsBtn: document.getElementById('closeSettingsBtn'),
+      gamePopup: document.getElementById('gamePopup'),
+      closeGameBtn: document.getElementById('closeGameBtn'),
       gameCanvas: document.getElementById('gameCanvas'),
       dropGuide: document.getElementById('dropGuide'),
+      bestScoreValue: document.getElementById('bestScoreValue'),
       scoreValue: document.getElementById('scoreValue'),
       nextBall: document.getElementById('nextBall'),
 
@@ -26,6 +29,7 @@ class GameUI {
       ballCheckBtn: document.getElementById('ballCheckBtn'),
       autoDropBtn: document.getElementById('autoDropBtn'),
       additionalButtons: document.getElementById('additionalButtons'),
+      additionalText: document.getElementById('additionalText'),
     };
 
     // 설정 상태
@@ -34,6 +38,7 @@ class GameUI {
     };
 
     this.gameState = {
+      bestScore: 0,
       score: 0,
       nextBalls: [],
     };
@@ -48,6 +53,7 @@ class GameUI {
     this.initializeGame();
     this.setupSettingsButtons();
     this.setupResizeHandler();
+    this.loadBestScore();
   }
 
   setupCanvas() {}
@@ -66,6 +72,16 @@ class GameUI {
       if (e.target === this.elements.settingsPopup) {
         this.toggleSettings(false);
       }
+    });
+
+    this.elements.gamePopup.addEventListener('click', (e) => {
+      if (e.target === this.elements.gamePopup) {
+        this.toggleGamePopup(false);
+      }
+    });
+
+    this.elements.closeGameBtn.addEventListener('click', () => {
+      this.toggleGamePopup(false);
     });
 
     // ESC 키로 설정 닫기
@@ -91,6 +107,13 @@ class GameUI {
 
           case 'next-ball-update':
             this.gameState.nextBalls = args;
+            break;
+
+          case 'game-over':
+            const gameState = this.gameEngine.getGameState();
+            this.saveBestScore(gameState.score);
+            this.updateState();
+            this.showGameOverPopup(gameState);
             break;
         }
         this.updateState();
@@ -121,6 +144,14 @@ class GameUI {
       this.elements.settingsPopup.classList.add('active');
     } else {
       this.elements.settingsPopup.classList.remove('active');
+    }
+  }
+
+  toggleGamePopup(show) {
+    if (show) {
+      this.elements.gamePopup.classList.add('active');
+    } else {
+      this.elements.gamePopup.classList.remove('active');
     }
   }
 
@@ -176,6 +207,8 @@ class GameUI {
   updateState() {
     this.elements.scoreValue.textContent =
       this.gameState.score.toLocaleString();
+    this.elements.bestScoreValue.textContent =
+      this.gameState.bestScore.toLocaleString();
     if (this.gameState.nextBalls.length > 0) {
       this.elements.nextBall.src =
         ballConfig[this.gameState.nextBalls[0]].imgPath;
@@ -206,6 +239,53 @@ class GameUI {
       this.gameEngine.reset();
       this.isGameRunning = true;
       console.log('게임이 재시작되었습니다.');
+    }
+  }
+
+  //
+  showGameOverPopup(gameState) {
+    const s = `게임 오버!\n최종 점수: ${gameState.score}\n합성 레벨: ${gameState.highestBallValue}`;
+    this.elements.additionalText.textContent = s;
+    this.toggleGamePopup(true);
+  }
+
+  loadBestScore() {
+    try {
+      const str = localStorage.getItem('ballPoolGameStore');
+      const stored = str ? JSON.parse(str) : {};
+      if (stored) {
+        this.gameState.bestScore = stored.bestScore || 0;
+        console.log(`기존 최고 점수: ${this.gameState.bestScore}`);
+      } else {
+        console.log('저장된 최고 점수가 없습니다.');
+      }
+    } catch (e) {
+      console.error('최고 점수 로드 중 오류 발생:', e);
+    }
+  }
+
+  saveBestScore(score) {
+    const str = localStorage.getItem('ballPoolGameStore');
+    const stored = str ? JSON.parse(str) : {};
+
+    try {
+      if (stored.bestScore && stored.bestScore >= score) {
+        console.log(
+          `현재 점수(${score})가 기존 최고 점수(${stored.bestScore})보다 낮아 저장하지 않습니다.`
+        );
+        return;
+      }
+      localStorage.setItem(
+        'ballPoolGameStore',
+        JSON.stringify({
+          ...stored,
+          bestScore: score,
+        })
+      );
+      this.gameState.bestScore = score;
+    } catch (e) {
+      console.error('최고 점수 저장 중 오류 발생:', e);
+      return;
     }
   }
 

@@ -783,7 +783,7 @@ export class BallPoolGameEngine {
 
     for (const ball of this.balls) {
       const velocity = Vector.magnitude(ball.velocity);
-      const ballTop = ball.position.y - ball.circleRadius;
+      const ballTop = ball.position.y + ball.circleRadius;
 
       // console.log(`checkGameOver() - ballTop: ${ballTop}, velocity: ${velocity}, gameOverLine: ${this.config.gameOverLine}`)
       /*

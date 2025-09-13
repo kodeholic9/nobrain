@@ -51,6 +51,7 @@ body {
   display: flex; /* flexbox 컨테이너로 지정 */
   flex-direction: column; /* 자식 요소들을 세로로 정렬 */
   min-height: 0; /* flex shrink 허용 */
+  align-items: center;
 }
 
 /* 하단 푸터 */
@@ -228,6 +229,7 @@ body {
 }
 
 #gameCanvas {
+  position: absolute;
   display: block;
   width: 100%;
   height: 100%;
@@ -237,6 +239,7 @@ body {
   image-rendering: -o-crisp-edges; /* Opera */
   image-rendering: pixelated; /* Chrome/Edge */
   image-rendering: crisp-edges; /* 표준 */
+  z-index: 10;
 }
 
 /* 드롭 가이드 */
