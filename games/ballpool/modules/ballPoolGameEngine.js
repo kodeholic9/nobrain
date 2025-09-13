@@ -66,14 +66,14 @@ export const ballConfig = {
     color: '#f4a7e4',
     size: 11,
     point: 1,
-    mass: 0.9,
+    mass: 1.0,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall1.png',
   }, // 탁구
   4: {
     color: '#a6e98f',
     size: 20,
     point: 2,
-    mass: 0.2,
+    mass: 0.3,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall2.png',
   }, // 당구
   8: {
@@ -94,7 +94,8 @@ export const ballConfig = {
     color: '#ec9a8a',
     size: 45,
     point: 5,
-    mass: 0.05,
+    mass: 0.01,
+    restitution: 0.7,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall5.png',
   }, // 물놀이
   64: {
@@ -116,6 +117,7 @@ export const ballConfig = {
     size: 65,
     point: 8,
     mass: 0.3,
+    restitution: 0.7,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall8.png',
   }, // 볼링
   512: {
@@ -225,6 +227,13 @@ export class BallPoolGameEngine {
         //config.image.style.imageRendering = 'crisp-edges';
 
         config.image.src = config.imgPath;
+        config.image.onload = () => {
+          console.log(`Ball image loaded: ${key}`, config.imgPath);
+          config.cachedCanvas = this.createCacheOfBallRender(
+            config,
+            this.sizeOfBall(key)
+          );
+        };
       }
     });
   }
@@ -416,7 +425,7 @@ export class BallPoolGameEngine {
     const ball =
       value === 0
         ? this.createEllipse(x, y, radius)
-        : this.createCircle(x, y, radius);
+        : this.createCircle(x, y, radius, bcfg.restitution);
     Body.setMass(ball, bcfg.mass);
 
     console.log('createBall() - id: ', ball.id, value, x, y, hasCollided);
@@ -442,9 +451,9 @@ export class BallPoolGameEngine {
     return ball;
   }
 
-  createCircle(x, y, radius) {
+  createCircle(x, y, radius, restitution = null) {
     return Bodies.circle(x, y, radius, {
-      restitution: this.config.restitution,
+      restitution: restitution || this.config.restitution,
       friction: this.config.ballFriction,
       frictionStatic: this.config.frictionStatic,
       frictionAir: this.config.frictionAir,
@@ -1028,12 +1037,7 @@ export class BallPoolGameEngine {
 
       // 이미지 그리기 (중심점 기준)
       if (!bcfg.cachedCanvas) {
-        bcfg.cachedCanvas = this.createCacheOfBallRender(
-          bcfg,
-          radius,
-          '#000',
-          2
-        );
+        bcfg.cachedCanvas = this.createCacheOfBallRender(bcfg, radius);
       }
       const size = radius * 2;
       ctx.drawImage(bcfg.cachedCanvas, -radius, -radius, size, size);
@@ -1042,10 +1046,9 @@ export class BallPoolGameEngine {
     });
   }
 
-  createCacheOfBallRender(bcfg, radius, strokeColor = '#000', strokeWidth = 2) {
+  createCacheOfBallRender(bcfg, radius, bgColor = '#000', borderWidth = 2) {
     const size = radius * 2;
 
-    // 오프스크린 캔버스 생성
     const offCanvas = document.createElement('canvas');
     offCanvas.width = size * this.logicalSize.dpr;
     offCanvas.height = size * this.logicalSize.dpr;
@@ -1053,15 +1056,21 @@ export class BallPoolGameEngine {
     const offCtx = offCanvas.getContext('2d');
     offCtx.setTransform(this.logicalSize.dpr, 0, 0, this.logicalSize.dpr, 0, 0);
 
-    // 공 이미지 그리기
-    offCtx.drawImage(bcfg.image, 0, 0, size, size);
-
-    // 테두리 stroke (항상 화면에서 2px)
-    offCtx.lineWidth = strokeWidth / this.logicalSize.dpr;
-    offCtx.strokeStyle = strokeColor;
+    // 1. 원 배경 채우기 (테두리 색)
+    offCtx.fillStyle = bgColor;
     offCtx.beginPath();
-    offCtx.arc(radius, radius, radius - 1, 0, Math.PI * 2);
-    offCtx.stroke();
+    offCtx.arc(radius, radius, radius, 0, Math.PI * 2);
+    offCtx.fill();
+
+    // 2. 안쪽에 이미지 그리기 (borderWidth 만큼 줄임)
+    const innerSize = size - borderWidth * 2;
+    offCtx.drawImage(
+      bcfg.image,
+      borderWidth, // x offset
+      borderWidth, // y offset
+      innerSize, // width
+      innerSize // height
+    );
 
     return offCanvas;
   }

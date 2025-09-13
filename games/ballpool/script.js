@@ -126,19 +126,24 @@ class GameUI {
     // 새게임 버튼
     this.elements.newGame.addEventListener('click', () => {
       this.restartGame();
+      this.toggleSettings(false);
     });
 
     // 디버그 버튼
     this.elements.debugBtn.addEventListener('click', () => {
       this.gameSettings.debugMode = !this.gameSettings.debugMode;
       this.applyGameSettings();
+      this.toggleSettings(false);
     });
 
     // 게임설정 버튼
     this.elements.gameSettingsBtn.addEventListener('click', () => {});
 
     // 공 확인 버튼
-    this.elements.ballCheckBtn.addEventListener('click', () => {});
+    this.elements.ballCheckBtn.addEventListener('click', () => {
+      this.gameEngine.dropAllBalls();
+      this.toggleSettings(false);
+    });
 
     // 자동 드롭 버튼
     this.elements.autoDropBtn.addEventListener('click', () => {});

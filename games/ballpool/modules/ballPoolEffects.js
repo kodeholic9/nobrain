@@ -40,7 +40,7 @@ class BallPoolEffects {
     this.audioReady = false;
   }
 
-  initAudio() {
+  initAudios() {
     if (this.audioReady) return;
 
     // 모든 사운드를 무음으로 한번 재생
