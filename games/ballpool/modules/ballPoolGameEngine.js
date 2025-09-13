@@ -352,7 +352,7 @@ export class BallPoolGameEngine {
       // 바닥: 캔버스 하단 중앙, 전체 너비
       Bodies.rectangle(
         canvasWidth / 2,
-        canvasHeight + groundThickness / 2 - 10,
+        canvasHeight + groundThickness / 2 - 20,
         canvasWidth,
         groundThickness,
         {

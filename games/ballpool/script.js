@@ -206,23 +206,6 @@ class GameUI {
 // DOM 로드 완료 후 게임 초기화
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM 로드 완료. 게임 UI를 초기화합니다.');
-  // `screen.orientation`이 지원되는지 확인
-  if (screen.orientation && screen.orientation.lock) {
-    screen.orientation.lock('portrait').catch((error) => {
-      console.warn(
-        'Screen Orientation API가 지원되지 않거나 오류가 발생했습니다.'
-      );
-    });
-  }
-
-  function setViewportHeight() {
-    document.documentElement.style.setProperty(
-      '--vh',
-      `${window.innerHeight * 0.01}px`
-    );
-  }
-  window.addEventListener('resize', setViewportHeight);
-  setViewportHeight();
 
   const gameUI = new GameUI();
   gameUI.restartGame();

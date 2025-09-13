@@ -378,18 +378,3 @@ body {
     max-width: calc(100% - 20px);
   }
 }
-
-/* CSS 코드: 지원되지 않는 환경을 위한 대안 */
-@media only screen and (orientation: landscape) {
-  body {
-    transform: rotate(90deg);
-    transform-origin: left top;
-    width: 100vh;
-    height: 100vw;
-    position: absolute;
-    top: 0;
-    left: 100%;
-    margin: 0;
-    padding: 0;
-  }
-}
