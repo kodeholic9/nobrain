@@ -208,7 +208,9 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('DOM 로드 완료. 게임 UI를 초기화합니다.');
 
   const gameUI = new GameUI();
-  gameUI.restartGame();
+  setTimeout(() => {
+    gameUI.restartGame();
+  }, 500);
 
   console.log('게임 UI가 초기화되었습니다.');
 });

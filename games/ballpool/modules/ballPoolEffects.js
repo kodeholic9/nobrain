@@ -37,6 +37,26 @@ class BallPoolEffects {
     this.sounds = {};
     this.volume = 0.5; // 기본 볼륨
     this.muted = false; // 음소거 상태
+    this.audioReady = false;
+  }
+
+  initAudio() {
+    if (this.audioReady) return;
+
+    // 모든 사운드를 무음으로 한번 재생
+    Object.values(this.sounds).forEach((sound) => {
+      sound.volume = 0;
+      sound
+        .play()
+        .then(() => {
+          sound.pause();
+          sound.currentTime = 0;
+          sound.volume = this.volume;
+        })
+        .catch(() => {});
+    });
+
+    this.audioReady = true;
   }
 
   // 사운드 로드

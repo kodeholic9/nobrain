@@ -66,7 +66,7 @@ export const ballConfig = {
     color: '#f4a7e4',
     size: 11,
     point: 1,
-    mass: 1.5,
+    mass: 0.9,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall1.png',
   }, // 탁구
   4: {
@@ -221,7 +221,7 @@ export class BallPoolGameEngine {
       if (!config.image && config.imgPath) {
         config.image = new Image();
         // 이미지 렌더링 설정 추가
-        //config.image.style.imageRendering = 'pixelated';
+        config.image.style.imageRendering = 'pixelated';
         //config.image.style.imageRendering = 'crisp-edges';
 
         config.image.src = config.imgPath;
@@ -1015,7 +1015,6 @@ export class BallPoolGameEngine {
       const bcfg = ballConfig[ball.ballValue];
       // const radius = bcfg.size * this.config.sizeMultiplier;
       const radius = ball.circleRadius; // Matter.js 실제 반지름 사용
-
       const displayAngle = this.getAdjustDisplayAngle(ball);
 
       ctx.save();
@@ -1289,6 +1288,8 @@ export class BallPoolGameEngine {
     this.emit('game-reset');
     this.emit('score-update', this.score);
     this.emit('next-ball-update', this.nextBalls);
+
+    this.ballPoolEffects.initAudios();
   }
 
   startGame() {
