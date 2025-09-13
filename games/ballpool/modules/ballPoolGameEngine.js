@@ -203,11 +203,17 @@ export class BallPoolGameEngine {
   init() {
     this.setupCanvas();
     this.setupBallConfig();
+    this.setupSounds();
     this.setupEngine();
     this.setupRender();
     this.setupEventListeners();
     this.createWalls();
     this.startGame();
+  }
+
+  setupSounds() {
+    // 효과음 로드
+    this.ballPoolEffects.loadSound('merge', './assets/pop-402324.mp3');
   }
 
   setupBallConfig() {
@@ -682,6 +688,9 @@ export class BallPoolGameEngine {
     // this.ballPoolEffects.energyConverge(mergePair.originBall);  // 에너지 수렴
     // this.ballPoolEffects.spiralSpin(mergePair.originBall);      // 회전 나선
     // this.ballPoolEffects.bubbleRise(mergePair.originBall);      // 떠오르는 기포
+
+    // 효과음 재생
+    this.ballPoolEffects.playSound('merge');
 
     // 원래 공의 값만 변경 (즉시 반영)
     mergePair.originBall.ballValue = mergePair.newValue;

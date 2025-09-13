@@ -33,6 +33,39 @@ class BallPoolEffects {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.activeEffects = new Map();
+
+    this.sounds = {};
+    this.volume = 0.5; // 기본 볼륨
+    this.muted = false; // 음소거 상태
+  }
+
+  // 사운드 로드
+  loadSound(name, path) {
+    this.sounds[name] = new Audio(path);
+    this.sounds[name].volume = this.volume;
+    this.sounds[name].preload = 'auto';
+  }
+
+  // 사운드 재생
+  playSound(name) {
+    if (this.muted || !this.sounds[name]) return;
+
+    // 이미 재생 중이면 처음부터 다시
+    this.sounds[name].currentTime = 0;
+    this.sounds[name].play().catch((e) => console.log('Sound play failed:', e));
+  }
+
+  // 볼륨 설정
+  setVolume(volume) {
+    this.volume = volume;
+    Object.values(this.sounds).forEach((sound) => {
+      sound.volume = volume;
+    });
+  }
+
+  // 음소거
+  toggleMute() {
+    this.muted = !this.muted;
   }
 
   // ========================
