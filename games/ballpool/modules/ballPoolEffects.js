@@ -227,14 +227,14 @@ class BallPoolEffects {
     const effect = {
       id: `energy_${Date.now()}`,
       particles: [],
-      duration: 500,
+      duration: 450,
     };
 
-    const particleCount = Math.floor(size / 2) + 15;
+    const particleCount = Math.floor(size / 2) + 20;
     // const colors = ['#e2e8f0', '#f1f5f9', '#ede9fe', '#ecfdf5'];
     // const glowColor = '#fff';
 
-    // const colors = ['#60A5FA', '#A78BFA', '#F472B6', '#34D399'] // 블루, 보라, 핑크, 민트
+    //const colors = ['#60A5FA', '#A78BFA', '#F472B6', '#34D399']; // 블루, 보라, 핑크, 민트
     // const glowColor = '#A78BFA'
 
     // const colors = ['#FACC15', '#FB923C', '#F43F5E', '#3B82F6']; // 노랑, 오렌지, 레드, 블루
@@ -256,13 +256,32 @@ class BallPoolEffects {
     // const glowColor = '#f8fafc';
 
     // const colors = ['#fafafa', '#f5f5f5', '#e5e5e5', '#d4d4d4'];
-    const glowColor = '#ffffff';
+    //const glowColor = '#ffffff';
 
-    const colors = ['#e6c2a6', '#d9b199', '#cc9f8c', '#bfa58f', '#b3a192'];
+    //const colors = ['#e6c2a6', '#d9b199', '#cc9f8c', '#bfa58f', '#b3a192'];
+
+    //const colors = ['#8B5CF6', '#A855F7', '#C084FC', '#E879F9', '#06B6D4'];
+    //const colors = ['#1E40AF', '#3B82F6', '#06B6D4', '#0891B2', '#164E63'];
+    //const colors = ['#059669', '#10B981', '#34D399', '#6EE7B7', '#5B21B6'];
+    //const colors = ['#7C3AED', '#A855F7', '#EC4899', '#F472B6', '#3B82F6'];
+    //const colors = ['#6366F1', '#8B5CF6', '#EC4899', '#06B6D4', '#10B981'];
+    const colors = [
+      '#64748B',
+      '#94A3B8',
+      '#CBD5E1',
+      '#E2E8F0',
+      '#F1F5F9',
+      '#f9fafb',
+      '#f3f4f6',
+    ];
+    //const colors = ['#6B7280', '#9CA3AF', '#D1D5DB', '#E5E7EB', '#F3F4F6'];
+    //const colors = ['#475569', '#64748B', '#94A3B8', '#CBD5E1', '#F8FAFC'];
+    //const colors = ['#71717A', '#A1A1AA', '#D4D4D8', '#E4E4E7', '#FAFAFA'];
+    //const colors = ['#52525B', '#71717A', '#A1A1AA', '#D4D4D8', '#F4F4F5'];
 
     // 크기에 따른 decay 값 계산
-    const baseDecay = 0.075;
-    const sizeMultiplier = Math.max(0.5, Math.min(2.0, size / 30)); // 크기에 따른 배수
+    const baseDecay = 0.09;
+    const sizeMultiplier = Math.max(0.5, Math.min(2.0, size / 15)); // 크기에 따른 배수
     const adjustedDecay = baseDecay / sizeMultiplier; // 크기가 클수록 decay는 작아짐 (오래 지속)
 
     // 외곽에서 중심으로 수렴하는 파티클
