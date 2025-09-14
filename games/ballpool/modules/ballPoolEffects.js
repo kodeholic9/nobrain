@@ -145,6 +145,228 @@ class BallPoolEffects {
     animate();
   }
 
+  /**
+   * 링 웨이브 효과 (충격파)
+   */
+  ringWave(ball) {
+    const x = ball.position.x;
+    const y = ball.position.y;
+    const size = ball.circleRadius;
+
+    const effect = {
+      id: `ring_${Date.now()}`,
+      particles: [],
+      duration: 300,
+    };
+
+    //const colors = ['#e2e8f0', '#f1f5f9', '#f8fafc']
+    //const colors = ['#A7F3D0', '#BFDBFE', '#DDD6FE']
+    //const colors = ['#FBCFE8', '#FDE68A', '#FCA5A5']
+    //const colors = ['#93C5FD', '#60A5FA', '#818CF8'];
+    const colors = ['#e6c2a6', '#d9b199', '#cc9f8c'];
+
+    for (let i = 0; i < 3; i++) {
+      effect.particles.push({
+        x,
+        y,
+        baseSize: size * 0.5,
+        maxSize: size * (1 + i * 1.5),
+        delay: i * 90, // 시작 간격도 살짝 줄임
+        color: colors[i],
+        lineWidth: 25 - i,
+        startTime: performance.now(),
+      });
+    }
+
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+    const animate = () => {
+      let activeParticles = 0;
+      const now = performance.now();
+
+      effect.particles.forEach((p) => {
+        const elapsed = now - (p.startTime + p.delay);
+        if (elapsed < 0) return;
+
+        const rawProgress = Math.min(elapsed / effect.duration, 1);
+        const progress = easeOutCubic(rawProgress);
+
+        if (rawProgress < 1) {
+          activeParticles++;
+
+          const currentSize = p.baseSize + (p.maxSize - p.baseSize) * progress;
+          const alpha = 1 - rawProgress; // 투명도는 linear로 유지
+
+          // 그리기
+          this.ctx.save();
+          this.ctx.globalAlpha = alpha;
+          this.ctx.strokeStyle = p.color;
+          this.ctx.lineWidth = p.lineWidth;
+          this.ctx.beginPath();
+          this.ctx.arc(p.x, p.y, currentSize, 0, Math.PI * 2);
+          this.ctx.stroke();
+          this.ctx.restore();
+        }
+      });
+
+      if (activeParticles > 0) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
+  }
+
+  /**
+   * 에너지 수렴 효과
+   */
+  energyConverge(ball) {
+    const x = ball.position.x;
+    const y = ball.position.y;
+    const size = ball.circleRadius;
+    const effect = {
+      id: `energy_${Date.now()}`,
+      particles: [],
+      duration: 500,
+    };
+
+    const particleCount = Math.floor(size / 2) + 15;
+    // const colors = ['#e2e8f0', '#f1f5f9', '#ede9fe', '#ecfdf5'];
+    // const glowColor = '#fff';
+
+    // const colors = ['#60A5FA', '#A78BFA', '#F472B6', '#34D399'] // 블루, 보라, 핑크, 민트
+    // const glowColor = '#A78BFA'
+
+    // const colors = ['#FACC15', '#FB923C', '#F43F5E', '#3B82F6']; // 노랑, 오렌지, 레드, 블루
+    // const glowColor = '#FACC15';
+    //
+    // const colors = ['#34D399', '#10B981', '#6EE7B7', '#A7F3D0'] // 그린·민트 계열
+    // const glowColor ='#6EE7B7'
+
+    // const colors = ['#e6c2a6', '#d9b199', '#cc9f8c'];
+    // const glowColor = '#FACC15';
+
+    // const colors = ['#6b7280', '#4b5563', '#374151', '#1f2937'];
+    // const glowColor = '#9ca3af';
+
+    // const colors = ['#f9fafb', '#f3f4f6', '#e5e7eb', '#d1d5db'];
+    // const glowColor = '#ffffff';
+
+    // const colors = ['#f8fafc', '#f1f5f9', '#e2e8f0', '#cbd5e1'];
+    // const glowColor = '#f8fafc';
+
+    // const colors = ['#fafafa', '#f5f5f5', '#e5e5e5', '#d4d4d4'];
+    const glowColor = '#ffffff';
+
+    const colors = ['#e6c2a6', '#d9b199', '#cc9f8c', '#bfa58f', '#b3a192'];
+
+    // 크기에 따른 decay 값 계산
+    const baseDecay = 0.075;
+    const sizeMultiplier = Math.max(0.5, Math.min(2.0, size / 30)); // 크기에 따른 배수
+    const adjustedDecay = baseDecay / sizeMultiplier; // 크기가 클수록 decay는 작아짐 (오래 지속)
+
+    // 외곽에서 중심으로 수렴하는 파티클
+    for (let i = 0; i < particleCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = size * 2 + Math.random() * size;
+
+      effect.particles.push({
+        x: x + Math.cos(angle) * distance,
+        y: y + Math.sin(angle) * distance,
+        targetX: x,
+        targetY: y,
+        life: 1,
+        decay: adjustedDecay,
+        size: 2 + Math.random() * 3,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        type: 'converge',
+        speed: 6 + Math.random() * 3,
+      });
+    }
+
+    // 중심 발광
+    /*effect.particles.push({
+      x,
+      y,
+      life: 1,
+      decay: 0.015,
+      currentSize: 5,
+      maxSize: size * 1.5,
+      color: glowColor,
+      type: 'glow',
+    });*/
+
+    const animate = () => {
+      let activeParticles = 0;
+
+      effect.particles.forEach((particle) => {
+        if (particle.life > 0) {
+          activeParticles++;
+
+          if (particle.type === 'converge') {
+            const dx = particle.targetX - particle.x;
+            const dy = particle.targetY - particle.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance > 5) {
+              particle.x += (dx / distance) * particle.speed;
+              particle.y += (dy / distance) * particle.speed;
+              particle.speed *= 1.02;
+            }
+          } else if (particle.type === 'glow') {
+            particle.currentSize +=
+              (particle.maxSize - particle.currentSize) * 0.05;
+          }
+
+          particle.life -= particle.decay;
+
+          // 그리기
+          this.ctx.save();
+          this.ctx.globalAlpha = particle.life;
+
+          if (particle.type === 'converge') {
+            this.ctx.fillStyle = particle.color;
+            this.ctx.shadowColor = particle.color;
+            this.ctx.shadowBlur = 8;
+            this.ctx.beginPath();
+            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            this.ctx.fill();
+          } else if (particle.type === 'glow') {
+            const gradient = this.ctx.createRadialGradient(
+              particle.x,
+              particle.y,
+              0,
+              particle.x,
+              particle.y,
+              particle.currentSize
+            );
+            gradient.addColorStop(0, particle.color);
+            gradient.addColorStop(1, 'transparent');
+
+            this.ctx.fillStyle = gradient;
+            this.ctx.beginPath();
+            this.ctx.arc(
+              particle.x,
+              particle.y,
+              particle.currentSize,
+              0,
+              Math.PI * 2
+            );
+            this.ctx.fill();
+          }
+
+          this.ctx.restore();
+        }
+      });
+
+      if (activeParticles > 0) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
+  }
+
   // 나선형 연기 소용돌이
   spiralSmoke(ball) {
     const x = ball.position.x;
@@ -232,78 +454,6 @@ class BallPoolEffects {
           this.ctx.beginPath();
           this.ctx.arc(currentX, currentY, currentSize, 0, Math.PI * 2);
           this.ctx.fill();
-          this.ctx.restore();
-        }
-      });
-
-      if (activeParticles > 0) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    animate();
-  }
-
-  /**
-   * 링 웨이브 효과 (충격파)
-   */
-  ringWave(ball) {
-    const x = ball.position.x;
-    const y = ball.position.y;
-    const size = ball.circleRadius;
-
-    const effect = {
-      id: `ring_${Date.now()}`,
-      particles: [],
-      duration: 800,
-    };
-
-    //const colors = ['#e2e8f0', '#f1f5f9', '#f8fafc']
-    //const colors = ['#A7F3D0', '#BFDBFE', '#DDD6FE']
-    //const colors = ['#FBCFE8', '#FDE68A', '#FCA5A5']
-    //const colors = ['#93C5FD', '#60A5FA', '#818CF8'];
-    const colors = ['#e6c2a6', '#d9b199', '#cc9f8c'];
-
-    for (let i = 0; i < 3; i++) {
-      effect.particles.push({
-        x,
-        y,
-        baseSize: size * 0.5,
-        maxSize: size * (3 + i * 1.5),
-        delay: i * 120, // 시작 간격도 살짝 줄임
-        color: colors[i],
-        lineWidth: 4 - i,
-        startTime: performance.now(),
-      });
-    }
-
-    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
-
-    const animate = () => {
-      let activeParticles = 0;
-      const now = performance.now();
-
-      effect.particles.forEach((p) => {
-        const elapsed = now - (p.startTime + p.delay);
-        if (elapsed < 0) return;
-
-        const rawProgress = Math.min(elapsed / effect.duration, 1);
-        const progress = easeOutCubic(rawProgress);
-
-        if (rawProgress < 1) {
-          activeParticles++;
-
-          const currentSize = p.baseSize + (p.maxSize - p.baseSize) * progress;
-          const alpha = 1 - rawProgress; // 투명도는 linear로 유지
-
-          // 그리기
-          this.ctx.save();
-          this.ctx.globalAlpha = alpha;
-          this.ctx.strokeStyle = p.color;
-          this.ctx.lineWidth = p.lineWidth;
-          this.ctx.beginPath();
-          this.ctx.arc(p.x, p.y, currentSize, 0, Math.PI * 2);
-          this.ctx.stroke();
           this.ctx.restore();
         }
       });
@@ -464,149 +614,6 @@ class BallPoolEffects {
           this.ctx.beginPath();
           this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
           this.ctx.fill();
-          this.ctx.restore();
-        }
-      });
-
-      if (activeParticles > 0) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    animate();
-  }
-
-  /**
-   * 에너지 수렴 효과
-   */
-  energyConverge(ball) {
-    const x = ball.position.x;
-    const y = ball.position.y;
-    const size = ball.circleRadius;
-    const effect = {
-      id: `energy_${Date.now()}`,
-      particles: [],
-      duration: 800,
-    };
-
-    const particleCount = Math.floor(size / 2) + 15;
-    // const colors = ['#e2e8f0', '#f1f5f9', '#ede9fe', '#ecfdf5'];
-    // const glowColor = '#fff';
-
-    // const colors = ['#60A5FA', '#A78BFA', '#F472B6', '#34D399'] // 블루, 보라, 핑크, 민트
-    // const glowColor = '#A78BFA'
-
-    // const colors = ['#FACC15', '#FB923C', '#F43F5E', '#3B82F6']; // 노랑, 오렌지, 레드, 블루
-    // const glowColor = '#FACC15';
-    //
-    // const colors = ['#34D399', '#10B981', '#6EE7B7', '#A7F3D0'] // 그린·민트 계열
-    // const glowColor ='#6EE7B7'
-
-    // const colors = ['#e6c2a6', '#d9b199', '#cc9f8c'];
-    // const glowColor = '#FACC15';
-
-    // const colors = ['#6b7280', '#4b5563', '#374151', '#1f2937'];
-    // const glowColor = '#9ca3af';
-
-    // const colors = ['#f9fafb', '#f3f4f6', '#e5e7eb', '#d1d5db'];
-    // const glowColor = '#ffffff';
-
-    // const colors = ['#f8fafc', '#f1f5f9', '#e2e8f0', '#cbd5e1'];
-    // const glowColor = '#f8fafc';
-
-    const colors = ['#fafafa', '#f5f5f5', '#e5e5e5', '#d4d4d4'];
-    const glowColor = '#ffffff';
-
-    // 외곽에서 중심으로 수렴하는 파티클
-    for (let i = 0; i < particleCount; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const distance = size * 2 + Math.random() * size;
-
-      effect.particles.push({
-        x: x + Math.cos(angle) * distance,
-        y: y + Math.sin(angle) * distance,
-        targetX: x,
-        targetY: y,
-        life: 1,
-        decay: 0.012,
-        size: 2 + Math.random() * 3,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        type: 'converge',
-        speed: 6 + Math.random() * 4,
-      });
-    }
-
-    // 중심 발광
-    /*effect.particles.push({
-      x,
-      y,
-      life: 1,
-      decay: 0.015,
-      currentSize: 5,
-      maxSize: size * 1.5,
-      color: glowColor,
-      type: 'glow',
-    });*/
-
-    const animate = () => {
-      let activeParticles = 0;
-
-      effect.particles.forEach((particle) => {
-        if (particle.life > 0) {
-          activeParticles++;
-
-          if (particle.type === 'converge') {
-            const dx = particle.targetX - particle.x;
-            const dy = particle.targetY - particle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance > 5) {
-              particle.x += (dx / distance) * particle.speed;
-              particle.y += (dy / distance) * particle.speed;
-              particle.speed *= 1.02;
-            }
-          } else if (particle.type === 'glow') {
-            particle.currentSize +=
-              (particle.maxSize - particle.currentSize) * 0.05;
-          }
-
-          particle.life -= particle.decay;
-
-          // 그리기
-          this.ctx.save();
-          this.ctx.globalAlpha = particle.life;
-
-          if (particle.type === 'converge') {
-            this.ctx.fillStyle = particle.color;
-            this.ctx.shadowColor = particle.color;
-            this.ctx.shadowBlur = 8;
-            this.ctx.beginPath();
-            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-            this.ctx.fill();
-          } else if (particle.type === 'glow') {
-            const gradient = this.ctx.createRadialGradient(
-              particle.x,
-              particle.y,
-              0,
-              particle.x,
-              particle.y,
-              particle.currentSize
-            );
-            gradient.addColorStop(0, particle.color);
-            gradient.addColorStop(1, 'transparent');
-
-            this.ctx.fillStyle = gradient;
-            this.ctx.beginPath();
-            this.ctx.arc(
-              particle.x,
-              particle.y,
-              particle.currentSize,
-              0,
-              Math.PI * 2
-            );
-            this.ctx.fill();
-          }
-
           this.ctx.restore();
         }
       });

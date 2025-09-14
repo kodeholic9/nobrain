@@ -52,7 +52,7 @@ class GameUI {
     this.bindEvents();
     this.initializeGame();
     this.setupSettingsButtons();
-    this.setupResizeHandler();
+    // this.setupResizeHandler();
     this.loadBestScore();
   }
 
@@ -74,11 +74,11 @@ class GameUI {
       }
     });
 
-    this.elements.gamePopup.addEventListener('click', (e) => {
+    /*this.elements.gamePopup.addEventListener('click', (e) => {
       if (e.target === this.elements.gamePopup) {
         this.toggleGamePopup(false);
       }
-    });
+    });*/
 
     this.elements.closeGameBtn.addEventListener('click', () => {
       this.toggleGamePopup(false);
@@ -303,12 +303,13 @@ class GameUI {
     window.addEventListener('resize', handleResize);
 
     // 화면 회전 이벤트도 처리 (모바일)
+    /*
     window.addEventListener('orientationchange', () => {
       // 화면 회전 후 약간의 지연 필요
       setTimeout(() => {
         this.gameEngine.handleResize();
       }, 300);
-    });
+    }); */
 
     // 디바이스 픽셀 비율 변경 감지 (확대/축소 등)
     if ('matchMedia' in window) {

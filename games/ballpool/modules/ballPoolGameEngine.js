@@ -690,7 +690,7 @@ export class BallPoolGameEngine {
     this.removeBall(mergePair.targetBall);
 
     // 파티클 애니메이션 효과
-    this.ballPoolEffects.defaultEffect(mergePair.originBall);
+    this.ballPoolEffects.energyConverge(mergePair.originBall);
     // this.ballPoolEffects.spiralSmoke(mergePair.originBall);
     // this.ballPoolEffects.dustExplosion(mergePair.originBall);
     // this.ballPoolEffects.defaultEffect(mergePair.originBall);
