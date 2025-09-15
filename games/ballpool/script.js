@@ -17,11 +17,13 @@ class GameUI {
       closeSettingsBtn: document.getElementById('closeSettingsBtn'),
       gamePopup: document.getElementById('gamePopup'),
       closeGameBtn: document.getElementById('closeGameBtn'),
+      canvasContainer: document.getElementById('canvasContainer'),
       gameCanvas: document.getElementById('gameCanvas'),
       dropGuide: document.getElementById('dropGuide'),
       bestScoreValue: document.getElementById('bestScoreValue'),
       scoreValue: document.getElementById('scoreValue'),
       nextBall: document.getElementById('nextBall'),
+      dropZone: document.getElementById('dropZone'),
 
       newGame: document.getElementById('newGame'),
       debugBtn: document.getElementById('debugBtn'),
@@ -35,12 +37,17 @@ class GameUI {
     // 설정 상태
     this.gameSettings = {
       debugMode: false,
+      gameOverLine: 120,
+      dropYPos: 80,
     };
 
     this.gameState = {
       bestScore: 0,
       score: 0,
       nextBalls: [],
+      showDropZone: false,
+      dropX: 0,
+      containerSize: { width: 0, height: 0 },
     };
 
     this.resizeTimeout = null;
@@ -56,7 +63,13 @@ class GameUI {
     this.loadBestScore();
   }
 
-  setupCanvas() {}
+  setupCanvas() {
+    const container = this.elements.canvasContainer;
+    this.containerSize = {
+      width: container.clientWidth,
+      height: container.clientHeight,
+    };
+  }
 
   bindEvents() {
     // 설정 팝업 이벤트
@@ -98,15 +111,49 @@ class GameUI {
         this.elements.gameCanvas,
         this.gameSettings
       );
+
+      // 게임 엔진 이벤트 리스너 등록
       this.gameEngine.on((action, args) => {
         console.log('게임 이벤트:', action, args);
         switch (action) {
+          case 'game-reset':
+            this.gameState.score = 0;
+            this.updateState();
+
+            // 다음공의 위치 조정
+            this.gameState.dropX = this.containerSize.width / 2;
+            this.gameState.showDropZone = true;
+            this.updateDropZone();
+            break;
+
           case 'score-update':
             this.gameState.score = args;
+            this.gameState.bestScore = Math.max(
+              this.gameState.bestScore,
+              this.gameState.score
+            );
+            this.updateState();
             break;
 
           case 'next-ball-update':
             this.gameState.nextBalls = args;
+            this.updateState();
+            this.updateDropZone();
+            break;
+
+          case 'drop-zone-update':
+            this.gameState.dropX = args;
+            this.updateDropZone();
+            break;
+
+          case 'ball-dropped':
+            this.gameState.showDropZone = false;
+            this.updateDropZone();
+            break;
+
+          case 'ball-ready':
+            this.gameState.showDropZone = true;
+            this.updateDropZone();
             break;
 
           case 'game-over':
@@ -116,10 +163,8 @@ class GameUI {
             this.showGameOverPopup(gameState);
             break;
         }
-        this.updateState();
       });
 
-      // 게임 엔진 이벤트 리스너 등록
       this.isGameRunning = true;
       console.log('게임 엔진이 초기화되었습니다.');
     } catch (error) {
@@ -209,10 +254,44 @@ class GameUI {
       this.gameState.score.toLocaleString();
     this.elements.bestScoreValue.textContent =
       this.gameState.bestScore.toLocaleString();
-    if (this.gameState.nextBalls.length > 0) {
+    if (this.gameState.nextBalls.length >= 2) {
       this.elements.nextBall.src =
-        ballConfig[this.gameState.nextBalls[0]].imgPath;
+        ballConfig[this.gameState.nextBalls[1]].imgPath;
     }
+  }
+
+  updateDropZone() {
+    if (!this.gameEngine || !this.gameState.nextBalls[0]) {
+      return;
+    }
+
+    if (!this.gameState.showDropZone) {
+      this.elements.dropZone.style.display = 'none';
+      return;
+    }
+
+    const bcfg = ballConfig[this.gameState.nextBalls[0]];
+    const size = this.gameEngine.sizeOfBall(this.gameState.nextBalls[0]);
+
+    const minX = size;
+    const maxX = this.containerSize.width - size;
+    const left = Math.max(minX, Math.min(maxX, this.gameState.dropX));
+
+    const borderWidth = 2;
+    const outerSize = size * 2;
+    const innerSize = outerSize - borderWidth * 2;
+
+    // css를 갱신한다.
+    this.elements.dropZone.style.display = 'flex';
+    this.elements.dropZone.style.top = this.gameSettings.dropYPos + 'px';
+    this.elements.dropZone.style.left = left + 'px';
+    this.elements.dropZone.style.width = outerSize + 'px';
+    this.elements.dropZone.style.height = outerSize + 'px';
+    this.elements.dropZone.style.backgroundColor = '#000';
+    this.elements.dropZone.style.backgroundImage = `url(${bcfg.imgPath})`;
+    this.elements.dropZone.style.backgroundSize = `${innerSize}px ${innerSize}px`;
+    this.elements.dropZone.style.backgroundPosition = 'center';
+    this.elements.dropZone.style.backgroundRepeat = 'no-repeat';
   }
 
   applyGameSettings() {

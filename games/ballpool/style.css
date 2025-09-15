@@ -242,6 +242,22 @@ body {
   z-index: 10;
 }
 
+.drop-zone {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+
+  /* dropX로 이동 부드럽게 */
+  transition: left 0.1s ease-out;
+
+  /* 등장 애니메이션 */
+  animation: scaleIn 0.3s ease-out;
+}
+
 /* 드롭 가이드 */
 .drop-guide {
   position: absolute;

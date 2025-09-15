@@ -501,10 +501,17 @@ export class BallPoolGameEngine {
 
   updateDropZone(event) {
     if (this.gameOver) return;
+
+    // 다음 공의 크기를 가져옴. 없으면 0으로 설정.
+    const ballSize = this.nextBalls[0] ? ballConfig[this.nextBalls[0]].size : 0;
+
+    // 공의 반지름을 기준으로 최소, 최대 드랍 위치를 계산
+    const minX = ballSize;
+    const maxX = this.logicalSize.width - ballSize;
+
     const rect = this.canvas.getBoundingClientRect();
     this.dropX = event.clientX - rect.left;
-    //    this.dropX = Math.max(0, Math.min(this.canvas.width, this.dropX));
-    this.dropX = Math.max(0, Math.min(this.logicalSize.width, this.dropX));
+    this.dropX = Math.max(minX, Math.min(maxX, this.dropX));
     this.emit('drop-zone-update', this.dropX);
   }
 
