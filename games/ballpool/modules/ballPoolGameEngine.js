@@ -21,7 +21,7 @@ const defaultGameConfig = {
   // 기본 물리 속성
   gravity: 1.1,
   restitution: 0.2,
-  ballFriction: 0.01,
+  ballFriction: 0.25,
   wallFriction: 0,
   groundFriction: 0.1,
   frictionAir: 0.01,
@@ -51,13 +51,12 @@ const defaultGameConfig = {
 
   // 게임 설정
   sizeMultiplier: 1,
-  wallThickness: 20,
+  wallThickness: 50,
   groundThickness: 50,
   gameOverLine: 120,
   dropYPos: 80,
   debugMode: false,
-  dropTimeo: 200,
-  difficulty: 2,
+  dropTimeo: 500,
 };
 
 // 숫자별 색상과 크기 설정
@@ -66,35 +65,35 @@ export const ballConfig = {
     color: '#f4a7e4',
     size: 11,
     point: 1,
-    mass: 1.0,
+    mass: 4.5,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall1.png',
   }, // 탁구
   4: {
     color: '#a6e98f',
     size: 20,
     point: 2,
-    mass: 0.5,
+    mass: 1,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall2.png',
   }, // 당구
   8: {
     color: '#6ce2e2',
     size: 30,
     point: 3,
-    mass: 0.25,
+    mass: 1,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall3.png',
   }, // 테니스
   16: {
     color: '#87b9ee',
     size: 35,
     point: 4,
-    mass: 0.25,
+    mass: 1,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall4.png',
   }, // 야구
   32: {
     color: '#ec9a8a',
     size: 45,
     point: 5,
-    mass: 0.02,
+    mass: 0.5,
     restitution: 0.7,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall5.png',
   }, // 물놀이
@@ -102,42 +101,42 @@ export const ballConfig = {
     color: '#a8a0f6',
     size: 53,
     point: 6,
-    mass: 0.25,
+    mass: 1,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall6.png',
   }, // 핸드볼
   128: {
     color: '#c5c1bb',
     size: 60,
     point: 7,
-    mass: 0.25,
+    mass: 1,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall7.png',
   }, // 배구
   256: {
     color: '#fbd5a2',
     size: 65,
     point: 8,
-    mass: 0.25,
+    mass: 1,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall8.png',
   }, // 볼링
   512: {
     color: '#ffb8c1',
     size: 72,
     point: 9,
-    mass: 0.25,
+    mass: 1,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall9.png',
   }, // 축구
   1024: {
     color: '#9bcf1e',
     size: 80,
     point: 10,
-    mass: 0.25,
+    mass: 1,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall10.png',
   }, // 농구
   2048: {
     color: '#33a64b',
     size: 115,
     point: 1000,
-    mass: 0.25,
+    mass: 1,
     imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall11.png',
   }, // 골프
 };
@@ -176,6 +175,9 @@ export class BallPoolGameEngine {
 
     // 게임 이펙트
     this.ballPoolEffects = new BallPoolEffects(this.canvas, ballConfig);
+
+    // 게임 오버 검사기
+    this.gameOverChecker = null;
 
     // 바인드된 함수들을 미리 저장
     this.boundHandlePointerDown = this.handlePointerDown.bind(this);
@@ -574,39 +576,8 @@ export class BallPoolGameEngine {
     const rand = Math.random();
     const ballValues =
       this.highestBallValue >= 32 ? [32, 16, 8, 4, 2] : [16, 8, 4, 2];
-    const randomValue = Math.random();
-    let selectedValue = null;
-
-    switch (this.config.difficulty) {
-      case 1:
-        if (
-          this.lastBallValue &&
-          randomValue < 0.6 &&
-          this.consecutiveCount <= 2
-        ) {
-          selectedValue = this.lastBallValue;
-        } else {
-          selectedValue = this.selectStrategicBall(ballValues);
-          console.log('selectedValue: ', selectedValue);
-        }
-        break;
-
-      case 2:
-        if (
-          this.lastBallValue &&
-          randomValue < 0.5 &&
-          this.consecutiveCount <= 2
-        ) {
-          selectedValue = this.lastBallValue;
-        }
-        break;
-
-      case 3:
-        break;
-    }
-    if (!selectedValue) {
-      selectedValue = ballValues[Math.floor(randomValue * ballValues.length)];
-    }
+    const selectedValue =
+      ballValues[Math.floor(Math.random() * ballValues.length)];
 
     // 연속 카운트 업데이트
     if (selectedValue === this.lastBallValue) {
@@ -693,25 +664,17 @@ export class BallPoolGameEngine {
       `mergeBalls() - originBall: ${mergePair.originBall.id}, targetBall: ${mergePair.targetBall.id}, newValue: ${mergePair.newValue}`
     );
 
-    // 바닥공 제거
-    this.removeBall(mergePair.targetBall);
-
     // 파티클 애니메이션 효과
-    this.ballPoolEffects.energyConverge(mergePair.originBall);
-    // this.ballPoolEffects.spiralSmoke(mergePair.originBall);
-    // this.ballPoolEffects.dustExplosion(mergePair.originBall);
-    // this.ballPoolEffects.defaultEffect(mergePair.originBall);
-    // this.ballPoolEffects.ringWave(mergePair.originBall)        // 링 웨이브 효과
-    // this.ballPoolEffects.sparkBurst(mergePair.originBall);      // 스파크 버스트
-    // this.ballPoolEffects.energyConverge(mergePair.originBall);  // 에너지 수렴
-    // this.ballPoolEffects.spiralSpin(mergePair.originBall);      // 회전 나선
-    // this.ballPoolEffects.bubbleRise(mergePair.originBall);      // 떠오르는 기포
+    this.ballPoolEffects.fadeAndShrink(mergePair.originBall);
+
+    // 바닥공 제거
+    this.removeBall(mergePair.originBall);
 
     // 효과음 재생
     this.ballPoolEffects.playSound('merge');
 
     // 원래 공의 값만 변경 (즉시 반영)
-    mergePair.originBall.ballValue = mergePair.newValue;
+    mergePair.targetBall.ballValue = mergePair.newValue;
 
     // 점수 갱신 및 이벤트 발생
     this.score += ballConfig[mergePair.newValue].point;
@@ -721,32 +684,32 @@ export class BallPoolGameEngine {
     // 시간 지연을 두고 새 공 생성 (애니메이션 효과를 위해)
     setTimeout(() => {
       // 혹시 이미 제거된 공이면 중단
-      if (!this.balls.includes(mergePair.originBall)) {
-        console.log('이미 제거된 공입니다.', mergePair.originBall.id);
+      if (!this.balls.includes(mergePair.targetBall)) {
+        console.log('이미 제거된 공입니다.', mergePair.targetBall.id);
         return;
       }
 
       // 위치 및 속도 계산
-      const newPos = { ...mergePair.originBall.position };
-      const newVelocity = { ...mergePair.originBall.velocity };
+      const newPos = { ...mergePair.targetBall.position };
+      const newVelocity = { ...mergePair.targetBall.velocity };
       // 원래 공 제거
-      this.removeBall(mergePair.originBall);
+      this.removeBall(mergePair.targetBall);
 
       // 새 공 생성
       const finalValue = Math.max(
         mergePair.newValue,
-        mergePair.originBall.ballValue
+        mergePair.targetBall.ballValue
       );
       if (finalValue === 2048) {
         this.emit('hit-the-ball', finalValue);
       }
       const newBall = this.createBall(finalValue, newPos.x, newPos.y, true);
 
-      // 공 생성 효과
-      // this.ballPoolEffects.energyConverge(newBall);
-
       // 원래 공의 속도 및 방향 유지
       Body.setVelocity(newBall, newVelocity);
+
+      // 파티클 애니메이션 효과
+      this.ballPoolEffects.fadeAndShrink(newBall);
     }, 50);
   }
 
@@ -780,7 +743,8 @@ export class BallPoolGameEngine {
   }
 
   handleAfterUpdate() {
-    this.checkGameOver();
+    //this.checkGameOver();
+    if (this.gameOverChecker) this.gameOverChecker.update();
     this.cleanupMicroVelocities();
     this.limitVelocities();
   }
@@ -974,53 +938,48 @@ export class BallPoolGameEngine {
     });
   }
 
-  getAdjustDisplayAngle2(ball) {
-    if (!ball) return;
+  getHybridDisplayAngle(ball) {
+    if (!ball) return 0;
+
+    // 초기화
     if (!ball.rolling) {
       ball.rolling = {
         prevX: ball.position.x,
         prevY: ball.position.y,
-        displayAngle: 0,
+        displayAngle: ball.angle, // 초기값은 엔진 angle
       };
     }
-    const rolling = ball.rolling;
-    const velocity = ball.velocity;
 
-    // 속도 기반 회전 계산
-    const angularVelocity = velocity.x / ball.circleRadius; // x축 속도를 기반으로 한 각속도
-    // 미세한 움직임을 무시하는 임계값 설정
-    const speedThreshold = 0.05; // 필요에 따라 이 값을 조절하세요.
-    if (
-      Math.abs(velocity.x) > speedThreshold ||
-      Math.abs(velocity.y) > speedThreshold
-    ) {
-      // 회전 각도 누적 (y축 방향 회전은 반대 방향으로 적용)
-      rolling.displayAngle += angularVelocity;
-    }
-    return rolling.displayAngle;
-  }
-
-  getAdjustDisplayAngle(ball) {
-    if (!ball) return;
-    if (!ball.rolling) {
-      ball.rolling = {
-        prevX: ball.position.x,
-        prevY: ball.position.y,
-        displayAngle: 0,
-      };
-    }
     const rolling = ball.rolling;
+
+    // 이동 벡터
     const deltaX = ball.position.x - rolling.prevX;
     const deltaY = ball.position.y - rolling.prevY;
     const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-    if (distance > 0.1) {
+    // 이동 거리 기반 각도 증가량
+    let distanceAngle = rolling.displayAngle;
+    if (distance > 0.01) {
       const rollAngle = distance / ball.circleRadius;
-      const rotationDirection = deltaX < 0 ? -1 : 1;
-      rolling.displayAngle += rollAngle * rotationDirection;
+      const moveAngle = Math.atan2(deltaY, deltaX);
+
+      // 이동 방향의 X축 투영을 이용해 회전 방향 잡기
+      const rotationDirection = Math.sign(Math.cos(moveAngle));
+      distanceAngle += rollAngle * rotationDirection;
+
       rolling.prevX = ball.position.x;
       rolling.prevY = ball.position.y;
     }
+
+    // 속도 크기
+    const speed = Math.sqrt(ball.velocity.x ** 2 + ball.velocity.y ** 2);
+
+    // 혼합 비율 (0=엔진 angle, 1=distance 기반)
+    // 속도가 빠르고 마찰이 클수록 distance 기반을 더 신뢰
+    const weight = Math.min(1, (speed / 10) * ball.friction);
+
+    // 보간(lerp)
+    rolling.displayAngle = ball.angle * (1 - weight) + distanceAngle * weight;
 
     return rolling.displayAngle;
   }
@@ -1033,7 +992,7 @@ export class BallPoolGameEngine {
       const bcfg = ballConfig[ball.ballValue];
       // const radius = bcfg.size * this.config.sizeMultiplier;
       const radius = ball.circleRadius; // Matter.js 실제 반지름 사용
-      const displayAngle = this.getAdjustDisplayAngle(ball);
+      const displayAngle = this.getHybridDisplayAngle(ball);
 
       ctx.save();
       ctx.translate(pos.x, pos.y);
@@ -1224,6 +1183,10 @@ export class BallPoolGameEngine {
 
     // 벽 두께가 변경된 경우 벽 재생성
     this.createWalls();
+
+    // 게임 오버 검사기 재시작
+    this.stopGameOverChecker();
+    this.startGameOverChecker();
   }
 
   // 위치 기반으로 볼 찾기
@@ -1308,6 +1271,8 @@ export class BallPoolGameEngine {
     this.emit('next-ball-update', this.nextBalls);
 
     this.ballPoolEffects.initAudios();
+
+    this.startGameOverChecker();
   }
 
   startGame() {
@@ -1324,6 +1289,8 @@ export class BallPoolGameEngine {
     });
     this.playTimeInfo.endAt = new Date();
 
+    // 게임 오버 체크 중단
+    this.stopGameOverChecker();
     if (emitFlag) {
       this.emit('game-over', this.getGameState());
     }
@@ -1437,5 +1404,264 @@ export class BallPoolGameEngine {
         this.render.bounds.max.y = this.logicalSize.height;
       }
     }
+  }
+
+  startGameOverChecker() {
+    this.gameOverChecker = new GameOverChecker({
+      engine: this.engine,
+      balls: this.balls,
+      gameOverLine: this.config.gameOverLine,
+      checkInterval: 650, // 체크 간격
+      connectedThreshold: 8, // 최대 연결 갯수
+      onGameOver: () => this.stopGame(),
+    });
+    this.gameOverChecker.start();
+  }
+
+  stopGameOverChecker() {
+    if (this.gameOverChecker) {
+      this.gameOverChecker.stop();
+      this.gameOverChecker = null;
+    }
+  }
+}
+
+/**
+ * 게임 오버 여부를 체크한다
+ */
+class GameOverChecker {
+  constructor(config) {
+    this.engine = config.engine;
+    this.balls = config.balls;
+    this.gameOverLine = config.gameOverLine;
+    this.onGameOver = config.onGameOver;
+    this.connectedThreshold = config.connectedThreshold || 10; // 기본값 10개
+
+    // 체크 주기 설정
+    this.checkInterval = config.checkInterval || 300; // ms
+    this.lastCheckTime = 0;
+
+    // 게임오버 후보들 (2단계 검증용)
+    this.gameOverCandidates = new Set();
+
+    this.isRunning = false;
+  }
+
+  start() {
+    this.isRunning = true;
+    this.lastCheckTime = Date.now();
+  }
+
+  stop() {
+    this.isRunning = false;
+    this.gameOverCandidates.clear();
+  }
+
+  // 메인 체크 함수 (주기적으로 호출)
+  update() {
+    if (!this.isRunning) return;
+
+    const now = Date.now();
+    if (now - this.lastCheckTime < this.checkInterval) return;
+
+    this.lastCheckTime = now;
+    this.checkGameOverState();
+  }
+
+  overLineOfBall(ball) {
+    return ball.position.y;
+  }
+
+  checkGameOverState() {
+    try {
+      // 1. 기본 조건 만족하는 공들 필터링
+      const eligibleBalls = this.getEligibleBalls();
+      if (eligibleBalls.length === 0) {
+        this.gameOverCandidates.clear();
+        return;
+      }
+      console.log(
+        'GameOverChecker::checkGameOverState() - eligibleBalls: ',
+        Array.from(eligibleBalls).map((ball) => this.debugBall(ball))
+      );
+
+      // 2. 현재 모든 활성 충돌 가져오기
+      const activeContacts = this.getAllActiveContacts();
+
+      // 3. 접점 그래프 구성
+      const contactGraph = this.buildContactGraph(activeContacts);
+
+      // 4. 조건 만족하는 공들의 접점 체인 탐색
+      const violatingBalls = this.findViolatingBalls(
+        eligibleBalls,
+        contactGraph
+      );
+
+      // 5. 게임오버 처리
+      if (violatingBalls.size > 0) {
+        console.log(
+          `GameOverChecker::Game Over candidates: ${violatingBalls.size} balls.`
+        );
+        console.log(
+          'GameOverChecker::Candidate details:',
+          Array.from(violatingBalls).map((ball) => this.debugBall(ball))
+        );
+        this.onGameOver();
+      }
+      // 5. 2단계 검증 처리
+      // this.processViolatingBalls(violatingBalls);
+    } catch (error) {
+      console.error('GameOverChecker error:', error);
+    }
+  }
+
+  // 기본 조건 만족하는 공들 찾기 (게임오버라인 넘음)
+  getEligibleBalls() {
+    return this.balls.filter((ball) => {
+      /*
+        0.01 = 거의 정지 (0.6 픽셀/초)
+        0.1  = 매우 느림 (6 픽셀/초)
+        1.0  = 느림 (60 픽셀/초)
+        5.0  = 보통 (300 픽셀/초)
+        10.0 = 빠름 (600 픽셀/초)
+       */
+      const velocity = Vector.magnitude(ball.velocity);
+      const velocityThreshold = 0.5; // 30px /초
+      return (
+        this.overLineOfBall(ball) < this.gameOverLine &&
+        velocity < velocityThreshold
+      );
+    });
+  }
+
+  // Matter.js에서 모든 활성 접점 가져오기
+  getAllActiveContacts() {
+    return this.engine.pairs.list.filter((pair) => pair.isActive);
+  }
+
+  // 공들 간의 접점 관계 그래프 구성
+  buildContactGraph(contacts) {
+    const graph = new Map();
+
+    // 모든 공 초기화
+    this.balls.forEach((ball) => {
+      graph.set(ball, new Set());
+    });
+
+    // 접점 관계 추가 (공끼리만)
+    contacts.forEach((pair) => {
+      const ballA = this.balls.find((ball) => ball === pair.bodyA);
+      const ballB = this.balls.find((ball) => ball === pair.bodyB);
+
+      if (ballA && ballB) {
+        graph.get(ballA).add(ballB);
+        graph.get(ballB).add(ballA);
+      }
+    });
+
+    return graph;
+  }
+
+  // 조건 만족 공들의 접점 체인 탐색하여 위반자 찾기
+  findViolatingBalls(eligibleBalls, contactGraph) {
+    const violatingBalls = new Set();
+
+    eligibleBalls.forEach((ball) => {
+      // 각 조건 만족 공으로부터 연결된 모든 공 탐색
+      const connectedBalls = this.getConnectedBallsWithDepth(
+        ball,
+        contactGraph
+      );
+      if (connectedBalls.size >= this.connectedThreshold) {
+        violatingBalls.add(ball);
+      }
+    });
+
+    return violatingBalls;
+  }
+
+  // BFS로 지정된 깊이까지 연결된 공들 찾기
+  getConnectedBallsWithDepth(startBall, contactGraph) {
+    const visited = new Set();
+    const result = new Set();
+    const queue = [startBall];
+
+    while (queue.length > 0) {
+      const currentBall = queue.shift();
+      if (visited.has(currentBall)) {
+        continue;
+      }
+      visited.add(currentBall);
+
+      if (currentBall != startBall) {
+        result.add(currentBall);
+      }
+
+      // 임계값 도달 시 즉시 반환 (조기 종료)
+      if (result.size >= this.connectedThreshold) {
+        return result;
+      }
+
+      // 연결된 모든 공들 추가 (방향 상관없이)
+      const connections = contactGraph.get(currentBall) || new Set();
+      connections.forEach((ball) => {
+        if (!visited.has(ball)) {
+          queue.push(ball);
+        }
+      });
+    }
+
+    // 탐색 완료 후 임계값 미달이면 빈 Set 반환
+    return new Set();
+  }
+
+  // 2단계 검증 처리
+  processViolatingBalls(violatingBalls) {
+    // 이전 후보들과 교집합 구하기 (2번 연속 위반자들)
+    const confirmedViolators = [];
+    this.gameOverCandidates.forEach((candidate) => {
+      if (violatingBalls.has(candidate)) {
+        confirmedViolators.push(candidate);
+      }
+    });
+
+    // 확정된 위반자가 있으면 게임 종료
+    if (confirmedViolators.length > 0) {
+      console.log(
+        `GameOverChecker::Game Over confirmed! ${confirmedViolators.length} balls violated conditions for 2 consecutive checks`
+      );
+      console.log(
+        'GameOverChecker::Violating balls:',
+        confirmedViolators.map((ball) => this.debugBall(ball))
+      );
+
+      this.onGameOver();
+      return;
+    }
+
+    // 다음 체크를 위해 현재 위반자들을 후보로 저장
+    this.gameOverCandidates = new Set(violatingBalls);
+
+    if (violatingBalls.size > 0) {
+      console.log(
+        `GameOverChecker::Game Over candidates: ${violatingBalls.size} balls. Checking again in ${this.checkInterval}ms...`
+      );
+      console.log(
+        'GameOverChecker::Candidate details:',
+        Array.from(violatingBalls).map((ball) => this.debugBall(ball))
+      );
+    } else {
+      // 위반자가 없으면 후보 목록 클리어
+      this.gameOverCandidates.clear();
+    }
+  }
+
+  debugBall(ball) {
+    return {
+      id: ball.id || 'unknown',
+      age: Date.now() - ball.createdAt,
+      overLine: this.overLineOfBall(ball) < this.gameOverLine,
+      y: ball.position.y,
+    };
   }
 }

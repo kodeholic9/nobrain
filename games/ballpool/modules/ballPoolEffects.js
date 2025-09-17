@@ -485,308 +485,405 @@ class BallPoolEffects {
     animate();
   }
 
-  /**
-   * 폭발 파편 효과
-   */
-  explosion(ball) {
+  // ========================================
+  // 이미지가 필요하지 않은 버전들
+  // ========================================
+
+  // 1. 파편으로 흩어지는 효과
+  fragmentDisappear(ball) {
     const x = ball.position.x;
     const y = ball.position.y;
-    const size = ball.circleRadius;
-    const effect = {
-      id: `explosion_${Date.now()}`,
-      particles: [],
-      duration: 2000,
-    };
+    const ballRadius = ball.circleRadius || 20;
+    const fragments = [];
 
-    const fragmentCount = Math.min(20, Math.floor(size / 2));
-    const colors = [
-      '#e2e8f0',
-      '#f1f5f9',
-      '#ede9fe',
-      '#fef7cd',
-      '#ecfdf5',
-      '#fef2f2',
-      '#f8fafc',
-    ];
-
-    for (let i = 0; i < fragmentCount; i++) {
-      const angle =
-        (Math.PI * 2 * i) / fragmentCount + (Math.random() - 0.5) * 0.8;
-      const speed = 8 + Math.random() * 12;
-
-      effect.particles.push({
-        x: x + (Math.random() - 0.5) * size * 0.3,
-        y: y + (Math.random() - 0.5) * size * 0.3,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - Math.random() * 4,
-        life: 1,
-        decay: 0.01 + Math.random() * 0.015,
-        size: Math.max(3, size * 0.1 + Math.random() * 5),
-        color: colors[Math.floor(Math.random() * colors.length)],
-        type: 'fragment',
-        rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.5,
-      });
-    }
-
-    const animate = () => {
-      let activeParticles = 0;
-
-      effect.particles.forEach((particle) => {
-        if (particle.life > 0) {
-          activeParticles++;
-
-          particle.x += particle.vx;
-          particle.y += particle.vy;
-          particle.vy += 0.3; // 중력
-          particle.vx *= 0.98; // 공기저항
-          particle.rotation += particle.rotationSpeed;
-          particle.life -= particle.decay;
-
-          // 그리기
-          this.ctx.save();
-          this.ctx.globalAlpha = particle.life;
-          this.ctx.translate(particle.x, particle.y);
-          this.ctx.rotate(particle.rotation);
-
-          this.ctx.fillStyle = particle.color;
-          this.ctx.strokeStyle = '#999999';
-          this.ctx.lineWidth = 1;
-          this.ctx.fillRect(
-            -particle.size / 2,
-            -particle.size / 2,
-            particle.size,
-            particle.size
-          );
-          this.ctx.strokeRect(
-            -particle.size / 2,
-            -particle.size / 2,
-            particle.size,
-            particle.size
-          );
-          this.ctx.restore();
-        }
-      });
-
-      if (activeParticles > 0) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    animate();
-  }
-
-  /**
-   * 스파크 버스트 효과
-   */
-  sparkBurst(ball) {
-    const x = ball.position.x;
-    const y = ball.position.y;
-    const size = ball.circleRadius;
-    const effect = {
-      id: `spark_${Date.now()}`,
-      particles: [],
-      duration: 1200,
-    };
-
-    const sparkCount = Math.floor(size / 3) + 8;
-    // const colors = ['#e2e8f0', '#f1f5f9', '#ede9fe', '#fef7cd', '#ecfdf5', '#fef2f2', '#f8fafc'];
-    // const colors = ['#00F5D4', '#9B5DE5', '#F15BB5', '#FEE440', '#00BBF9', '#FF006E']
-    const colors = ['#FF4D6D', '#4D96FF', '#6BCB77', '#FFD93D', '#845EC2'];
-
-    for (let i = 0; i < sparkCount; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const speed = 10 + Math.random() * 15;
-
-      effect.particles.push({
-        x,
-        y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed,
-        life: 1,
-        decay: 0.03 + Math.random() * 0.02,
-        size: 2 + Math.random() * 4,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        type: 'spark',
-      });
-    }
-
-    const animate = () => {
-      let activeParticles = 0;
-
-      effect.particles.forEach((particle) => {
-        if (particle.life > 0) {
-          activeParticles++;
-
-          particle.x += particle.vx;
-          particle.y += particle.vy;
-          particle.vy += 0.2;
-          particle.vx *= 0.96;
-          particle.life -= particle.decay;
-
-          // 그리기
-          this.ctx.save();
-          this.ctx.globalAlpha = particle.life;
-          this.ctx.fillStyle = particle.color;
-          this.ctx.shadowColor = particle.color;
-          this.ctx.shadowBlur = 6;
-          this.ctx.beginPath();
-          this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-          this.ctx.fill();
-          this.ctx.restore();
-        }
-      });
-
-      if (activeParticles > 0) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    animate();
-  }
-
-  /**
-   * 회전 나선 효과
-   * @param {number} x - X 좌표
-   * @param {number} y - Y 좌표
-   * @param {number} size - 볼 크기
-   */
-  spiralSpin(ball) {
-    const x = ball.position.x;
-    const y = ball.position.y;
-    const size = ball.circleRadius;
-    const effect = {
-      id: `spiral_${Date.now()}`,
-      particles: [],
-      duration: 2000,
-    };
-
-    const spiralCount = 8;
-
-    for (let i = 0; i < spiralCount; i++) {
-      effect.particles.push({
-        x,
-        y,
-        radius: 20 + i * 10,
-        angle: (Math.PI * 2 * i) / spiralCount,
-        angularSpeed: 0.2 + Math.random() * 0.1,
-        life: 1,
-        decay: 0.01,
-        size: 3 + Math.random() * 2,
-        color: ['#e2e8f0', '#f1f5f9', '#ede9fe'][i % 3],
-        type: 'spiral',
-      });
-    }
-
-    const animate = () => {
-      if (!this.activeEffects.has(effect.id)) return;
-
-      let activeParticles = 0;
-
-      effect.particles.forEach((particle) => {
-        if (particle.life > 0) {
-          activeParticles++;
-
-          particle.angle += particle.angularSpeed;
-          particle.radius += 1;
-
-          const renderX =
-            particle.x + Math.cos(particle.angle) * particle.radius;
-          const renderY =
-            particle.y + Math.sin(particle.angle) * particle.radius;
-
-          particle.life -= particle.decay;
-
-          this.ctx.save();
-          this.ctx.globalAlpha = particle.life;
-          this.ctx.fillStyle = particle.color;
-          this.ctx.shadowColor = particle.color;
-          this.ctx.shadowBlur = 4;
-          this.ctx.beginPath();
-          this.ctx.arc(renderX, renderY, particle.size, 0, Math.PI * 2);
-          this.ctx.fill();
-          this.ctx.restore();
-        }
-      });
-
-      if (activeParticles > 0) {
-        requestAnimationFrame(animate);
-      } else {
-        this.activeEffects.delete(effect.id);
-      }
-    };
-
-    animate();
-  }
-
-  /**
-   * 떠오르는 기포 효과
-   */
-  bubbleRise(ball) {
-    const x = ball.position.x;
-    const y = ball.position.y;
-    const size = ball.circleRadius;
-    const effect = {
-      id: `bubble_${Date.now()}`,
-      particles: [],
-      duration: 3000,
-    };
-
-    const bubbleCount = Math.floor(size / 4) + 5;
-
-    for (let i = 0; i < bubbleCount; i++) {
-      effect.particles.push({
-        x: x + (Math.random() - 0.5) * size,
+    // 파편 생성
+    for (let i = 0; i < 15; i++) {
+      const angle = (Math.PI * 2 * i) / 15;
+      fragments.push({
+        x: x,
         y: y,
-        vx: (Math.random() - 0.5) * 2,
-        vy: -2 - Math.random() * 3,
+        vx: Math.cos(angle) * (3 + Math.random() * 5),
+        vy: Math.sin(angle) * (3 + Math.random() * 5),
         life: 1,
-        decay: 0.005 + Math.random() * 0.005,
-        size: 4 + Math.random() * 8,
-        color: ['#FACC15', '#FB923C', '#F43F5E'][Math.floor(Math.random() * 3)],
-        type: 'bubble',
-        wobble: Math.random() * Math.PI * 2,
+        decay: 0.015 + Math.random() * 0.01,
+        size: ballRadius * 0.2 + Math.random() * ballRadius * 0.3,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.3,
+        color: '#ff6b6b',
+      });
+    }
+
+    const animate = () => {
+      let activeFragments = 0;
+
+      fragments.forEach((fragment) => {
+        if (fragment.life > 0) {
+          activeFragments++;
+
+          // 물리 업데이트
+          fragment.x += fragment.vx;
+          fragment.y += fragment.vy;
+          fragment.vy += 0.3; // 중력
+          fragment.vx *= 0.98; // 공기 저항
+          fragment.rotation += fragment.rotationSpeed;
+          fragment.life -= fragment.decay;
+
+          // 그리기
+          this.ctx.save();
+          this.ctx.globalAlpha = fragment.life;
+          this.ctx.translate(fragment.x, fragment.y);
+          this.ctx.rotate(fragment.rotation);
+          this.ctx.fillStyle = fragment.color;
+          this.ctx.fillRect(
+            -fragment.size / 2,
+            -fragment.size / 2,
+            fragment.size,
+            fragment.size
+          );
+          this.ctx.restore();
+        }
+      });
+
+      if (activeFragments > 0) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
+  }
+
+  // 2. 먼지로 흩어지는 효과
+  dustDisappear(ball) {
+    const x = ball.position.x;
+    const y = ball.position.y;
+    const ballRadius = ball.circleRadius || 20;
+    const particles = [];
+
+    // 먼지 파티클 생성
+    for (let i = 0; i < 40; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = Math.random() * ballRadius;
+      particles.push({
+        x: x + Math.cos(angle) * distance,
+        y: y + Math.sin(angle) * distance,
+        vx: (Math.random() - 0.5) * 8,
+        vy: (Math.random() - 0.5) * 8 - 2,
+        life: 1,
+        decay: 0.01 + Math.random() * 0.02,
+        size: 1 + Math.random() * 3,
+        color: `rgba(${100 + Math.random() * 100}, ${80 + Math.random() * 80}, ${60 + Math.random() * 60}, ${0.5 + Math.random() * 0.5})`,
       });
     }
 
     const animate = () => {
       let activeParticles = 0;
 
-      effect.particles.forEach((particle) => {
+      particles.forEach((particle) => {
         if (particle.life > 0) {
           activeParticles++;
 
-          particle.x += particle.vx + Math.sin(particle.wobble) * 0.5;
+          // 위치 업데이트
+          particle.x += particle.vx;
           particle.y += particle.vy;
-          particle.wobble += 0.1;
+          particle.vy += 0.1; // 약한 중력
+          particle.vx *= 0.995; // 공기 저항
           particle.life -= particle.decay;
 
           // 그리기
           this.ctx.save();
           this.ctx.globalAlpha = particle.life * 0.7;
-          this.ctx.strokeStyle = particle.color;
-          this.ctx.lineWidth = 2;
+          this.ctx.fillStyle = particle.color;
           this.ctx.beginPath();
           this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-          this.ctx.stroke();
-
-          // 버블 하이라이트
-          this.ctx.fillStyle = particle.color;
-          this.ctx.globalAlpha = particle.life * 0.3;
-          this.ctx.beginPath();
-          this.ctx.arc(
-            particle.x - particle.size * 0.3,
-            particle.y - particle.size * 0.3,
-            particle.size * 0.2,
-            0,
-            Math.PI * 2
-          );
           this.ctx.fill();
           this.ctx.restore();
         }
       });
 
       if (activeParticles > 0) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
+  }
+
+  // 3. 페이드 아웃 + 축소 효과
+  fadeAndShrink(ball) {
+    const x = ball.position.x;
+    const y = ball.position.y;
+    const ballRadius = ball.circleRadius || 20;
+    const ballColor = '#CBD5E1';
+
+    let scale = 1;
+    let alpha = 1;
+    const duration = 60; // 프레임 수
+    let frame = 0;
+
+    const animate = () => {
+      if (frame < duration) {
+        frame++;
+        const progress = frame / duration;
+
+        // 이징 함수 적용 (ease-out)
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+
+        scale = 1 - easeOut;
+        alpha = 1 - progress;
+
+        // 공 그리기
+        this.ctx.save();
+        this.ctx.globalAlpha = alpha;
+        this.ctx.fillStyle = ballColor;
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, ballRadius * scale, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // 외곽 링 효과
+        this.ctx.strokeStyle = ballColor;
+        this.ctx.lineWidth = 2;
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, ballRadius * (1 + progress * 0.5), 0, Math.PI * 2);
+        this.ctx.stroke();
+        this.ctx.restore();
+
+        requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
+  }
+
+  // ========================================
+  // 이미지가 필요한 버전들
+  // ========================================
+
+  // 4. 이미지 픽셀 분해 효과
+  pixelDisappear(ball, ballImage) {
+    const x = ball.position.x;
+    const y = ball.position.y;
+    const ballRadius = ball.circleRadius || 20;
+
+    if (!ballImage) return this.fragmentDisappear(ball);
+
+    // 임시 캔버스에 이미지 그리기
+    const tempCanvas = document.createElement('canvas');
+    const tempCtx = tempCanvas.getContext('2d');
+    const size = ballRadius * 2;
+    tempCanvas.width = size;
+    tempCanvas.height = size;
+
+    tempCtx.drawImage(ballImage, 0, 0, size, size);
+    const imageData = tempCtx.getImageData(0, 0, size, size);
+    const pixels = [];
+
+    // 픽셀 데이터 추출 (일부만)
+    for (let px = 0; px < size; px += 3) {
+      for (let py = 0; py < size; py += 3) {
+        const i = (py * size + px) * 4;
+        if (imageData.data[i + 3] > 50) {
+          // 알파값이 있는 픽셀만
+          pixels.push({
+            x: x - ballRadius + px,
+            y: y - ballRadius + py,
+            vx: (Math.random() - 0.5) * 10,
+            vy: (Math.random() - 0.5) * 10 - 2,
+            life: 1,
+            decay: 0.015 + Math.random() * 0.01,
+            color: `rgba(${imageData.data[i]}, ${imageData.data[i + 1]}, ${imageData.data[i + 2]}, 1)`,
+            size: 2 + Math.random() * 2,
+          });
+        }
+      }
+    }
+
+    const animate = () => {
+      let activePixels = 0;
+
+      pixels.forEach((pixel) => {
+        if (pixel.life > 0) {
+          activePixels++;
+
+          pixel.x += pixel.vx;
+          pixel.y += pixel.vy;
+          pixel.vy += 0.2;
+          pixel.life -= pixel.decay;
+
+          this.ctx.save();
+          this.ctx.globalAlpha = pixel.life;
+          this.ctx.fillStyle = pixel.color;
+          this.ctx.fillRect(pixel.x, pixel.y, pixel.size, pixel.size);
+          this.ctx.restore();
+        }
+      });
+
+      if (activePixels > 0) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
+  }
+
+  // 5. 이미지 조각 분해 효과
+  imageFragmentDisappear(ball, ballImage) {
+    const x = ball.position.x;
+    const y = ball.position.y;
+    const ballRadius = ball.circleRadius || 20;
+
+    if (!ballImage) return this.fragmentDisappear(ball);
+
+    const fragments = [];
+    const pieces = 8; // 조각 개수
+
+    for (let i = 0; i < pieces; i++) {
+      for (let j = 0; j < pieces; j++) {
+        fragments.push({
+          x: x,
+          y: y,
+          vx: (Math.random() - 0.5) * 8,
+          vy: (Math.random() - 0.5) * 8 - 2,
+          life: 1,
+          decay: 0.012 + Math.random() * 0.008,
+          rotation: Math.random() * Math.PI * 2,
+          rotationSpeed: (Math.random() - 0.5) * 0.2,
+          sourceX: ((ballRadius * 2) / pieces) * i,
+          sourceY: ((ballRadius * 2) / pieces) * j,
+          sourceW: (ballRadius * 2) / pieces,
+          sourceH: (ballRadius * 2) / pieces,
+          scale: 1,
+        });
+      }
+    }
+
+    const animate = () => {
+      let activeFragments = 0;
+
+      fragments.forEach((fragment) => {
+        if (fragment.life > 0) {
+          activeFragments++;
+
+          fragment.x += fragment.vx;
+          fragment.y += fragment.vy;
+          fragment.vy += 0.3;
+          fragment.rotation += fragment.rotationSpeed;
+          fragment.scale = fragment.life; // 크기도 줄어듦
+          fragment.life -= fragment.decay;
+
+          this.ctx.save();
+          this.ctx.globalAlpha = fragment.life;
+          this.ctx.translate(fragment.x, fragment.y);
+          this.ctx.rotate(fragment.rotation);
+          this.ctx.scale(fragment.scale, fragment.scale);
+
+          this.ctx.drawImage(
+            ballImage,
+            fragment.sourceX,
+            fragment.sourceY,
+            fragment.sourceW,
+            fragment.sourceH,
+            -fragment.sourceW / 2,
+            -fragment.sourceH / 2,
+            fragment.sourceW,
+            fragment.sourceH
+          );
+
+          this.ctx.restore();
+        }
+      });
+
+      if (activeFragments > 0) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
+  }
+
+  // 6. 이미지 디졸브 효과
+  imageDissolve(ball, ballImage) {
+    const x = ball.position.x;
+    const y = ball.position.y;
+    const ballRadius = ball.circleRadius || 20;
+
+    if (!ballImage) return this.fadeAndShrink(ball);
+
+    let dissolveProgress = 0;
+    const duration = 80;
+    const particles = [];
+
+    // 랜덤 파티클 생성
+    for (let i = 0; i < 30; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const distance = Math.random() * ballRadius;
+      particles.push({
+        x: x + Math.cos(angle) * distance,
+        y: y + Math.sin(angle) * distance,
+        vx: Math.cos(angle) * 2,
+        vy: Math.sin(angle) * 2 - 1,
+        life: 1,
+        delay: Math.random() * 20, // 시차
+        size: 3 + Math.random() * 4,
+      });
+    }
+
+    const animate = () => {
+      if (dissolveProgress < duration) {
+        dissolveProgress++;
+        const progress = dissolveProgress / duration;
+
+        // 이징 함수 적용 (ease-out)
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+
+        // 스케일과 알파 계산
+        const scale = 1 - easeOut;
+        const alpha = 1 - progress;
+        const imageSize = ballRadius * 2 * scale;
+
+        // 축소되는 이미지 그리기
+        this.ctx.save();
+        this.ctx.globalAlpha = alpha;
+        this.ctx.drawImage(
+          ballImage,
+          x - imageSize / 2,
+          y - imageSize / 2,
+          imageSize,
+          imageSize
+        );
+        this.ctx.restore();
+
+        // 외곽 링 효과 (fadeAndShrink와 유사)
+        if (progress < 0.8) {
+          // 80%까지만 링 표시
+          this.ctx.save();
+          this.ctx.globalAlpha = (1 - progress) * 0.5;
+          this.ctx.strokeStyle = '#ffffff';
+          this.ctx.lineWidth = 2;
+          this.ctx.setLineDash([5, 5]);
+          this.ctx.beginPath();
+          this.ctx.arc(x, y, ballRadius * (1 + progress * 0.3), 0, Math.PI * 2);
+          this.ctx.stroke();
+          this.ctx.restore();
+        }
+
+        // 파티클 효과
+        particles.forEach((particle) => {
+          if (dissolveProgress > particle.delay && particle.life > 0) {
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+            particle.vy += 0.1;
+            particle.life -= 0.02;
+
+            this.ctx.save();
+            this.ctx.globalAlpha = particle.life * 0.7;
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.beginPath();
+            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            this.ctx.fill();
+            this.ctx.restore();
+          }
+        });
+
         requestAnimationFrame(animate);
       }
     };
