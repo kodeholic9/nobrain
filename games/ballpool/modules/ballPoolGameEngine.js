@@ -223,8 +223,9 @@ export class BallPoolGameEngine {
     if (this.ballPoolAudio.initialized) return;
     await this.ballPoolAudio.init();
     await this.ballPoolAudio.loadMultiple({
-      merge: { path: './assets/pop-204.mp3', poolSize: 5, volume: 0.5 },
-      'game-over': { path: './assets/game-over.mp3', poolSize: 1, volume: 0.8 },
+      drop: { path: './assets/drop-05.mp3', poolSize: 5, volume: 1 },
+      merge: { path: './assets/pop-06.mp3', poolSize: 5, volume: 1 },
+      'game-over': { path: './assets/game-over.mp3', poolSize: 1, volume: 1 },
     });
 
     // this.ballPoolEffects.loadSound(
@@ -549,6 +550,7 @@ export class BallPoolGameEngine {
     this.nextBalls.push(this.pickRandomBall());
 
     this.emit('ball-dropped', ball);
+    this.ballPoolAudio.play('drop', { volume: 1 });
 
     setTimeout(() => {
       this.isDropping = false;
@@ -684,7 +686,7 @@ export class BallPoolGameEngine {
     this.removeBall(mergePair.originBall);
 
     // 효과음 재생
-    this.ballPoolAudio.play('merge', { volume: 0.8, pitch: 1.1 });
+    this.ballPoolAudio.play('merge', { volume: 1, pitch: 1.1 });
 
     // 원래 공의 값만 변경 (즉시 반영)
     mergePair.targetBall.ballValue = mergePair.newValue;
