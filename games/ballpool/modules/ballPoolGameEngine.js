@@ -1,5 +1,6 @@
 // Matter.js 모듈들
 import BallPoolEffects from './ballPoolEffects.js';
+import BallPoolAudioManager from './ballPoolAudioManager.js';
 
 // Matter.js 모듈들
 const {
@@ -175,6 +176,7 @@ export class BallPoolGameEngine {
 
     // 게임 이펙트
     this.ballPoolEffects = new BallPoolEffects(this.canvas, ballConfig);
+    this.ballPoolAudio = new BallPoolAudioManager();
 
     // 게임 오버 검사기
     this.gameOverChecker = null;
@@ -206,7 +208,6 @@ export class BallPoolGameEngine {
   init() {
     this.setupCanvas();
     this.setupBallConfig();
-    this.setupSounds();
     this.setupEngine();
     this.setupRender();
     this.setupEventListeners();
@@ -214,9 +215,18 @@ export class BallPoolGameEngine {
     this.startGame();
   }
 
-  setupSounds() {
-    // 효과음 로드
-    this.ballPoolEffects.loadSound('merge', './assets/pop-402324.mp3');
+  async setupSounds() {
+    if (this.ballPoolAudio.initialized) return;
+    await this.ballPoolAudio.init();
+    await this.ballPoolAudio.loadMultiple({
+      merge: { path: './assets/pop-204.mp3', poolSize: 5, volume: 0.5 },
+      'game-over': { path: './assets/game-over.mp3', poolSize: 1, volume: 0.8 },
+    });
+
+    // this.ballPoolEffects.loadSound(
+    //   'merge',
+    //   './assets/wine-cork-pop-352295.mp3'
+    // );
   }
 
   setupBallConfig() {
@@ -671,7 +681,7 @@ export class BallPoolGameEngine {
     this.removeBall(mergePair.originBall);
 
     // 효과음 재생
-    this.ballPoolEffects.playSound('merge');
+    this.ballPoolAudio.play('merge', { volume: 0.8, pitch: 1.1 });
 
     // 원래 공의 값만 변경 (즉시 반영)
     mergePair.targetBall.ballValue = mergePair.newValue;
@@ -1228,6 +1238,7 @@ export class BallPoolGameEngine {
   }
 
   handlePointerDown(event) {
+    this.setupSounds();
     this.updateDropZone(event);
   }
 
@@ -1294,6 +1305,9 @@ export class BallPoolGameEngine {
     if (emitFlag) {
       this.emit('game-over', this.getGameState());
     }
+
+    // 효과음 재생
+    this.ballPoolAudio.play('game-over', { volume: 0.8, pitch: 1.1 });
   }
 
   cleanUp() {
