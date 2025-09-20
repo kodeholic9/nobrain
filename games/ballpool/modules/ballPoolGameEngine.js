@@ -515,7 +515,7 @@ export class BallPoolGameEngine {
     }
   }
 
-  updateDropZone(event) {
+  updateDropZone(event, gesture) {
     if (this.gameOver) return;
 
     // 다음 공의 크기를 가져옴. 없으면 0으로 설정.
@@ -528,7 +528,7 @@ export class BallPoolGameEngine {
     const rect = this.canvas.getBoundingClientRect();
     this.dropX = event.clientX - rect.left;
     this.dropX = Math.max(minX, Math.min(maxX, this.dropX));
-    this.emit('drop-zone-update', this.dropX);
+    this.emit('drop-zone-update', { dropX: this.dropX, gesture: gesture });
   }
 
   dropBall() {
@@ -537,7 +537,6 @@ export class BallPoolGameEngine {
 
     const current = Date.now();
     this.dropX = Math.max(0, Math.min(this.logicalSize.width, this.dropX));
-    this.emit('drop-zone-update', this.dropX);
 
     this.isDropping = true;
     this.lastDropTime = current;
@@ -1243,18 +1242,21 @@ export class BallPoolGameEngine {
 
   handlePointerDown(event) {
     this.setupSounds();
-    this.updateDropZone(event);
+    this.updateDropZone(event, 'down');
   }
 
   handlePointerUp(event) {
-    this.dropBall(event);
+    this.updateDropZone(event, 'up');
+    this.dropBall();
   }
 
   handlePointerMove(event) {
+    this.updateDropZone(event, 'move');
     this.updateDropZone(event);
   }
 
   handlePointerCancel(event) {
+    this.updateDropZone(event, 'cancel');
     this.updateDropZone(event);
   }
 

@@ -142,7 +142,7 @@ class GameUI {
             break;
 
           case 'drop-zone-update':
-            this.gameState.dropX = args;
+            this.gameState.dropX = args.dropX;
             this.updateDropZone();
             break;
 
