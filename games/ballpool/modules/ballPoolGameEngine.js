@@ -216,6 +216,10 @@ export class BallPoolGameEngine {
   }
 
   async setupSounds() {
+    console.log(
+      'setupSounds() - initialized: ',
+      this.ballPoolAudio.initialized
+    );
     if (this.ballPoolAudio.initialized) return;
     await this.ballPoolAudio.init();
     await this.ballPoolAudio.loadMultiple({
