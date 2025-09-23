@@ -20,7 +20,7 @@ const {
 // 기본 게임 설정
 const defaultGameConfig = {
   // 기본 물리 속성
-  gravity: 1.1,
+  gravity: 1.5,
   restitution: 0.2,
   ballFriction: 0.25,
   wallFriction: 0,
@@ -66,15 +66,15 @@ export const ballConfig = {
     color: '#f4a7e4',
     size: 11,
     point: 1,
-    mass: 4.5,
-    imgPath: 'assets/bp_old_01.png',
+    mass: 5.5,
+    imgPath: 'assets/bp_iron_03.png',
   }, // 탁구
   4: {
     color: '#a6e98f',
-    size: 20,
+    size: 25,
     point: 2,
-    mass: 1,
-    imgPath: 'assets/bp_iron_02.png',
+    mass: 3,
+    imgPath: 'assets/bp_old_01.png',
   }, // 당구
   8: {
     color: '#6ce2e2',
@@ -88,40 +88,40 @@ export const ballConfig = {
     size: 35,
     point: 4,
     mass: 1,
-    imgPath: 'assets/bp_wood_d_01.png',
+    imgPath: 'assets/bp_silver_d_01.png',
   }, // 야구
   32: {
     color: '#ec9a8a',
     size: 45,
     point: 5,
     mass: 0.5,
-    imgPath: 'assets/bp_silver_d_01.png',
-    restitution: 0.7,
+    restitution: 0.9,
+    imgPath: 'assets/bp_plastic_01.png',
   }, // 물놀이
   64: {
     color: '#a8a0f6',
-    size: 53,
+    size: 50,
     point: 6,
     mass: 1,
     imgPath: 'assets/bp_bronze_02.png',
   }, // 핸드볼
   128: {
     color: '#c5c1bb',
-    size: 60,
+    size: 56,
     point: 7,
     mass: 1,
     imgPath: 'assets/bp_stone_01.png',
   }, // 배구
   256: {
     color: '#fbd5a2',
-    size: 65,
+    size: 62,
     point: 8,
     mass: 1,
     imgPath: 'assets/bp_gold_d_06.png',
   }, // 볼링
   512: {
     color: '#ffb8c1',
-    size: 72,
+    size: 70,
     point: 9,
     mass: 1,
     imgPath: 'assets/bp_iron_01.png',
@@ -225,18 +225,13 @@ export class BallPoolGameEngine {
     await this.ballPoolAudio.init();
     await this.ballPoolAudio.loadMultiple({
       drop: { path: './assets/drop-05.mp3', poolSize: 5, volume: 1 },
-      merge: { path: './assets/coin-falling-03.mp3', poolSize: 5, volume: 1 },
+      merge: { path: './assets/coin-payout-02.mp3', poolSize: 5, volume: 1 },
       'game-over': {
         path: './assets/brass-fail-01.mp3',
         poolSize: 1,
         volume: 1,
       },
     });
-
-    // this.ballPoolEffects.loadSound(
-    //   'merge',
-    //   './assets/wine-cork-pop-352295.mp3'
-    // );
   }
 
   setupBallConfig() {

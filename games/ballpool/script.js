@@ -29,12 +29,6 @@ class GameUI {
       dropZone: document.getElementById('dropZone'),
       dropLine: document.getElementById('dropLine'),
 
-      newGame: document.getElementById('newGame'),
-      debugBtn: document.getElementById('debugBtn'),
-      gameSettingsBtn: document.getElementById('gameSettingsBtn'),
-      ballCheckBtn: document.getElementById('ballCheckBtn'),
-      autoDropBtn: document.getElementById('autoDropBtn'),
-      additionalButtons: document.getElementById('additionalButtons'),
       additionalText: document.getElementById('additionalText'),
     };
 
@@ -53,6 +47,7 @@ class GameUI {
       showDropLine: false,
       dropX: 0,
       containerSize: { width: 0, height: 0 },
+      testDrop: false,
     };
 
     this.resizeTimeout = null;
@@ -67,7 +62,6 @@ class GameUI {
     this.setupCanvas();
     this.bindEvents();
     this.initializeGame();
-    this.setupSettingsButtons();
     // this.setupResizeHandler();
     this.loadBestScore();
   }
@@ -93,35 +87,17 @@ class GameUI {
         myProfile: () => {
           this.profileManager.showProfilePopup();
         },
-        debugMode: () => {},
+        debugMode: () => {
+          this.gameSettings.debugMode = !this.gameSettings.debugMode;
+          this.applyGameSettings();
+        },
+        testDrop: () => {
+          this.gameState.testDrop = !this.gameState.testDrop;
+          if (this.gameState.testDrop) {
+            this.gameEngine.dropBall();
+          }
+        },
       });
-    });
-
-    this.elements.closeSettingsBtn.addEventListener('click', () => {
-      this.toggleSettings(false);
-    });
-
-    this.elements.settingsPopup.addEventListener('click', (e) => {
-      if (e.target === this.elements.settingsPopup) {
-        this.toggleSettings(false);
-      }
-    });
-
-    /*this.elements.gamePopup.addEventListener('click', (e) => {
-      if (e.target === this.elements.gamePopup) {
-        this.toggleGamePopup(false);
-      }
-    });*/
-
-    this.elements.closeGameBtn.addEventListener('click', () => {
-      this.toggleGamePopup(false);
-    });
-
-    // ESC 키로 설정 닫기
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        this.toggleSettings(false);
-      }
     });
   }
 
@@ -138,6 +114,7 @@ class GameUI {
         switch (action) {
           case 'game-reset':
             this.gameState.score = 0;
+            this.gameState.testDrop = false;
             this.updateState();
 
             // 다음공의 위치 조정
@@ -175,9 +152,14 @@ class GameUI {
           case 'ball-ready':
             this.gameState.showDropZone = true;
             this.updateDropZone();
+
+            if (this.gameState.testDrop) {
+              this.gameEngine.dropBall();
+            }
             break;
 
           case 'game-over':
+            this.gameState.showDropZone = false;
             const gameState = this.gameEngine.getGameState();
             this.saveBestScore(gameState.score);
             this.updateState();
@@ -205,62 +187,12 @@ class GameUI {
     this.updateState();
   }
 
-  toggleSettings(show) {
-    if (show) {
-      this.elements.settingsPopup.classList.add('active');
-    } else {
-      this.elements.settingsPopup.classList.remove('active');
-    }
-  }
-
   toggleGamePopup(show) {
     if (show) {
       this.elements.gamePopup.classList.add('active');
     } else {
       this.elements.gamePopup.classList.remove('active');
     }
-  }
-
-  setupSettingsButtons() {
-    // 새게임 버튼
-    this.elements.newGame.addEventListener('click', () => {
-      this.restartGame();
-      this.toggleSettings(false);
-    });
-
-    // 디버그 버튼
-    this.elements.debugBtn.addEventListener('click', () => {
-      this.gameSettings.debugMode = !this.gameSettings.debugMode;
-      this.applyGameSettings();
-      this.toggleSettings(false);
-    });
-
-    // 게임설정 버튼
-    this.elements.gameSettingsBtn.addEventListener('click', () => {});
-
-    // 공 확인 버튼
-    this.elements.ballCheckBtn.addEventListener('click', () => {
-      this.gameEngine.dropAllBalls();
-      this.toggleSettings(false);
-    });
-
-    // 자동 드롭 버튼
-    this.elements.autoDropBtn.addEventListener('click', () => {});
-  }
-
-  // 확장성을 위한 버튼 추가 메서드
-  addSettingButton(text, callback, options = {}) {
-    const button = document.createElement('button');
-    button.className = 'setting-btn';
-    button.textContent = text;
-    button.addEventListener('click', callback);
-
-    if (options.color) {
-      button.style.background = options.color;
-    }
-
-    this.elements.additionalButtons.appendChild(button);
-    return button;
   }
 
   showGameSettings() {

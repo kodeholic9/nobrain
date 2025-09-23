@@ -46,6 +46,13 @@ export class BallPoolGameManager {
         color: '#5c7ce7ff',
         action: 'dropAllBalls',
       },
+      {
+        id: 'testDrop',
+        text: '자동드롭',
+        icon: '📋',
+        color: '#5c7ce7ff',
+        action: 'testDrop',
+      },
       // {
       //   id: 'myProfile',
       //   text: '내 프로필',
