@@ -1,0 +1,182 @@
+/* 팝업 오버레이 */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.popup-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 팝업 컨테이너 */
+.popup-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.popup-overlay.show .popup-container {
+  transform: scale(1);
+}
+
+/* 헤더 영역 */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  background-color: #f8f9fa;
+}
+
+.popup-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.popup-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.popup-close:hover {
+  background-color: #e9ecef;
+  color: #333;
+}
+
+/* 컨텐츠 영역 */
+.popup-content {
+  padding: 20px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* 버튼 영역 */
+.popup-buttons {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background-color: #f8f9fa;
+}
+
+.popup-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.popup-btn.primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.popup-btn.primary:hover {
+  background-color: #0056b3;
+}
+
+.popup-btn.secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.popup-btn.secondary:hover {
+  background-color: #545b62;
+}
+
+.popup-btn.danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.popup-btn.danger:hover {
+  background-color: #c82333;
+}
+
+.popup-btn.success {
+  background-color: #28a745;
+  color: white;
+}
+
+.popup-btn.success:hover {
+  background-color: #218838;
+}
+
+.popup-btn.warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.popup-btn.warning:hover {
+  background-color: #e0a800;
+}
+
+.popup-btn.info {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.popup-btn.info:hover {
+  background-color: #138496;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+  .popup-container {
+    width: 85%; /* 95%에서 85%로 변경하여 좌우 여백 증가 */
+    max-height: 90vh;
+  }
+
+  .popup-header {
+    padding: 15px;
+  }
+
+  .popup-content {
+    padding: 15px;
+    max-height: 250px;
+  }
+
+  .popup-buttons {
+    padding: 15px;
+  }
+
+  .popup-btn {
+    flex: 1; /* 버튼들이 동일한 크기로 공간을 나눠 가짐 */
+    min-width: 100px; /* 최소 너비 설정 */
+  }
+}

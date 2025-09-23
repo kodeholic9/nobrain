@@ -67,78 +67,78 @@ export const ballConfig = {
     size: 11,
     point: 1,
     mass: 4.5,
-    imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall1.png',
+    imgPath: 'assets/bp_old_01.png',
   }, // 탁구
   4: {
     color: '#a6e98f',
     size: 20,
     point: 2,
     mass: 1,
-    imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall2.png',
+    imgPath: 'assets/bp_iron_02.png',
   }, // 당구
   8: {
     color: '#6ce2e2',
     size: 30,
     point: 3,
     mass: 1,
-    imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall3.png',
+    imgPath: 'assets/bp_bronze_d_01.png',
   }, // 테니스
   16: {
     color: '#87b9ee',
     size: 35,
     point: 4,
     mass: 1,
-    imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall4.png',
+    imgPath: 'assets/bp_wood_d_01.png',
   }, // 야구
   32: {
     color: '#ec9a8a',
     size: 45,
     point: 5,
     mass: 0.5,
+    imgPath: 'assets/bp_silver_d_01.png',
     restitution: 0.7,
-    imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall5.png',
   }, // 물놀이
   64: {
     color: '#a8a0f6',
     size: 53,
     point: 6,
     mass: 1,
-    imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall6.png',
+    imgPath: 'assets/bp_bronze_02.png',
   }, // 핸드볼
   128: {
     color: '#c5c1bb',
     size: 60,
     point: 7,
     mass: 1,
-    imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall7.png',
+    imgPath: 'assets/bp_stone_01.png',
   }, // 배구
   256: {
     color: '#fbd5a2',
     size: 65,
     point: 8,
     mass: 1,
-    imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall8.png',
+    imgPath: 'assets/bp_gold_d_06.png',
   }, // 볼링
   512: {
     color: '#ffb8c1',
     size: 72,
     point: 9,
     mass: 1,
-    imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall9.png',
+    imgPath: 'assets/bp_iron_01.png',
   }, // 축구
   1024: {
     color: '#9bcf1e',
     size: 80,
     point: 10,
     mass: 1,
-    imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall10.png',
+    imgPath: 'assets/bp_dia_01.png',
   }, // 농구
   2048: {
     color: '#33a64b',
-    size: 115,
+    size: 95,
     point: 1000,
     mass: 1,
-    imgPath: '//image.smartscore.kr/psn5/mvp/raise/mvp-raise-gameBall11.png',
+    imgPath: 'assets/bp_old_03.png',
   }, // 골프
 };
 
@@ -161,6 +161,7 @@ export class BallPoolGameEngine {
     this.score = 0;
     this.level = 1;
     this.isDropping = false;
+    this.isChecking = false;
     this.gameOver = false;
     this.dropX = 200;
     this.nextBalls = [];
@@ -224,8 +225,12 @@ export class BallPoolGameEngine {
     await this.ballPoolAudio.init();
     await this.ballPoolAudio.loadMultiple({
       drop: { path: './assets/drop-05.mp3', poolSize: 5, volume: 1 },
-      merge: { path: './assets/pop-06.mp3', poolSize: 5, volume: 1 },
-      'game-over': { path: './assets/game-over.mp3', poolSize: 1, volume: 1 },
+      merge: { path: './assets/coin-falling-03.mp3', poolSize: 5, volume: 1 },
+      'game-over': {
+        path: './assets/brass-fail-01.mp3',
+        poolSize: 1,
+        volume: 1,
+      },
     });
 
     // this.ballPoolEffects.loadSound(
@@ -550,7 +555,7 @@ export class BallPoolGameEngine {
     this.nextBalls.push(this.pickRandomBall());
 
     this.emit('ball-dropped', ball);
-    this.ballPoolAudio.play('drop', { volume: 1 });
+    //this.ballPoolAudio.play('drop', { volume: 1 });
 
     setTimeout(() => {
       this.isDropping = false;
@@ -758,32 +763,9 @@ export class BallPoolGameEngine {
   }
 
   handleAfterUpdate() {
-    //this.checkGameOver();
-    if (this.gameOverChecker) this.gameOverChecker.update();
+    if (!this.isChecking && this.gameOverChecker) this.gameOverChecker.update();
     this.cleanupMicroVelocities();
     this.limitVelocities();
-  }
-
-  checkGameOver() {
-    if (this.isDropping || this.gameOver) return;
-
-    for (const ball of this.balls) {
-      const velocity = Vector.magnitude(ball.velocity);
-      const ballTop = ball.position.y + ball.circleRadius;
-
-      // console.log(`checkGameOver() - ballTop: ${ballTop}, velocity: ${velocity}, gameOverLine: ${this.config.gameOverLine}`)
-      /*
-        0.01 = 거의 정지 (0.6 픽셀/초)
-        0.1  = 매우 느림 (6 픽셀/초)
-        1.0  = 느림 (60 픽셀/초)
-        5.0  = 보통 (300 픽셀/초)
-        10.0 = 빠름 (600 픽셀/초)
-       */
-      if (ballTop < this.config.gameOverLine && velocity < 0.01) {
-        this.stopGame();
-        break;
-      }
-    }
   }
 
   limitVelocities() {
@@ -1040,17 +1022,26 @@ export class BallPoolGameEngine {
     offCtx.setTransform(this.logicalSize.dpr, 0, 0, this.logicalSize.dpr, 0, 0);
 
     // 1. 원 배경 채우기 (테두리 색)
-    offCtx.fillStyle = bgColor;
-    offCtx.beginPath();
-    offCtx.arc(radius, radius, radius, 0, Math.PI * 2);
-    offCtx.fill();
+    // offCtx.fillStyle = bgColor;
+    // offCtx.beginPath();
+    // offCtx.arc(radius, radius, radius, 0, Math.PI * 2);
+    // offCtx.fill();
 
     // 2. 안쪽에 이미지 그리기 (borderWidth 만큼 줄임)
-    const innerSize = size - borderWidth * 2;
+    // const innerSize = size - borderWidth * 2;
+    // offCtx.drawImage(
+    //   bcfg.image,
+    //   borderWidth, // x offset
+    //   borderWidth, // y offset
+    //   innerSize, // width
+    //   innerSize // height
+    // );
+
+    const innerSize = size;
     offCtx.drawImage(
       bcfg.image,
-      borderWidth, // x offset
-      borderWidth, // y offset
+      0, // x offset
+      0, // y offset
       innerSize, // width
       innerSize // height
     );
@@ -1373,8 +1364,8 @@ export class BallPoolGameEngine {
   }
 
   dropAllBalls() {
-    if (this.isDropping || this.gameOver) return;
-    this.isDropping = true;
+    if (this.isChecking || this.gameOver) return;
+    this.isChecking = true;
 
     Object.keys(ballConfig)
       .reverse()
@@ -1384,9 +1375,9 @@ export class BallPoolGameEngine {
       });
 
     setTimeout(() => {
-      this.isDropping = false;
+      this.isChecking = false;
       this.emit('ball-ready');
-    }, 10 * 1000);
+    }, 5 * 1000);
   }
 
   handleResize() {

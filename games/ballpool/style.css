@@ -252,10 +252,36 @@ body {
   transform: translate(-50%, -50%);
 
   /* dropX로 이동 부드럽게 */
-  transition: left 0.1s ease-out;
+  /* transition: left 0.1s ease-out; */
 
   /* 등장 애니메이션 */
   animation: scaleIn 0.3s ease-out;
+}
+
+.drop-line {
+  position: absolute;
+  /* width: 6px; <- 이 부분 제거 */
+  height: 100%;
+  top: 0;
+  z-index: 0;
+  display: flex;
+}
+
+.drop-line::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%; /* 부모의 width를 따라감 */
+  height: 100%;
+  background-image: radial-gradient(
+    /* ellipse 50% 6px → circle 3px로 변경 */ circle 3px,
+    rgba(128, 128, 128, 0.8) 70%,
+    transparent 70%
+  );
+  background-size: 100% 16px;
+  background-repeat: repeat-y;
 }
 
 /* 드롭 가이드 */

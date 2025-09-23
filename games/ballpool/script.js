@@ -3,6 +3,9 @@ import {
   BallPoolGameEngine,
 } from './modules/ballPoolGameEngine.js';
 
+import { ProfileManager } from '../../modules/profileManager.js';
+import { BallPoolGameManager } from './modules/ballPoolGameManager.js';
+
 // 게임 상태 관리
 class GameUI {
   constructor() {
@@ -24,6 +27,7 @@ class GameUI {
       scoreValue: document.getElementById('scoreValue'),
       nextBall: document.getElementById('nextBall'),
       dropZone: document.getElementById('dropZone'),
+      dropLine: document.getElementById('dropLine'),
 
       newGame: document.getElementById('newGame'),
       debugBtn: document.getElementById('debugBtn'),
@@ -46,11 +50,16 @@ class GameUI {
       score: 0,
       nextBalls: [],
       showDropZone: false,
+      showDropLine: false,
       dropX: 0,
       containerSize: { width: 0, height: 0 },
     };
 
     this.resizeTimeout = null;
+
+    // 각종 매니저 초기화
+    this.profileManager = new ProfileManager();
+    this.gameManager = new BallPoolGameManager();
     this.init();
   }
 
@@ -74,7 +83,18 @@ class GameUI {
   bindEvents() {
     // 설정 팝업 이벤트
     this.elements.settingsBtn.addEventListener('click', () => {
-      this.toggleSettings(true);
+      this.gameManager.showMenuPopup({
+        newGame: () => {
+          this.restartGame();
+        },
+        dropAllBalls: () => {
+          this.gameEngine.dropAllBalls();
+        },
+        myProfile: () => {
+          this.profileManager.showProfilePopup();
+        },
+        debugMode: () => {},
+      });
     });
 
     this.elements.closeSettingsBtn.addEventListener('click', () => {
@@ -144,6 +164,7 @@ class GameUI {
           case 'drop-zone-update':
             this.gameState.dropX = args.dropX;
             this.updateDropZone();
+            this.updateDropLine(args.gesture);
             break;
 
           case 'ball-dropped':
@@ -247,6 +268,8 @@ class GameUI {
     // TODO: 게임 설정 모달 구현
   }
 
+  showSettings() {}
+
   showBallInfo() {}
 
   updateState() {
@@ -282,16 +305,56 @@ class GameUI {
     const innerSize = outerSize - borderWidth * 2;
 
     // css를 갱신한다.
+    // this.elements.dropZone.style.display = 'flex';
+    // this.elements.dropZone.style.top = this.gameSettings.dropYPos + 'px';
+    // this.elements.dropZone.style.left = left + 'px';
+    // this.elements.dropZone.style.width = outerSize + 'px';
+    // this.elements.dropZone.style.height = outerSize + 'px';
+    // this.elements.dropZone.style.backgroundColor = '#000';
+    // this.elements.dropZone.style.backgroundImage = `url(${bcfg.imgPath})`;
+    // this.elements.dropZone.style.backgroundSize = `${innerSize}px ${innerSize}px`;
+    // this.elements.dropZone.style.backgroundPosition = 'center';
+    // this.elements.dropZone.style.backgroundRepeat = 'no-repeat';
+
     this.elements.dropZone.style.display = 'flex';
     this.elements.dropZone.style.top = this.gameSettings.dropYPos + 'px';
     this.elements.dropZone.style.left = left + 'px';
     this.elements.dropZone.style.width = outerSize + 'px';
     this.elements.dropZone.style.height = outerSize + 'px';
-    this.elements.dropZone.style.backgroundColor = '#000';
+    //this.elements.dropZone.style.backgroundColor = '#000';
     this.elements.dropZone.style.backgroundImage = `url(${bcfg.imgPath})`;
-    this.elements.dropZone.style.backgroundSize = `${innerSize}px ${innerSize}px`;
+    this.elements.dropZone.style.backgroundSize = `${outerSize}px ${outerSize}px`;
     this.elements.dropZone.style.backgroundPosition = 'center';
     this.elements.dropZone.style.backgroundRepeat = 'no-repeat';
+  }
+
+  updateDropLine(gesture) {
+    if (!this.gameEngine || !this.gameState.nextBalls[0]) {
+      return;
+    }
+
+    if (gesture === 'up' || gesture === 'cancel') {
+      this.elements.dropLine.style.display = 'none';
+      return;
+    }
+
+    const bcfg = ballConfig[this.gameState.nextBalls[0]];
+    const size = this.gameEngine.sizeOfBall(this.gameState.nextBalls[0]);
+
+    const dropLineWidth = 6; // 점선 두께를 변수로 관리
+    const minX = size;
+    const maxX = this.containerSize.width - size;
+    const centerX = Math.max(minX, Math.min(maxX, this.gameState.dropX));
+    const left = centerX - dropLineWidth / 2; // 중앙 정렬을 위해 두께의 절반만큼 빼기
+    const top = this.gameSettings.dropYPos + size + 5;
+    const height = this.containerSize.height - top;
+
+    // css를 갱신한다.
+    this.elements.dropLine.style.display = 'flex';
+    this.elements.dropLine.style.top = top + 'px';
+    this.elements.dropLine.style.left = left + 'px';
+    this.elements.dropLine.style.width = dropLineWidth + 'px';
+    this.elements.dropLine.style.height = height + 'px';
   }
 
   applyGameSettings() {
@@ -325,7 +388,12 @@ class GameUI {
   showGameOverPopup(gameState) {
     const s = `게임 오버!\n최종 점수: ${gameState.score}\n합성 레벨: ${gameState.highestBallValue}`;
     this.elements.additionalText.textContent = s;
+
     this.toggleGamePopup(true);
+  }
+
+  showConfirmStartPopup() {
+    showConfirm('게임을 시작할까?');
   }
 
   loadBestScore() {
