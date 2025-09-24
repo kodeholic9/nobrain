@@ -296,17 +296,6 @@ class GameUI {
     }
   }
 
-  handleGameOver(data) {
-    this.isGameRunning = false;
-    this.stopAutoDrop();
-    alert(`게임 오버!\n최종 점수: ${data.score}`);
-  }
-
-  handleBallMerged(data) {
-    console.log('공 합성:', data);
-    // TODO: 합성 이펙트 구현
-  }
-
   // 게임 재시작
   restartGame() {
     if (this.gameEngine) {
@@ -321,7 +310,7 @@ class GameUI {
     const s = `게임 오버!\n최종 점수: ${gameState.score}\n합성 레벨: ${gameState.highestBallValue}`;
     this.elements.additionalText.textContent = s;
 
-    this.toggleGamePopup(true);
+    alert(s);
   }
 
   showConfirmStartPopup() {

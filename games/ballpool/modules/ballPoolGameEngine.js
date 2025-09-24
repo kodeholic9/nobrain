@@ -91,11 +91,11 @@ export const ballConfig = {
     imgPath: 'assets/bp_silver_d_01.png',
   }, // 야구
   32: {
-    color: '#ec9a8a',
+    color: '#080403ff',
     size: 45,
     point: 5,
     mass: 0.5,
-    restitution: 0.9,
+    restitution: 0.5,
     imgPath: 'assets/bp_plastic_01.png',
   }, // 물놀이
   64: {
@@ -1534,7 +1534,7 @@ class GameOverChecker {
         10.0 = 빠름 (600 픽셀/초)
        */
       const velocity = Vector.magnitude(ball.velocity);
-      const velocityThreshold = 0.5; // 30px /초
+      const velocityThreshold = 0.25;
       return (
         this.overLineOfBall(ball) < this.gameOverLine &&
         velocity < velocityThreshold
