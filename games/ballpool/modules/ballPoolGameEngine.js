@@ -71,7 +71,7 @@ export const ballConfig = {
   }, // 탁구
   4: {
     color: '#a6e98f',
-    size: 25,
+    size: 20,
     point: 2,
     mass: 3,
     imgPath: 'assets/bp_old_01.png',
@@ -81,14 +81,14 @@ export const ballConfig = {
     size: 30,
     point: 3,
     mass: 1,
-    imgPath: 'assets/bp_bronze_d_01.png',
+    imgPath: 'assets/bp_wood_d_01.png',
   }, // 테니스
   16: {
     color: '#87b9ee',
     size: 35,
     point: 4,
     mass: 1,
-    imgPath: 'assets/bp_silver_d_01.png',
+    imgPath: 'assets/bp_silver_03.png',
   }, // 야구
   32: {
     color: '#080403ff',
@@ -96,7 +96,7 @@ export const ballConfig = {
     point: 5,
     mass: 0.5,
     restitution: 0.5,
-    imgPath: 'assets/bp_plastic_01.png',
+    imgPath: 'assets/bp_future_01.png',
   }, // 물놀이
   64: {
     color: '#a8a0f6',
@@ -117,21 +117,21 @@ export const ballConfig = {
     size: 62,
     point: 8,
     mass: 1,
-    imgPath: 'assets/bp_gold_d_06.png',
+    imgPath: 'assets/bp_iron_02.png',
   }, // 볼링
   512: {
     color: '#ffb8c1',
     size: 70,
     point: 9,
     mass: 1,
-    imgPath: 'assets/bp_iron_01.png',
+    imgPath: 'assets/bp_bear_01.png',
   }, // 축구
   1024: {
     color: '#9bcf1e',
     size: 80,
     point: 10,
     mass: 1,
-    imgPath: 'assets/bp_dia_01.png',
+    imgPath: 'assets/bp_bronze_d_01.png',
   }, // 농구
   2048: {
     color: '#33a64b',

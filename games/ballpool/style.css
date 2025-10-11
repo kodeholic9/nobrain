@@ -17,7 +17,8 @@ body {
 .game-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* min-height 대신 고정 높이 사용 */
+  height: 100vh; /* fallback */
+  height: 100svh;
   width: 100vw;
   position: relative;
   overflow: hidden; /* 스크롤 방지 */
