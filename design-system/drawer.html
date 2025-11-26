@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drawer - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+    <style>
+      /* Drawer Animations */
+      @keyframes drawer-slide-up {
+        from {
+          transform: translateY(100%);
+        }
+        to {
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes drawer-slide-down {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(100%);
+        }
+      }
+
+      @keyframes overlay-fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes overlay-fade-out {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+
+      .drawer-overlay[data-state='open'] {
+        animation: overlay-fade-in 0.2s ease-out;
+      }
+
+      .drawer-overlay[data-state='closed'] {
+        animation: overlay-fade-out 0.2s ease-out;
+      }
+
+      .drawer-content[data-state='open'] {
+        animation: drawer-slide-up 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      }
+
+      .drawer-content[data-state='closed'] {
+        animation: drawer-slide-down 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2">Drawer</h1>
+      <p class="text-muted-foreground mb-6 sm:mb-8">
+        A drawer component for mobile devices that slides up from the bottom.
+      </p>
+
+      <!-- Default Drawer -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Default</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <button
+            onclick="openDrawer('drawer-1')"
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+          >
+            Open Drawer
+          </button>
+
+          <!-- Drawer -->
+          <div
+            id="drawer-1"
+            class="drawer-container"
+            data-state="closed"
+            style="display: none"
+          >
+            <!-- Overlay -->
+            <div
+              class="drawer-overlay fixed inset-0 z-50 bg-black/80"
+              data-state="closed"
+              onclick="closeDrawer('drawer-1')"
+            ></div>
+
+            <!-- Content -->
+            <div
+              class="drawer-content fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background"
+              data-state="closed"
+            >
+              <div
+                class="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted"
+              ></div>
+              <div class="mx-auto w-full max-w-md p-4 sm:p-6">
+                <div class="mb-4">
+                  <h3 class="text-lg font-semibold">
+                    Are you absolutely sure?
+                  </h3>
+                  <p class="text-sm text-muted-foreground mt-1">
+                    This action cannot be undone.
+                  </p>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <button
+                    onclick="closeDrawer('drawer-1')"
+                    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    onclick="closeDrawer('drawer-1')"
+                    class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Trigger Button --&gt;
+&lt;button onclick="openDrawer('drawer-1')"&gt;Open Drawer&lt;/button&gt;
+
+&lt;!-- Drawer --&gt;
+&lt;div id="drawer-1" class="drawer-container" data-state="closed"&gt;
+  &lt;!-- Overlay --&gt;
+  &lt;div
+    class="drawer-overlay fixed inset-0 z-50 bg-black/80"
+    onclick="closeDrawer('drawer-1')"
+  &gt;&lt;/div&gt;
+
+  &lt;!-- Content --&gt;
+  &lt;div class="drawer-content fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background"&gt;
+    &lt;!-- Handle --&gt;
+    &lt;div class="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted"&gt;&lt;/div&gt;
+    
+    &lt;div class="mx-auto w-full max-w-md p-4 sm:p-6"&gt;
+      &lt;div class="mb-4"&gt;
+        &lt;h3 class="text-lg font-semibold"&gt;Are you absolutely sure?&lt;/h3&gt;
+        &lt;p class="text-sm text-muted-foreground mt-1"&gt;
+          This action cannot be undone.
+        &lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="flex flex-col gap-2"&gt;
+        &lt;button&gt;Submit&lt;/button&gt;
+        &lt;button onclick="closeDrawer('drawer-1')"&gt;Cancel&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Form (Responsive) -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          With Form (Responsive)
+        </h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <button
+            onclick="openDrawer('drawer-2')"
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+          >
+            Edit Profile
+          </button>
+
+          <!-- Drawer -->
+          <div
+            id="drawer-2"
+            class="drawer-container"
+            data-state="closed"
+            style="display: none"
+          >
+            <!-- Overlay -->
+            <div
+              class="drawer-overlay fixed inset-0 z-50 bg-black/80"
+              data-state="closed"
+              onclick="closeDrawer('drawer-2')"
+            ></div>
+
+            <!-- Content -->
+            <div
+              class="drawer-content fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background"
+              data-state="closed"
+            >
+              <div
+                class="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted"
+              ></div>
+              <div class="mx-auto w-full max-w-md p-4 sm:p-6 pb-6">
+                <div class="mb-4 sm:mb-6">
+                  <h3 class="text-lg font-semibold">Edit profile</h3>
+                  <p class="text-sm text-muted-foreground mt-1">
+                    Make changes to your profile here. Click save when you're
+                    done.
+                  </p>
+                </div>
+                <form class="space-y-4">
+                  <div class="space-y-2">
+                    <label class="text-sm font-medium leading-none" for="name">
+                      Name
+                    </label>
+                    <input
+                      id="name"
+                      type="text"
+                      value="John Doe"
+                      class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    />
+                  </div>
+                  <div class="space-y-2">
+                    <label
+                      class="text-sm font-medium leading-none"
+                      for="username"
+                    >
+                      Username
+                    </label>
+                    <input
+                      id="username"
+                      type="text"
+                      value="@johndoe"
+                      class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onclick="closeDrawer('drawer-2')"
+                    class="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
+                  >
+                    Save changes
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="mx-auto w-full max-w-md p-4 sm:p-6 pb-6"&gt;
+  &lt;div class="mb-4 sm:mb-6"&gt;
+    &lt;h3 class="text-lg font-semibold"&gt;Edit profile&lt;/h3&gt;
+    &lt;p class="text-sm text-muted-foreground mt-1"&gt;
+      Make changes to your profile here.
+    &lt;/p&gt;
+  &lt;/div&gt;
+  &lt;form class="space-y-4"&gt;
+    &lt;div class="space-y-2"&gt;
+      &lt;label class="text-sm font-medium" for="name"&gt;Name&lt;/label&gt;
+      &lt;input id="name" type="text" value="John Doe" /&gt;
+    &lt;/div&gt;
+    &lt;button type="button"&gt;Save changes&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Different Heights (Responsive) -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          Different Heights (Responsive)
+        </h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
+            <button
+              onclick="openDrawer('drawer-small')"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Small Drawer
+            </button>
+            <button
+              onclick="openDrawer('drawer-medium')"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Medium Drawer
+            </button>
+            <button
+              onclick="openDrawer('drawer-large')"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Large Drawer
+            </button>
+          </div>
+
+          <!-- Small Drawer -->
+          <div
+            id="drawer-small"
+            class="drawer-container"
+            data-state="closed"
+            style="display: none"
+          >
+            <div
+              class="drawer-overlay fixed inset-0 z-50 bg-black/80"
+              onclick="closeDrawer('drawer-small')"
+            ></div>
+            <div
+              class="drawer-content fixed inset-x-0 bottom-0 z-50 flex h-[30vh] flex-col rounded-t-[10px] border bg-background"
+              data-state="closed"
+            >
+              <div
+                class="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted"
+              ></div>
+              <div class="mx-auto w-full max-w-md p-4 sm:p-6">
+                <h3 class="text-lg font-semibold mb-2">Small Drawer</h3>
+                <p class="text-sm text-muted-foreground">Height: 30vh</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Medium Drawer -->
+          <div
+            id="drawer-medium"
+            class="drawer-container"
+            data-state="closed"
+            style="display: none"
+          >
+            <div
+              class="drawer-overlay fixed inset-0 z-50 bg-black/80"
+              onclick="closeDrawer('drawer-medium')"
+            ></div>
+            <div
+              class="drawer-content fixed inset-x-0 bottom-0 z-50 flex h-[50vh] flex-col rounded-t-[10px] border bg-background"
+              data-state="closed"
+            >
+              <div
+                class="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted"
+              ></div>
+              <div class="mx-auto w-full max-w-md p-4 sm:p-6">
+                <h3 class="text-lg font-semibold mb-2">Medium Drawer</h3>
+                <p class="text-sm text-muted-foreground">Height: 50vh</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Large Drawer -->
+          <div
+            id="drawer-large"
+            class="drawer-container"
+            data-state="closed"
+            style="display: none"
+          >
+            <div
+              class="drawer-overlay fixed inset-0 z-50 bg-black/80"
+              onclick="closeDrawer('drawer-large')"
+            ></div>
+            <div
+              class="drawer-content fixed inset-x-0 bottom-0 z-50 flex h-[80vh] flex-col rounded-t-[10px] border bg-background"
+              data-state="closed"
+            >
+              <div
+                class="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted"
+              ></div>
+              <div class="mx-auto w-full max-w-md p-4 sm:p-6">
+                <h3 class="text-lg font-semibold mb-2">Large Drawer</h3>
+                <p class="text-sm text-muted-foreground">Height: 80vh</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Small: h-[30vh] --&gt;
+&lt;div class="drawer-content ... h-[30vh]"&gt;...&lt;/div&gt;
+
+&lt;!-- Medium: h-[50vh] --&gt;
+&lt;div class="drawer-content ... h-[50vh]"&gt;...&lt;/div&gt;
+
+&lt;!-- Large: h-[80vh] --&gt;
+&lt;div class="drawer-content ... h-[80vh]"&gt;...&lt;/div&gt;
+
+&lt;!-- Auto height (default) --&gt;
+&lt;div class="drawer-content ... h-auto"&gt;...&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- JavaScript -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">JavaScript</h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>function openDrawer(id) {
+  const drawer = document.getElementById(id);
+  const overlay = drawer.querySelector('.drawer-overlay');
+  const content = drawer.querySelector('.drawer-content');
+  
+  drawer.style.display = 'block';
+  drawer.setAttribute('data-state', 'open');
+  
+  // Trigger reflow for animation
+  void overlay.offsetWidth;
+  void content.offsetWidth;
+  
+  overlay.setAttribute('data-state', 'open');
+  content.setAttribute('data-state', 'open');
+  
+  // Prevent body scroll
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer(id) {
+  const drawer = document.getElementById(id);
+  const overlay = drawer.querySelector('.drawer-overlay');
+  const content = drawer.querySelector('.drawer-content');
+  
+  overlay.setAttribute('data-state', 'closed');
+  content.setAttribute('data-state', 'closed');
+  drawer.setAttribute('data-state', 'closed');
+  
+  // Wait for animation to finish
+  setTimeout(() => {
+    drawer.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 300);
+}
+
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const openDrawers = document.querySelectorAll('.drawer-container[data-state="open"]');
+    openDrawers.forEach(drawer => {
+      closeDrawer(drawer.id);
+    });
+  }
+});</code></pre>
+        </div>
+      </section>
+
+      <!-- CSS Animations -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">CSS Animations</h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>@keyframes drawer-slide-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes drawer-slide-down {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
+}
+
+@keyframes overlay-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes overlay-fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.drawer-overlay[data-state="open"] {
+  animation: overlay-fade-in 0.2s ease-out;
+}
+
+.drawer-overlay[data-state="closed"] {
+  animation: overlay-fade-out 0.2s ease-out;
+}
+
+.drawer-content[data-state="open"] {
+  animation: drawer-slide-up 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.drawer-content[data-state="closed"] {
+  animation: drawer-slide-down 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}</code></pre>
+        </div>
+      </section>
+    </div>
+
+    <script src="../js/code-block.js"></script>
+    <script>
+      function openDrawer(id) {
+        const drawer = document.getElementById(id);
+        const overlay = drawer.querySelector('.drawer-overlay');
+        const content = drawer.querySelector('.drawer-content');
+
+        drawer.style.display = 'block';
+        drawer.setAttribute('data-state', 'open');
+
+        // Trigger reflow for animation
+        void overlay.offsetWidth;
+        void content.offsetWidth;
+
+        overlay.setAttribute('data-state', 'open');
+        content.setAttribute('data-state', 'open');
+
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeDrawer(id) {
+        const drawer = document.getElementById(id);
+        const overlay = drawer.querySelector('.drawer-overlay');
+        const content = drawer.querySelector('.drawer-content');
+
+        overlay.setAttribute('data-state', 'closed');
+        content.setAttribute('data-state', 'closed');
+        drawer.setAttribute('data-state', 'closed');
+
+        // Wait for animation to finish
+        setTimeout(() => {
+          drawer.style.display = 'none';
+          document.body.style.overflow = '';
+        }, 300);
+      }
+
+      // Close on Escape key
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+          const openDrawers = document.querySelectorAll(
+            '.drawer-container[data-state="open"]'
+          );
+          openDrawers.forEach(drawer => {
+            closeDrawer(drawer.id);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

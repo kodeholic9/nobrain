@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tooltip - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+    <style>
+      /* Tooltip animations */
+      @keyframes tooltip-fade-in {
+        from {
+          opacity: 0;
+          transform: scale(0.96);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes tooltip-fade-out {
+        from {
+          opacity: 1;
+          transform: scale(1);
+        }
+        to {
+          opacity: 0;
+          transform: scale(0.96);
+        }
+      }
+
+      .tooltip-content[data-state='open'] {
+        animation: tooltip-fade-in 0.15s ease-out;
+      }
+
+      .tooltip-content[data-state='closed'] {
+        animation: tooltip-fade-out 0.1s ease-in;
+      }
+
+      /* Tooltip positioning helper */
+      .tooltip-wrapper {
+        position: relative;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2">Tooltip</h1>
+      <p class="text-muted-foreground mb-6 sm:mb-8">
+        A popup that displays information related to an element when the element
+        receives keyboard focus or the mouse hovers over it.
+      </p>
+
+      <!-- Default (Top) -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Default (Top)</h2>
+        <div
+          class="mb-4 p-8 sm:p-12 border rounded-lg bg-card flex items-center justify-center"
+        >
+          <div class="tooltip-wrapper">
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+              onmouseenter="showTooltip('tooltip-1', 'top')"
+              onmouseleave="hideTooltip('tooltip-1')"
+              onfocus="showTooltip('tooltip-1', 'top')"
+              onblur="hideTooltip('tooltip-1')"
+            >
+              Hover me
+            </button>
+            <div
+              id="tooltip-1"
+              class="tooltip-content absolute z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground hidden bottom-full left-1/2 -translate-x-1/2 mb-2"
+              data-state="closed"
+              role="tooltip"
+            >
+              Add to library
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="tooltip-wrapper"&gt;
+  &lt;button
+    onmouseenter="showTooltip('tooltip-1', 'top')"
+    onmouseleave="hideTooltip('tooltip-1')"
+  &gt;
+    Hover me
+  &lt;/button&gt;
+  &lt;div
+    id="tooltip-1"
+    class="tooltip-content absolute z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground hidden"
+    data-state="closed"
+    role="tooltip"
+  &gt;
+    Add to library
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Four Positions -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Positions</h2>
+        <div class="mb-4 p-8 sm:p-12 border rounded-lg bg-card">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-12">
+            <!-- Top -->
+            <div class="flex flex-col items-center gap-4">
+              <span class="text-sm text-muted-foreground">Top</span>
+              <div class="tooltip-wrapper">
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+                  onmouseenter="showTooltip('tooltip-top', 'top')"
+                  onmouseleave="hideTooltip('tooltip-top')"
+                >
+                  Top
+                </button>
+                <div
+                  id="tooltip-top"
+                  class="tooltip-content absolute z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground hidden bottom-full left-1/2 -translate-x-1/2 mb-2"
+                  data-state="closed"
+                  role="tooltip"
+                >
+                  Tooltip on top
+                </div>
+              </div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="flex flex-col items-center gap-4">
+              <span class="text-sm text-muted-foreground">Bottom</span>
+              <div class="tooltip-wrapper">
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+                  onmouseenter="showTooltip('tooltip-bottom', 'bottom')"
+                  onmouseleave="hideTooltip('tooltip-bottom')"
+                >
+                  Bottom
+                </button>
+                <div
+                  id="tooltip-bottom"
+                  class="tooltip-content absolute z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground hidden top-full left-1/2 -translate-x-1/2 mt-2"
+                  data-state="closed"
+                  role="tooltip"
+                >
+                  Tooltip on bottom
+                </div>
+              </div>
+            </div>
+
+            <!-- Left -->
+            <div class="flex flex-col items-center gap-4">
+              <span class="text-sm text-muted-foreground">Left</span>
+              <div class="tooltip-wrapper">
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+                  onmouseenter="showTooltip('tooltip-left', 'left')"
+                  onmouseleave="hideTooltip('tooltip-left')"
+                >
+                  Left
+                </button>
+                <div
+                  id="tooltip-left"
+                  class="tooltip-content absolute z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground hidden right-full top-1/2 -translate-y-1/2 mr-2"
+                  data-state="closed"
+                  role="tooltip"
+                >
+                  Tooltip on left
+                </div>
+              </div>
+            </div>
+
+            <!-- Right -->
+            <div class="flex flex-col items-center gap-4">
+              <span class="text-sm text-muted-foreground">Right</span>
+              <div class="tooltip-wrapper">
+                <button
+                  class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+                  onmouseenter="showTooltip('tooltip-right', 'right')"
+                  onmouseleave="hideTooltip('tooltip-right')"
+                >
+                  Right
+                </button>
+                <div
+                  id="tooltip-right"
+                  class="tooltip-content absolute z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground hidden left-full top-1/2 -translate-y-1/2 ml-2"
+                  data-state="closed"
+                  role="tooltip"
+                >
+                  Tooltip on right
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>// Top
+showTooltip('id', 'top');
+
+// Bottom
+showTooltip('id', 'bottom');
+
+// Left
+showTooltip('id', 'left');
+
+// Right
+showTooltip('id', 'right');</code></pre>
+        </div>
+      </section>
+
+      <!-- With Icon Button -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">With Icon Button</h2>
+        <div
+          class="mb-4 p-8 sm:p-12 border rounded-lg bg-card flex items-center justify-center gap-4"
+        >
+          <div class="tooltip-wrapper">
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 w-9"
+              onmouseenter="showTooltip('tooltip-save', 'top')"
+              onmouseleave="hideTooltip('tooltip-save')"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"
+                />
+                <polyline points="17 21 17 13 7 13 7 21" />
+                <polyline points="7 3 7 8 15 8" />
+              </svg>
+            </button>
+            <div
+              id="tooltip-save"
+              class="tooltip-content absolute z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground hidden bottom-full left-1/2 -translate-x-1/2 mb-2"
+              data-state="closed"
+              role="tooltip"
+            >
+              Save
+            </div>
+          </div>
+
+          <div class="tooltip-wrapper">
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 w-9"
+              onmouseenter="showTooltip('tooltip-edit', 'top')"
+              onmouseleave="hideTooltip('tooltip-edit')"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+              </svg>
+            </button>
+            <div
+              id="tooltip-edit"
+              class="tooltip-content absolute z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground hidden bottom-full left-1/2 -translate-x-1/2 mb-2"
+              data-state="closed"
+              role="tooltip"
+            >
+              Edit
+            </div>
+          </div>
+
+          <div class="tooltip-wrapper">
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 w-9"
+              onmouseenter="showTooltip('tooltip-delete', 'top')"
+              onmouseleave="hideTooltip('tooltip-delete')"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 6h18" />
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+              </svg>
+            </button>
+            <div
+              id="tooltip-delete"
+              class="tooltip-content absolute z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground hidden bottom-full left-1/2 -translate-x-1/2 mb-2"
+              data-state="closed"
+              role="tooltip"
+            >
+              Delete
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="tooltip-wrapper"&gt;
+  &lt;button
+    class="... h-9 w-9"
+    onmouseenter="showTooltip('tooltip-save', 'top')"
+    onmouseleave="hideTooltip('tooltip-save')"
+  &gt;
+    &lt;svg&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;div id="tooltip-save" class="tooltip-content..." role="tooltip"&gt;
+    Save
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Delayed Show -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Delayed Show</h2>
+        <p class="text-muted-foreground mb-4">
+          Tooltip appears after a delay (default: 700ms)
+        </p>
+        <div
+          class="mb-4 p-8 sm:p-12 border rounded-lg bg-card flex items-center justify-center"
+        >
+          <div class="tooltip-wrapper">
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+              onmouseenter="showTooltip('tooltip-delayed', 'top', 700)"
+              onmouseleave="hideTooltip('tooltip-delayed')"
+            >
+              Hover me (700ms delay)
+            </button>
+            <div
+              id="tooltip-delayed"
+              class="tooltip-content absolute z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-xs text-primary-foreground hidden bottom-full left-1/2 -translate-x-1/2 mb-2"
+              data-state="closed"
+              role="tooltip"
+            >
+              I appear after a delay
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>// Show with 700ms delay
+showTooltip('id', 'top', 700);</code></pre>
+        </div>
+      </section>
+
+      <!-- JavaScript -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">JavaScript</h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>let tooltipTimeouts = {};
+
+function showTooltip(id, position = 'top', delay = 0) {
+  // Clear existing timeout
+  if (tooltipTimeouts[id]) {
+    clearTimeout(tooltipTimeouts[id]);
+  }
+
+  // Set new timeout
+  tooltipTimeouts[id] = setTimeout(() => {
+    const tooltip = document.getElementById(id);
+    const wrapper = tooltip.parentElement;
+    const trigger = wrapper.querySelector('button');
+    
+    // Remove all position classes
+    tooltip.classList.remove('top-full', 'bottom-full', 'left-full', 'right-full');
+    tooltip.classList.remove('left-1/2', '-translate-x-1/2');
+    tooltip.classList.remove('top-1/2', '-translate-y-1/2');
+    tooltip.classList.remove('mt-2', 'mb-2', 'ml-2', 'mr-2');
+    
+    // Add position classes based on direction BEFORE showing
+    if (position === 'top') {
+      tooltip.classList.add('bottom-full', 'left-1/2', '-translate-x-1/2', 'mb-2');
+    } else if (position === 'bottom') {
+      tooltip.classList.add('top-full', 'left-1/2', '-translate-x-1/2', 'mt-2');
+    } else if (position === 'left') {
+      tooltip.classList.add('right-full', 'top-1/2', '-translate-y-1/2', 'mr-2');
+    } else if (position === 'right') {
+      tooltip.classList.add('left-full', 'top-1/2', '-translate-y-1/2', 'ml-2');
+    }
+    
+    // Show tooltip AFTER position is set
+    tooltip.classList.remove('hidden');
+    tooltip.classList.add('block');
+    
+    // Trigger animation slightly after display change
+    requestAnimationFrame(() => {
+      tooltip.setAttribute('data-state', 'open');
+    });
+  }, delay);
+}
+
+function hideTooltip(id) {
+  // Clear timeout
+  if (tooltipTimeouts[id]) {
+    clearTimeout(tooltipTimeouts[id]);
+    delete tooltipTimeouts[id];
+  }
+  
+  const tooltip = document.getElementById(id);
+  if (!tooltip) return;
+  
+  tooltip.setAttribute('data-state', 'closed');
+  
+  // Hide after animation
+  setTimeout(() => {
+    if (tooltip.getAttribute('data-state') === 'closed') {
+      tooltip.classList.add('hidden');
+      tooltip.classList.remove('block');
+    }
+  }, 100);
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- CSS Animations -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">CSS Animations</h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>/* Tooltip animations */
+@keyframes tooltip-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tooltip-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+.tooltip-content[data-state="open"] {
+  animation: tooltip-fade-in 0.15s ease-out;
+}
+
+.tooltip-content[data-state="closed"] {
+  animation: tooltip-fade-out 0.1s ease-in;
+}</code></pre>
+        </div>
+      </section>
+    </div>
+
+    <script src="../js/code-block.js"></script>
+    <script>
+      let tooltipTimeouts = {};
+
+      function showTooltip(id, position = 'top', delay = 0) {
+        // Clear existing timeout
+        if (tooltipTimeouts[id]) {
+          clearTimeout(tooltipTimeouts[id]);
+        }
+
+        // Set new timeout
+        tooltipTimeouts[id] = setTimeout(() => {
+          const tooltip = document.getElementById(id);
+          const wrapper = tooltip.parentElement;
+          const trigger = wrapper.querySelector('button');
+
+          // Remove all position classes
+          tooltip.classList.remove(
+            'top-full',
+            'bottom-full',
+            'left-full',
+            'right-full'
+          );
+          tooltip.classList.remove('left-1/2', '-translate-x-1/2');
+          tooltip.classList.remove('top-1/2', '-translate-y-1/2');
+          tooltip.classList.remove('mt-2', 'mb-2', 'ml-2', 'mr-2');
+
+          // Add position classes based on direction BEFORE showing
+          if (position === 'top') {
+            tooltip.classList.add(
+              'bottom-full',
+              'left-1/2',
+              '-translate-x-1/2',
+              'mb-2'
+            );
+          } else if (position === 'bottom') {
+            tooltip.classList.add(
+              'top-full',
+              'left-1/2',
+              '-translate-x-1/2',
+              'mt-2'
+            );
+          } else if (position === 'left') {
+            tooltip.classList.add(
+              'right-full',
+              'top-1/2',
+              '-translate-y-1/2',
+              'mr-2'
+            );
+          } else if (position === 'right') {
+            tooltip.classList.add(
+              'left-full',
+              'top-1/2',
+              '-translate-y-1/2',
+              'ml-2'
+            );
+          }
+
+          // Show tooltip AFTER position is set
+          tooltip.classList.remove('hidden');
+          tooltip.classList.add('block');
+
+          // Trigger animation slightly after display change
+          requestAnimationFrame(() => {
+            tooltip.setAttribute('data-state', 'open');
+          });
+        }, delay);
+      }
+
+      function hideTooltip(id) {
+        // Clear timeout
+        if (tooltipTimeouts[id]) {
+          clearTimeout(tooltipTimeouts[id]);
+          delete tooltipTimeouts[id];
+        }
+
+        const tooltip = document.getElementById(id);
+        if (!tooltip) return;
+
+        tooltip.setAttribute('data-state', 'closed');
+
+        // Hide after animation
+        setTimeout(() => {
+          if (tooltip.getAttribute('data-state') === 'closed') {
+            tooltip.classList.add('hidden');
+            tooltip.classList.remove('block');
+          }
+        }, 100);
+      }
+    </script>
+  </body>
+</html>

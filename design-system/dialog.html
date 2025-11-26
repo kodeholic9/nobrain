@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dialog - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+    <style>
+      /* Dialog Animations */
+      @keyframes dialog-overlay-fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes dialog-overlay-fade-out {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+
+      @keyframes dialog-content-zoom-in {
+        from {
+          opacity: 0;
+          transform: translate(-50%, -48%) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+
+      @keyframes dialog-content-zoom-out {
+        from {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+        to {
+          opacity: 0;
+          transform: translate(-50%, -48%) scale(0.95);
+        }
+      }
+
+      .dialog-overlay[data-state='open'] {
+        animation: dialog-overlay-fade-in 0.15s ease-out;
+      }
+
+      .dialog-overlay[data-state='closed'] {
+        animation: dialog-overlay-fade-out 0.15s ease-out;
+      }
+
+      .dialog-content[data-state='open'] {
+        animation: dialog-content-zoom-in 0.15s ease-out;
+      }
+
+      .dialog-content[data-state='closed'] {
+        animation: dialog-content-zoom-out 0.15s ease-out;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2">Dialog</h1>
+      <p class="text-muted-foreground mb-6 sm:mb-8">
+        A window overlaid on either the primary window or another dialog window,
+        rendering the content underneath inert.
+      </p>
+
+      <!-- Default Dialog -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Default</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <button
+            onclick="openDialog('dialog-1')"
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+          >
+            Open Dialog
+          </button>
+
+          <!-- Dialog -->
+          <div
+            id="dialog-1"
+            class="dialog-container"
+            data-state="closed"
+            style="display: none"
+          >
+            <!-- Overlay -->
+            <div
+              class="dialog-overlay fixed inset-0 z-50 bg-black/80"
+              data-state="closed"
+              onclick="closeDialog('dialog-1')"
+            ></div>
+
+            <!-- Content -->
+            <div
+              class="dialog-content fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg sm:rounded-lg"
+              data-state="closed"
+            >
+              <!-- Close Button -->
+              <button
+                onclick="closeDialog('dialog-1')"
+                class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-4 w-4"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+                <span class="sr-only">Close</span>
+              </button>
+
+              <!-- Header -->
+              <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+                <h2 class="text-lg font-semibold leading-none tracking-tight">
+                  Are you absolutely sure?
+                </h2>
+                <p class="text-sm text-muted-foreground">
+                  This action cannot be undone.
+                </p>
+              </div>
+
+              <!-- Footer -->
+              <div
+                class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2"
+              >
+                <button
+                  onclick="closeDialog('dialog-1')"
+                  class="mt-2 sm:mt-0 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+                >
+                  Cancel
+                </button>
+                <button
+                  onclick="closeDialog('dialog-1')"
+                  class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
+                >
+                  Continue
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Trigger Button --&gt;
+&lt;button onclick="openDialog('dialog-1')"&gt;Open Dialog&lt;/button&gt;
+
+&lt;!-- Dialog --&gt;
+&lt;div id="dialog-1" class="dialog-container" data-state="closed"&gt;
+  &lt;!-- Overlay --&gt;
+  &lt;div
+    class="dialog-overlay fixed inset-0 z-50 bg-black/80"
+    onclick="closeDialog('dialog-1')"
+  &gt;&lt;/div&gt;
+
+  &lt;!-- Content --&gt;
+  &lt;div class="dialog-content fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg sm:rounded-lg"&gt;
+    &lt;!-- Close Button (X) --&gt;
+    &lt;button onclick="closeDialog('dialog-1')" class="absolute right-4 top-4 ..."&gt;
+      &lt;svg ...&gt;X Icon&lt;/svg&gt;
+    &lt;/button&gt;
+
+    &lt;!-- Header --&gt;
+    &lt;div&gt;
+      &lt;h2&gt;Are you absolutely sure?&lt;/h2&gt;
+      &lt;p&gt;This action cannot be undone.&lt;/p&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Footer --&gt;
+    &lt;div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2"&gt;
+      &lt;button&gt;Cancel&lt;/button&gt;
+      &lt;button&gt;Continue&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Form (Responsive) -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          With Form (Responsive)
+        </h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <button
+            onclick="openDialog('dialog-2')"
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+          >
+            Edit Profile
+          </button>
+
+          <!-- Dialog -->
+          <div
+            id="dialog-2"
+            class="dialog-container"
+            data-state="closed"
+            style="display: none"
+          >
+            <div
+              class="dialog-overlay fixed inset-0 z-50 bg-black/80"
+              onclick="closeDialog('dialog-2')"
+            ></div>
+            <div
+              class="dialog-content fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg sm:rounded-lg"
+              data-state="closed"
+            >
+              <button
+                onclick="closeDialog('dialog-2')"
+                class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-4 w-4"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+
+              <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+                <h2 class="text-lg font-semibold leading-none tracking-tight">
+                  Edit profile
+                </h2>
+                <p class="text-sm text-muted-foreground">
+                  Make changes to your profile here. Click save when you're
+                  done.
+                </p>
+              </div>
+
+              <form class="grid gap-4 py-4">
+                <div class="grid gap-2">
+                  <label class="text-sm font-medium leading-none" for="name"
+                    >Name</label
+                  >
+                  <input
+                    id="name"
+                    type="text"
+                    value="John Doe"
+                    class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  />
+                </div>
+                <div class="grid gap-2">
+                  <label class="text-sm font-medium leading-none" for="username"
+                    >Username</label
+                  >
+                  <input
+                    id="username"
+                    type="text"
+                    value="@johndoe"
+                    class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                  />
+                </div>
+              </form>
+
+              <div
+                class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2"
+              >
+                <button
+                  type="button"
+                  onclick="closeDialog('dialog-2')"
+                  class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
+                >
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="dialog-content ..."&gt;
+  &lt;div&gt;
+    &lt;h2&gt;Edit profile&lt;/h2&gt;
+    &lt;p&gt;Make changes to your profile here.&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;form class="grid gap-4 py-4"&gt;
+    &lt;div class="grid gap-2"&gt;
+      &lt;label for="name"&gt;Name&lt;/label&gt;
+      &lt;input id="name" type="text" value="John Doe" /&gt;
+    &lt;/div&gt;
+    &lt;div class="grid gap-2"&gt;
+      &lt;label for="username"&gt;Username&lt;/label&gt;
+      &lt;input id="username" type="text" value="@johndoe" /&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+
+  &lt;div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2"&gt;
+    &lt;button&gt;Save changes&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Different Sizes (Responsive) -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          Different Sizes (Responsive)
+        </h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
+            <button
+              onclick="openDialog('dialog-sm')"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Small (sm)
+            </button>
+            <button
+              onclick="openDialog('dialog-md')"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Medium (default)
+            </button>
+            <button
+              onclick="openDialog('dialog-lg')"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Large (lg)
+            </button>
+          </div>
+
+          <!-- Small Dialog -->
+          <div
+            id="dialog-sm"
+            class="dialog-container"
+            data-state="closed"
+            style="display: none"
+          >
+            <div
+              class="dialog-overlay fixed inset-0 z-50 bg-black/80"
+              onclick="closeDialog('dialog-sm')"
+            ></div>
+            <div
+              class="dialog-content fixed left-[50%] top-[50%] z-50 grid w-full sm:max-w-sm translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg sm:rounded-lg"
+              data-state="closed"
+            >
+              <button
+                onclick="closeDialog('dialog-sm')"
+                class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-4 w-4"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+              <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+                <h2 class="text-lg font-semibold">Small Dialog</h2>
+                <p class="text-sm text-muted-foreground">sm:max-w-sm (384px)</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Medium Dialog -->
+          <div
+            id="dialog-md"
+            class="dialog-container"
+            data-state="closed"
+            style="display: none"
+          >
+            <div
+              class="dialog-overlay fixed inset-0 z-50 bg-black/80"
+              onclick="closeDialog('dialog-md')"
+            ></div>
+            <div
+              class="dialog-content fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg sm:rounded-lg"
+              data-state="closed"
+            >
+              <button
+                onclick="closeDialog('dialog-md')"
+                class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-4 w-4"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+              <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+                <h2 class="text-lg font-semibold">Medium Dialog</h2>
+                <p class="text-sm text-muted-foreground">
+                  max-w-lg (512px) - Default
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Large Dialog -->
+          <div
+            id="dialog-lg"
+            class="dialog-container"
+            data-state="closed"
+            style="display: none"
+          >
+            <div
+              class="dialog-overlay fixed inset-0 z-50 bg-black/80"
+              onclick="closeDialog('dialog-lg')"
+            ></div>
+            <div
+              class="dialog-content fixed left-[50%] top-[50%] z-50 grid w-full sm:max-w-3xl translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg sm:rounded-lg"
+              data-state="closed"
+            >
+              <button
+                onclick="closeDialog('dialog-lg')"
+                class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="h-4 w-4"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="m6 6 12 12" />
+                </svg>
+              </button>
+              <div class="flex flex-col space-y-1.5 text-center sm:text-left">
+                <h2 class="text-lg font-semibold">Large Dialog</h2>
+                <p class="text-sm text-muted-foreground">
+                  sm:max-w-3xl (768px)
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Small: sm:max-w-sm (384px) --&gt;
+&lt;div class="dialog-content ... sm:max-w-sm"&gt;...&lt;/div&gt;
+
+&lt;!-- Medium: max-w-lg (512px) - Default --&gt;
+&lt;div class="dialog-content ... max-w-lg"&gt;...&lt;/div&gt;
+
+&lt;!-- Large: sm:max-w-3xl (768px) --&gt;
+&lt;div class="dialog-content ... sm:max-w-3xl"&gt;...&lt;/div&gt;
+
+&lt;!-- Extra Large: sm:max-w-5xl (1024px) --&gt;
+&lt;div class="dialog-content ... sm:max-w-5xl"&gt;...&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- JavaScript -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">JavaScript</h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>function openDialog(id) {
+  const dialog = document.getElementById(id);
+  const overlay = dialog.querySelector('.dialog-overlay');
+  const content = dialog.querySelector('.dialog-content');
+  
+  dialog.style.display = 'block';
+  dialog.setAttribute('data-state', 'open');
+  
+  // Trigger reflow for animation
+  void overlay.offsetWidth;
+  void content.offsetWidth;
+  
+  overlay.setAttribute('data-state', 'open');
+  content.setAttribute('data-state', 'open');
+  
+  // Prevent body scroll
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDialog(id) {
+  const dialog = document.getElementById(id);
+  const overlay = dialog.querySelector('.dialog-overlay');
+  const content = dialog.querySelector('.dialog-content');
+  
+  overlay.setAttribute('data-state', 'closed');
+  content.setAttribute('data-state', 'closed');
+  dialog.setAttribute('data-state', 'closed');
+  
+  // Wait for animation to finish
+  setTimeout(() => {
+    dialog.style.display = 'none';
+    document.body.style.overflow = '';
+  }, 150);
+}
+
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const openDialogs = document.querySelectorAll('.dialog-container[data-state="open"]');
+    openDialogs.forEach(dialog => {
+      closeDialog(dialog.id);
+    });
+  }
+});</code></pre>
+        </div>
+      </section>
+
+      <!-- CSS Animations -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">CSS Animations</h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>@keyframes dialog-overlay-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes dialog-content-zoom-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.dialog-overlay[data-state="open"] {
+  animation: dialog-overlay-fade-in 0.15s ease-out;
+}
+
+.dialog-content[data-state="open"] {
+  animation: dialog-content-zoom-in 0.15s ease-out;
+}</code></pre>
+        </div>
+      </section>
+    </div>
+
+    <script src="../js/code-block.js"></script>
+    <script>
+      function openDialog(id) {
+        const dialog = document.getElementById(id);
+        const overlay = dialog.querySelector('.dialog-overlay');
+        const content = dialog.querySelector('.dialog-content');
+
+        dialog.style.display = 'block';
+        dialog.setAttribute('data-state', 'open');
+
+        // Trigger reflow for animation
+        void overlay.offsetWidth;
+        void content.offsetWidth;
+
+        overlay.setAttribute('data-state', 'open');
+        content.setAttribute('data-state', 'open');
+
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeDialog(id) {
+        const dialog = document.getElementById(id);
+        const overlay = dialog.querySelector('.dialog-overlay');
+        const content = dialog.querySelector('.dialog-content');
+
+        overlay.setAttribute('data-state', 'closed');
+        content.setAttribute('data-state', 'closed');
+        dialog.setAttribute('data-state', 'closed');
+
+        // Wait for animation to finish
+        setTimeout(() => {
+          dialog.style.display = 'none';
+          document.body.style.overflow = '';
+        }, 150);
+      }
+
+      // Close on Escape key
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+          const openDialogs = document.querySelectorAll(
+            '.dialog-container[data-state="open"]'
+          );
+          openDialogs.forEach(dialog => {
+            closeDialog(dialog.id);
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

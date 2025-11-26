@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Badge - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+  </head>
+  <body>
+    <div class="container mx-auto p-8">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-2">Badge</h1>
+        <p class="text-muted-foreground">
+          Displays a badge or a component that looks like a badge.
+        </p>
+      </header>
+
+      <!-- Variants -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Variants</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="flex flex-wrap gap-2">
+            <span
+              class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/80"
+            >
+              Badge
+            </span>
+            <span
+              class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            >
+              Secondary
+            </span>
+            <span
+              class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-destructive text-destructive-foreground shadow hover:bg-destructive/80"
+            >
+              Destructive
+            </span>
+            <span
+              class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring border text-foreground"
+            >
+              Outline
+            </span>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Default --&gt;
+&lt;span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/80"&gt;
+  Badge
+&lt;/span&gt;
+
+&lt;!-- Secondary --&gt;
+&lt;span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-secondary text-secondary-foreground hover:bg-secondary/80"&gt;
+  Secondary
+&lt;/span&gt;
+
+&lt;!-- Destructive --&gt;
+&lt;span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-destructive text-destructive-foreground shadow hover:bg-destructive/80"&gt;
+  Destructive
+&lt;/span&gt;
+
+&lt;!-- Outline --&gt;
+&lt;span class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring border text-foreground"&gt;
+  Outline
+&lt;/span&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Icon -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Icon</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="flex flex-wrap gap-2">
+            <span
+              class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-secondary text-secondary-foreground hover:bg-secondary/80 bg-blue-500 text-white dark:bg-blue-600"
+            >
+              <svg
+                class="size-3"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"
+                />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+              Verified
+            </span>
+            <span
+              class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/80"
+            >
+              <svg
+                class="size-3"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+              Active
+            </span>
+            <span
+              class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-destructive text-destructive-foreground shadow hover:bg-destructive/80"
+            >
+              <svg
+                class="size-3"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 3h18v18H3zM15 9l-6 6m0-6l6 6" />
+              </svg>
+              Error
+            </span>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;span class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-secondary text-secondary-foreground hover:bg-secondary/80 bg-blue-500 text-white dark:bg-blue-600"&gt;
+  &lt;svg class="size-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;
+    &lt;path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/&gt;
+    &lt;path d="m9 12 2 2 4-4"/&gt;
+  &lt;/svg&gt;
+  Verified
+&lt;/span&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Notification Badges -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Notification Badges</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="flex flex-wrap items-center gap-4">
+            <span
+              class="inline-flex items-center justify-center h-5 min-w-5 rounded-full px-1 text-xs font-semibold font-mono tabular-nums transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/80"
+            >
+              8
+            </span>
+            <span
+              class="inline-flex items-center justify-center h-5 min-w-5 rounded-full px-1 text-xs font-semibold font-mono tabular-nums transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-destructive text-destructive-foreground shadow hover:bg-destructive/80"
+            >
+              99
+            </span>
+            <span
+              class="inline-flex items-center justify-center h-5 min-w-5 rounded-full px-1 text-xs font-semibold font-mono tabular-nums transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring border text-foreground"
+            >
+              20+
+            </span>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Default --&gt;
+&lt;span class="inline-flex items-center justify-center h-5 min-w-5 rounded-full px-1 text-xs font-semibold font-mono tabular-nums transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/80"&gt;
+  8
+&lt;/span&gt;
+
+&lt;!-- Destructive --&gt;
+&lt;span class="inline-flex items-center justify-center h-5 min-w-5 rounded-full px-1 text-xs font-semibold font-mono tabular-nums transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-destructive text-destructive-foreground shadow hover:bg-destructive/80"&gt;
+  99
+&lt;/span&gt;
+
+&lt;!-- Outline --&gt;
+&lt;span class="inline-flex items-center justify-center h-5 min-w-5 rounded-full px-1 text-xs font-semibold font-mono tabular-nums transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring border text-foreground"&gt;
+  20+
+&lt;/span&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Status Badges -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Status Badges</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="flex flex-wrap gap-2">
+            <span
+              class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"
+            >
+              <span
+                class="size-1.5 rounded-full bg-green-600 dark:bg-green-400"
+              ></span>
+              Active
+            </span>
+            <span
+              class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100"
+            >
+              <span
+                class="size-1.5 rounded-full bg-yellow-600 dark:bg-yellow-400"
+              ></span>
+              Pending
+            </span>
+            <span
+              class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100"
+            >
+              <span
+                class="size-1.5 rounded-full bg-gray-600 dark:bg-gray-400"
+              ></span>
+              Inactive
+            </span>
+            <span
+              class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100"
+            >
+              <span
+                class="size-1.5 rounded-full bg-red-600 dark:bg-red-400"
+              ></span>
+              Error
+            </span>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;span class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100"&gt;
+  &lt;span class="size-1.5 rounded-full bg-green-600 dark:bg-green-400"&gt;&lt;/span&gt;
+  Active
+&lt;/span&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Removable Badges -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Removable Badges</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="flex flex-wrap gap-2">
+            <span
+              class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            >
+              React
+              <button
+                type="button"
+                class="ml-0.5 inline-flex items-center justify-center size-3 rounded-sm hover:bg-secondary-foreground/20 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                onclick="this.parentElement.remove()"
+              >
+                <svg
+                  class="size-3"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </span>
+            <span
+              class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            >
+              Vue
+              <button
+                type="button"
+                class="ml-0.5 inline-flex items-center justify-center size-3 rounded-sm hover:bg-secondary-foreground/20 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                onclick="this.parentElement.remove()"
+              >
+                <svg
+                  class="size-3"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </span>
+            <span
+              class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            >
+              Angular
+              <button
+                type="button"
+                class="ml-0.5 inline-flex items-center justify-center size-3 rounded-sm hover:bg-secondary-foreground/20 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                onclick="this.parentElement.remove()"
+              >
+                <svg
+                  class="size-3"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 6 6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </span>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;span class="inline-flex items-center gap-1 rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-secondary text-secondary-foreground hover:bg-secondary/80"&gt;
+  React
+  &lt;button type="button" class="ml-0.5 inline-flex items-center justify-center size-3 rounded-sm hover:bg-secondary-foreground/20 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring" onclick="this.parentElement.remove()"&gt;
+    &lt;svg class="size-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;
+      &lt;path d="M18 6 6 18M6 6l12 12"/&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/span&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- As Link -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">As Link</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="flex flex-wrap gap-2">
+            <a
+              href="#"
+              class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/80"
+            >
+              Click me
+            </a>
+            <a
+              href="#"
+              class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring border text-foreground hover:bg-accent"
+            >
+              Outline Link
+            </a>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;a href="#" class="inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-[1.5px] focus-visible:ring-ring bg-primary text-primary-foreground shadow hover:bg-primary/80"&gt;
+  Click me
+&lt;/a&gt;</code></pre>
+        </div>
+      </section>
+    </div>
+
+    <script src="../js/theme-manager.js"></script>
+    <script src="../js/code-block.js"></script>
+  </body>
+</html>

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Select - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+  </head>
+  <body>
+    <div class="container mx-auto p-8">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-2">Select</h1>
+        <p class="text-muted-foreground">
+          Displays a list of options for the user to pick from.
+        </p>
+      </header>
+
+      <!-- Default -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Default</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <select
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+            <option value="4">Option 4</option>
+          </select>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;select class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"&gt;
+  &lt;option value="1"&gt;Option 1&lt;/option&gt;
+  &lt;option value="2"&gt;Option 2&lt;/option&gt;
+  &lt;option value="3"&gt;Option 3&lt;/option&gt;
+  &lt;option value="4"&gt;Option 4&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Placeholder -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Placeholder</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <select
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <option value="" disabled selected class="text-muted-foreground">
+              Select an option
+            </option>
+            <option value="apple">Apple</option>
+            <option value="banana">Banana</option>
+            <option value="orange">Orange</option>
+            <option value="grape">Grape</option>
+          </select>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;select class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"&gt;
+  &lt;option value="" disabled selected class="text-muted-foreground"&gt;Select an option&lt;/option&gt;
+  &lt;option value="apple"&gt;Apple&lt;/option&gt;
+  &lt;option value="banana"&gt;Banana&lt;/option&gt;
+  &lt;option value="orange"&gt;Orange&lt;/option&gt;
+  &lt;option value="grape"&gt;Grape&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Label -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Label</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="space-y-2">
+            <label
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Country
+            </label>
+            <select
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <option value="" disabled selected class="text-muted-foreground">
+                Select a country
+              </option>
+              <option value="us">United States</option>
+              <option value="uk">United Kingdom</option>
+              <option value="ca">Canada</option>
+              <option value="au">Australia</option>
+              <option value="kr">South Korea</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2"&gt;
+  &lt;label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"&gt;
+    Country
+  &lt;/label&gt;
+  &lt;select class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"&gt;
+    &lt;option value="" disabled selected class="text-muted-foreground"&gt;Select a country&lt;/option&gt;
+    &lt;option value="us"&gt;United States&lt;/option&gt;
+    &lt;option value="uk"&gt;United Kingdom&lt;/option&gt;
+    &lt;option value="ca"&gt;Canada&lt;/option&gt;
+    &lt;option value="au"&gt;Australia&lt;/option&gt;
+    &lt;option value="kr"&gt;South Korea&lt;/option&gt;
+  &lt;/select&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Description -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Description</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="space-y-2">
+            <label
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Theme
+            </label>
+            <select
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+              <option value="system">System</option>
+            </select>
+            <p class="text-sm text-muted-foreground">
+              Choose your preferred color scheme.
+            </p>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2"&gt;
+  &lt;label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"&gt;
+    Theme
+  &lt;/label&gt;
+  &lt;select class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"&gt;
+    &lt;option value="light"&gt;Light&lt;/option&gt;
+    &lt;option value="dark"&gt;Dark&lt;/option&gt;
+    &lt;option value="system"&gt;System&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;p class="text-sm text-muted-foreground"&gt;
+    Choose your preferred color scheme.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Disabled -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Disabled</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <select
+            disabled
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;select disabled class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"&gt;
+  &lt;option value="1"&gt;Option 1&lt;/option&gt;
+  &lt;option value="2"&gt;Option 2&lt;/option&gt;
+  &lt;option value="3"&gt;Option 3&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Optgroup -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Optgroup</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <select
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <option value="" disabled selected class="text-muted-foreground">
+              Select a language
+            </option>
+            <optgroup label="Frontend">
+              <option value="html">HTML</option>
+              <option value="css">CSS</option>
+              <option value="javascript">JavaScript</option>
+              <option value="typescript">TypeScript</option>
+            </optgroup>
+            <optgroup label="Backend">
+              <option value="python">Python</option>
+              <option value="java">Java</option>
+              <option value="php">PHP</option>
+              <option value="ruby">Ruby</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;select class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"&gt;
+  &lt;option value="" disabled selected class="text-muted-foreground"&gt;Select a language&lt;/option&gt;
+  &lt;optgroup label="Frontend"&gt;
+    &lt;option value="html"&gt;HTML&lt;/option&gt;
+    &lt;option value="css"&gt;CSS&lt;/option&gt;
+    &lt;option value="javascript"&gt;JavaScript&lt;/option&gt;
+    &lt;option value="typescript"&gt;TypeScript&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Backend"&gt;
+    &lt;option value="python"&gt;Python&lt;/option&gt;
+    &lt;option value="java"&gt;Java&lt;/option&gt;
+    &lt;option value="php"&gt;PHP&lt;/option&gt;
+    &lt;option value="ruby"&gt;Ruby&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Multiple Select -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Multiple Select</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="space-y-2">
+            <label
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Select multiple options
+            </label>
+            <select
+              multiple
+              class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <option value="react">React</option>
+              <option value="vue">Vue</option>
+              <option value="angular">Angular</option>
+              <option value="svelte">Svelte</option>
+              <option value="solid">Solid</option>
+            </select>
+            <p class="text-sm text-muted-foreground">
+              Hold Ctrl (or Cmd) to select multiple items.
+            </p>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2"&gt;
+  &lt;label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"&gt;
+    Select multiple options
+  &lt;/label&gt;
+  &lt;select multiple class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"&gt;
+    &lt;option value="react"&gt;React&lt;/option&gt;
+    &lt;option value="vue"&gt;Vue&lt;/option&gt;
+    &lt;option value="angular"&gt;Angular&lt;/option&gt;
+    &lt;option value="svelte"&gt;Svelte&lt;/option&gt;
+    &lt;option value="solid"&gt;Solid&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;p class="text-sm text-muted-foreground"&gt;
+    Hold Ctrl (or Cmd) to select multiple items.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Custom Select -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">
+          Custom Select (Tailwind Only)
+        </h2>
+        <p class="text-muted-foreground mb-6">
+          Fully customizable select component using only Tailwind utility
+          classes.
+        </p>
+
+        <!-- Basic Custom Select -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Basic</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div id="select-fruit" class="relative w-full">
+            <button
+              type="button"
+              class="flex items-center justify-between w-full h-9 px-3 py-1 border border-input rounded-md bg-transparent text-sm transition-colors hover:bg-accent focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer"
+              aria-expanded="false"
+            >
+              <span class="text-muted-foreground">Select a fruit</span>
+              <svg
+                class="w-4 h-4 text-muted-foreground transition-transform"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div
+              class="hidden absolute top-full mt-1 left-0 right-0 z-50 max-h-60 overflow-y-auto border border-border rounded-md bg-popover shadow-md"
+            >
+              <div
+                class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
+                data-value="apple"
+              >
+                Apple
+              </div>
+              <div
+                class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
+                data-value="banana"
+              >
+                Banana
+              </div>
+              <div
+                class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
+                data-value="orange"
+              >
+                Orange
+              </div>
+              <div
+                class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
+                data-value="grape"
+              >
+                Grape
+              </div>
+              <div
+                class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
+                data-value="mango"
+              >
+                Mango
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div id="select-fruit" class="relative w-full"&gt;
+  &lt;button type="button" class="flex items-center justify-between w-full h-9 px-3 py-1 border border-input rounded-md bg-transparent text-sm transition-colors hover:bg-accent focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer" aria-expanded="false"&gt;
+    &lt;span class="text-muted-foreground"&gt;Select a fruit&lt;/span&gt;
+    &lt;svg class="w-4 h-4 text-muted-foreground transition-transform" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;
+      &lt;polyline points="6 9 12 15 18 9"/&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;div class="hidden absolute top-full mt-1 left-0 right-0 z-50 max-h-60 overflow-y-auto border border-border rounded-md bg-popover shadow-md"&gt;
+    &lt;div class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors" data-value="apple"&gt;Apple&lt;/div&gt;
+    &lt;div class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors" data-value="banana"&gt;Banana&lt;/div&gt;
+    &lt;div class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors" data-value="orange"&gt;Orange&lt;/div&gt;
+    &lt;div class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors" data-value="grape"&gt;Grape&lt;/div&gt;
+    &lt;div class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors" data-value="mango"&gt;Mango&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function initCustomSelect(selectId) {
+  const wrapper = document.getElementById(selectId);
+  if (!wrapper) return;
+  
+  const trigger = wrapper.querySelector('button[aria-expanded]');
+  const dropdown = wrapper.querySelector('.hidden.absolute');
+  const valueEl = trigger.querySelector('span');
+  const icon = trigger.querySelector('svg');
+  const options = wrapper.querySelectorAll('[data-value]');
+
+  trigger.addEventListener('click', () =&gt; {
+    const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+    trigger.setAttribute('aria-expanded', !isOpen);
+    dropdown.classList.toggle('hidden');
+    icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+  });
+
+  options.forEach(option =&gt; {
+    option.addEventListener('click', () =&gt; {
+      const text = option.textContent;
+      
+      options.forEach(opt =&gt; opt.classList.remove('bg-accent', 'font-medium'));
+      option.classList.add('bg-accent', 'font-medium');
+      
+      valueEl.textContent = text;
+      valueEl.classList.remove('text-muted-foreground');
+      valueEl.classList.add('text-foreground');
+      
+      trigger.setAttribute('aria-expanded', 'false');
+      dropdown.classList.add('hidden');
+      icon.style.transform = 'rotate(0deg)';
+    });
+  });
+
+  document.addEventListener('click', (e) =&gt; {
+    if (!wrapper.contains(e.target)) {
+      trigger.setAttribute('aria-expanded', 'false');
+      dropdown.classList.add('hidden');
+      icon.style.transform = 'rotate(0deg)';
+    }
+  });
+}
+
+// Initialize
+initCustomSelect('select-fruit');
+&lt;/script&gt;</code></pre>
+        </div>
+
+        <!-- With Label -->
+        <h3 class="text-lg font-medium mb-2 mt-6">With Label</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="space-y-2">
+            <label class="text-sm font-medium leading-none">Framework</label>
+            <div id="select-framework" class="relative w-full">
+              <button
+                type="button"
+                class="flex items-center justify-between w-full h-9 px-3 py-1 border border-input rounded-md bg-transparent text-sm transition-colors hover:bg-accent focus:outline-none focus:ring-1 focus:ring-ring cursor-pointer"
+                aria-expanded="false"
+              >
+                <span class="text-muted-foreground">Select a framework</span>
+                <svg
+                  class="w-4 h-4 text-muted-foreground transition-transform"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              <div
+                class="hidden absolute top-full mt-1 left-0 right-0 z-50 max-h-60 overflow-y-auto border border-border rounded-md bg-popover shadow-md"
+              >
+                <div
+                  class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
+                  data-value="react"
+                >
+                  React
+                </div>
+                <div
+                  class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
+                  data-value="vue"
+                >
+                  Vue
+                </div>
+                <div
+                  class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
+                  data-value="angular"
+                >
+                  Angular
+                </div>
+                <div
+                  class="px-3 py-2 text-sm text-popover-foreground cursor-pointer hover:bg-accent hover:text-accent-foreground transition-colors"
+                  data-value="svelte"
+                >
+                  Svelte
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2"&gt;
+  &lt;label class="text-sm font-medium leading-none"&gt;Framework&lt;/label&gt;
+  &lt;div id="select-framework" class="relative w-full"&gt;
+    &lt;!-- Same structure as Basic --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+initCustomSelect('select-framework');
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <script>
+        function initCustomSelect(selectId) {
+          const wrapper = document.getElementById(selectId);
+          if (!wrapper) return;
+
+          const trigger = wrapper.querySelector('button[aria-expanded]');
+          const dropdown = wrapper.querySelector('.hidden.absolute');
+          if (!trigger || !dropdown) return;
+
+          const valueEl = trigger.querySelector('span');
+          const icon = trigger.querySelector('svg');
+          const options = wrapper.querySelectorAll('[data-value]');
+
+          trigger.addEventListener('click', () => {
+            const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+            trigger.setAttribute('aria-expanded', !isOpen);
+            dropdown.classList.toggle('hidden');
+            icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+          });
+
+          options.forEach(option => {
+            option.addEventListener('click', () => {
+              const text = option.textContent;
+
+              options.forEach(opt =>
+                opt.classList.remove('bg-accent', 'font-medium')
+              );
+              option.classList.add('bg-accent', 'font-medium');
+
+              valueEl.textContent = text;
+              valueEl.classList.remove('text-muted-foreground');
+              valueEl.classList.add('text-foreground');
+
+              trigger.setAttribute('aria-expanded', 'false');
+              dropdown.classList.add('hidden');
+              icon.style.transform = 'rotate(0deg)';
+            });
+          });
+
+          document.addEventListener('click', e => {
+            if (!wrapper.contains(e.target)) {
+              trigger.setAttribute('aria-expanded', 'false');
+              dropdown.classList.add('hidden');
+              icon.style.transform = 'rotate(0deg)';
+            }
+          });
+        }
+
+        // Initialize all custom selects on this page
+        initCustomSelect('select-fruit');
+        initCustomSelect('select-framework');
+      </script>
+    </div>
+
+    <script src="../js/theme-manager.js"></script>
+    <script src="../js/code-block.js"></script>
+  </body>
+</html>

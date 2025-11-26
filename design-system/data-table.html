@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Table - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2">Data Table</h1>
+      <p class="text-muted-foreground mb-6 sm:mb-8">
+        Powerful tables for displaying and managing data.
+      </p>
+
+      <!-- Basic Table -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Basic Table</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card overflow-x-auto">
+          <div class="w-full">
+            <table class="w-full caption-bottom text-sm">
+              <thead class="border-b">
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Name
+                  </th>
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Email
+                  </th>
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Status
+                  </th>
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Role
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle font-medium">John Doe</td>
+                  <td class="p-4 align-middle">john@example.com</td>
+                  <td class="p-4 align-middle">
+                    <span
+                      class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20"
+                      >Active</span
+                    >
+                  </td>
+                  <td class="p-4 align-middle">Admin</td>
+                </tr>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle font-medium">Jane Smith</td>
+                  <td class="p-4 align-middle">jane@example.com</td>
+                  <td class="p-4 align-middle">
+                    <span
+                      class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20"
+                      >Active</span
+                    >
+                  </td>
+                  <td class="p-4 align-middle">User</td>
+                </tr>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle font-medium">Bob Johnson</td>
+                  <td class="p-4 align-middle">bob@example.com</td>
+                  <td class="p-4 align-middle">
+                    <span
+                      class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-gray-50 text-gray-600 ring-1 ring-inset ring-gray-500/10 dark:bg-gray-400/10 dark:text-gray-400 dark:ring-gray-400/20"
+                      >Inactive</span
+                    >
+                  </td>
+                  <td class="p-4 align-middle">User</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="w-full overflow-x-auto"&gt;
+  &lt;table class="w-full caption-bottom text-sm"&gt;
+    &lt;thead class="border-b"&gt;
+      &lt;tr class="border-b transition-colors hover:bg-muted/50"&gt;
+        &lt;th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"&gt;Name&lt;/th&gt;
+        &lt;th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"&gt;Email&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr class="border-b transition-colors hover:bg-muted/50"&gt;
+        &lt;td class="p-4 align-middle"&gt;John Doe&lt;/td&gt;
+        &lt;td class="p-4 align-middle"&gt;john@example.com&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Checkboxes -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">With Checkboxes</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card overflow-x-auto">
+          <div class="w-full">
+            <table class="w-full caption-bottom text-sm">
+              <thead class="border-b">
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <th class="h-12 px-4 align-middle w-12">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                    />
+                  </th>
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Name
+                  </th>
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Email
+                  </th>
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                    />
+                  </td>
+                  <td class="p-4 align-middle font-medium">John Doe</td>
+                  <td class="p-4 align-middle">john@example.com</td>
+                  <td class="p-4 align-middle">
+                    <span
+                      class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20"
+                      >Active</span
+                    >
+                  </td>
+                </tr>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                    />
+                  </td>
+                  <td class="p-4 align-middle font-medium">Jane Smith</td>
+                  <td class="p-4 align-middle">jane@example.com</td>
+                  <td class="p-4 align-middle">
+                    <span
+                      class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20 dark:bg-green-500/10 dark:text-green-400 dark:ring-green-500/20"
+                      >Active</span
+                    >
+                  </td>
+                </tr>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle">
+                    <input
+                      type="checkbox"
+                      class="h-4 w-4 shrink-0 rounded-sm border border-primary shadow focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                    />
+                  </td>
+                  <td class="p-4 align-middle font-medium">Bob Johnson</td>
+                  <td class="p-4 align-middle">bob@example.com</td>
+                  <td class="p-4 align-middle">
+                    <span
+                      class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium bg-gray-50 text-gray-600 ring-1 ring-inset ring-gray-500/10 dark:bg-gray-400/10 dark:text-gray-400 dark:ring-gray-400/20"
+                      >Inactive</span
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;th class="h-12 px-4 align-middle w-12"&gt;
+  &lt;input type="checkbox" class="h-4 w-4 shrink-0 rounded-sm border border-primary shadow" /&gt;
+&lt;/th&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Actions -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">With Actions</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card overflow-x-auto">
+          <div class="w-full">
+            <table class="w-full caption-bottom text-sm">
+              <thead class="border-b">
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Name
+                  </th>
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Email
+                  </th>
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Role
+                  </th>
+                  <th
+                    class="h-12 px-4 text-right align-middle font-medium text-muted-foreground"
+                  >
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle font-medium">John Doe</td>
+                  <td class="p-4 align-middle">john@example.com</td>
+                  <td class="p-4 align-middle">Admin</td>
+                  <td class="p-4 align-middle text-right">
+                    <div class="flex justify-end gap-2">
+                      <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 px-3"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 px-3"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle font-medium">Jane Smith</td>
+                  <td class="p-4 align-middle">jane@example.com</td>
+                  <td class="p-4 align-middle">User</td>
+                  <td class="p-4 align-middle text-right">
+                    <div class="flex justify-end gap-2">
+                      <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 px-3"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 px-3"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;th class="h-12 px-4 text-right align-middle font-medium text-muted-foreground"&gt;Actions&lt;/th&gt;
+
+&lt;td class="p-4 align-middle text-right"&gt;
+  &lt;div class="flex justify-end gap-2"&gt;
+    &lt;button class="..."&gt;Edit&lt;/button&gt;
+    &lt;button class="..."&gt;Delete&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/td&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Sortable Headers -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Sortable Headers</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card overflow-x-auto">
+          <div class="w-full">
+            <table class="w-full caption-bottom text-sm">
+              <thead class="border-b">
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    <button
+                      class="inline-flex items-center gap-2 hover:text-foreground"
+                    >
+                      Name
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m7 15 5 5 5-5" />
+                        <path d="m7 9 5-5 5 5" />
+                      </svg>
+                    </button>
+                  </th>
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    <button
+                      class="inline-flex items-center gap-2 hover:text-foreground"
+                    >
+                      Email
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m7 15 5 5 5-5" />
+                        <path d="m7 9 5-5 5 5" />
+                      </svg>
+                    </button>
+                  </th>
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    <button
+                      class="inline-flex items-center gap-2 hover:text-foreground"
+                    >
+                      Role
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="m7 15 5 5 5-5" />
+                        <path d="m7 9 5-5 5 5" />
+                      </svg>
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle font-medium">John Doe</td>
+                  <td class="p-4 align-middle">john@example.com</td>
+                  <td class="p-4 align-middle">Admin</td>
+                </tr>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle font-medium">Jane Smith</td>
+                  <td class="p-4 align-middle">jane@example.com</td>
+                  <td class="p-4 align-middle">User</td>
+                </tr>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle font-medium">Bob Johnson</td>
+                  <td class="p-4 align-middle">bob@example.com</td>
+                  <td class="p-4 align-middle">User</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"&gt;
+  &lt;button class="inline-flex items-center gap-2 hover:text-foreground"&gt;
+    Name
+    &lt;svg&gt;...sort icon...&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/th&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Striped Rows -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Striped Rows</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card overflow-x-auto">
+          <div class="w-full">
+            <table class="w-full caption-bottom text-sm">
+              <thead class="border-b">
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Name
+                  </th>
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Email
+                  </th>
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground"
+                  >
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  class="border-b transition-colors hover:bg-muted/50 bg-muted/20"
+                >
+                  <td class="p-4 align-middle font-medium">John Doe</td>
+                  <td class="p-4 align-middle">john@example.com</td>
+                  <td class="p-4 align-middle">Active</td>
+                </tr>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle font-medium">Jane Smith</td>
+                  <td class="p-4 align-middle">jane@example.com</td>
+                  <td class="p-4 align-middle">Active</td>
+                </tr>
+                <tr
+                  class="border-b transition-colors hover:bg-muted/50 bg-muted/20"
+                >
+                  <td class="p-4 align-middle font-medium">Bob Johnson</td>
+                  <td class="p-4 align-middle">bob@example.com</td>
+                  <td class="p-4 align-middle">Inactive</td>
+                </tr>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="p-4 align-middle font-medium">Alice Williams</td>
+                  <td class="p-4 align-middle">alice@example.com</td>
+                  <td class="p-4 align-middle">Active</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Add bg-muted/20 to odd rows --&gt;
+&lt;tr class="border-b transition-colors hover:bg-muted/50 bg-muted/20"&gt;
+  &lt;td&gt;...&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class="border-b transition-colors hover:bg-muted/50"&gt;
+  &lt;td&gt;...&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Compact Table -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Compact Table</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card overflow-x-auto">
+          <div class="w-full">
+            <table class="w-full caption-bottom text-sm">
+              <thead class="border-b">
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <th
+                    class="h-10 px-3 text-left align-middle font-medium text-muted-foreground text-xs"
+                  >
+                    Name
+                  </th>
+                  <th
+                    class="h-10 px-3 text-left align-middle font-medium text-muted-foreground text-xs"
+                  >
+                    Email
+                  </th>
+                  <th
+                    class="h-10 px-3 text-left align-middle font-medium text-muted-foreground text-xs"
+                  >
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="px-3 py-2 align-middle font-medium text-xs">
+                    John Doe
+                  </td>
+                  <td class="px-3 py-2 align-middle text-xs">
+                    john@example.com
+                  </td>
+                  <td class="px-3 py-2 align-middle text-xs">Active</td>
+                </tr>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="px-3 py-2 align-middle font-medium text-xs">
+                    Jane Smith
+                  </td>
+                  <td class="px-3 py-2 align-middle text-xs">
+                    jane@example.com
+                  </td>
+                  <td class="px-3 py-2 align-middle text-xs">Active</td>
+                </tr>
+                <tr class="border-b transition-colors hover:bg-muted/50">
+                  <td class="px-3 py-2 align-middle font-medium text-xs">
+                    Bob Johnson
+                  </td>
+                  <td class="px-3 py-2 align-middle text-xs">
+                    bob@example.com
+                  </td>
+                  <td class="px-3 py-2 align-middle text-xs">Inactive</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Compact: smaller padding and text --&gt;
+&lt;th class="h-10 px-3 ... text-xs"&gt;Name&lt;/th&gt;
+&lt;td class="px-3 py-2 ... text-xs"&gt;John Doe&lt;/td&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Usage Notes -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Usage Notes</h2>
+        <div class="space-y-4 text-sm sm:text-base">
+          <div class="rounded-lg border p-4 sm:p-6 bg-card">
+            <h3 class="font-semibold mb-2">Responsive Tables</h3>
+            <p class="text-muted-foreground">
+              Always wrap tables in a container with
+              <code class="bg-muted px-2 py-1 rounded text-xs"
+                >overflow-x-auto</code
+              >
+              for horizontal scrolling on small screens.
+            </p>
+          </div>
+
+          <div class="rounded-lg border p-4 sm:p-6 bg-card">
+            <h3 class="font-semibold mb-2">Hover States</h3>
+            <p class="text-muted-foreground">
+              Use
+              <code class="bg-muted px-2 py-1 rounded text-xs"
+                >hover:bg-muted/50</code
+              >
+              on rows for better interactivity.
+            </p>
+          </div>
+
+          <div class="rounded-lg border p-4 sm:p-6 bg-card">
+            <h3 class="font-semibold mb-2">Alignment</h3>
+            <p class="text-muted-foreground">
+              Use
+              <code class="bg-muted px-2 py-1 rounded text-xs">text-left</code>
+              for text,
+              <code class="bg-muted px-2 py-1 rounded text-xs">text-right</code>
+              for numbers/actions.
+            </p>
+          </div>
+
+          <div class="rounded-lg border p-4 sm:p-6 bg-card">
+            <h3 class="font-semibold mb-2">Accessibility</h3>
+            <p class="text-muted-foreground">
+              Use semantic
+              <code class="bg-muted px-2 py-1 rounded text-xs"
+                >&lt;thead&gt;</code
+              >,
+              <code class="bg-muted px-2 py-1 rounded text-xs"
+                >&lt;tbody&gt;</code
+              >, and
+              <code class="bg-muted px-2 py-1 rounded text-xs">&lt;th&gt;</code>
+              elements.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="../js/code-block.js"></script>
+  </body>
+</html>

@@ -1,0 +1,89 @@
+/* Code Block Styles */
+.code-block {
+  position: relative;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: #1e1e1e;
+}
+
+.code-block pre {
+  margin: 0;
+  padding: 1.5rem;
+  overflow-x: auto;
+}
+
+.code-block code {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #d4d4d4;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.375rem;
+  color: #d4d4d4;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.copy-btn:active {
+  transform: scale(0.95);
+}
+
+/* Toast Notification */
+.toast {
+  position: absolute;
+  top: 0.5rem;
+  right: 5rem;
+  padding: 0.5rem 0.75rem;
+  background: #10b981;
+  color: white;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(-0.5rem);
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Syntax Highlighting (Basic) */
+.code-block .token.tag {
+  color: #569cd6;
+}
+
+.code-block .token.attr-name {
+  color: #9cdcfe;
+}
+
+.code-block .token.attr-value {
+  color: #ce9178;
+}
+
+.code-block .token.string {
+  color: #ce9178;
+}
+
+.code-block .token.punctuation {
+  color: #d4d4d4;
+}

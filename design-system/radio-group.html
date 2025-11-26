@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Radio Group - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+  </head>
+  <body>
+    <div class="container mx-auto p-8">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-2">Radio Group</h1>
+        <p class="text-muted-foreground">
+          A set of checkable buttons—known as radio buttons—where no more than
+          one of the buttons can be checked at a time.
+        </p>
+      </header>
+
+      <!-- Default -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Default</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="grid gap-4" id="radio-group-default">
+            <div class="flex items-center gap-3">
+              <button
+                type="button"
+                role="radio"
+                aria-checked="false"
+                data-state="unchecked"
+                data-value="default"
+                id="radio-default-1"
+                class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px]"
+                onclick="selectRadio('radio-group-default', this)"
+              ></button>
+              <label
+                for="radio-default-1"
+                class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              >
+                Default
+              </label>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <button
+                type="button"
+                role="radio"
+                aria-checked="true"
+                data-state="checked"
+                data-value="comfortable"
+                id="radio-default-2"
+                class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px]"
+                onclick="selectRadio('radio-group-default', this)"
+              ></button>
+              <label
+                for="radio-default-2"
+                class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              >
+                Comfortable
+              </label>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <button
+                type="button"
+                role="radio"
+                aria-checked="false"
+                data-state="unchecked"
+                data-value="compact"
+                id="radio-default-3"
+                class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px]"
+                onclick="selectRadio('radio-group-default', this)"
+              ></button>
+              <label
+                for="radio-default-3"
+                class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              >
+                Compact
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="grid gap-4" id="radio-group-default"&gt;
+  &lt;div class="flex items-center gap-3"&gt;
+    &lt;button
+      type="button"
+      role="radio"
+      aria-checked="false"
+      data-state="unchecked"
+      data-value="default"
+      id="radio-default-1"
+      class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px]"
+      onclick="selectRadio('radio-group-default', this)"
+    &gt;&lt;/button&gt;
+    &lt;label
+      for="radio-default-1"
+      class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+    &gt;
+      Default
+    &lt;/label&gt;
+  &lt;/div&gt;
+  
+  &lt;div class="flex items-center gap-3"&gt;
+    &lt;button
+      type="button"
+      role="radio"
+      aria-checked="true"
+      data-state="checked"
+      data-value="comfortable"
+      id="radio-default-2"
+      class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px]"
+      onclick="selectRadio('radio-group-default', this)"
+    &gt;&lt;/button&gt;
+    &lt;label
+      for="radio-default-2"
+      class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+    &gt;
+      Comfortable
+    &lt;/label&gt;
+  &lt;/div&gt;
+  
+  &lt;div class="flex items-center gap-3"&gt;
+    &lt;button
+      type="button"
+      role="radio"
+      aria-checked="false"
+      data-state="unchecked"
+      data-value="compact"
+      id="radio-default-3"
+      class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px]"
+      onclick="selectRadio('radio-group-default', this)"
+    &gt;&lt;/button&gt;
+    &lt;label
+      for="radio-default-3"
+      class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+    &gt;
+      Compact
+    &lt;/label&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function selectRadio(groupId, selectedBtn) {
+  const group = document.getElementById(groupId);
+  const radios = group.querySelectorAll('[role="radio"]');
+  
+  radios.forEach(radio =&gt; {
+    radio.setAttribute('data-state', 'unchecked');
+    radio.setAttribute('aria-checked', 'false');
+  });
+  
+  selectedBtn.setAttribute('data-state', 'checked');
+  selectedBtn.setAttribute('aria-checked', 'true');
+}
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Description -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Description</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <label class="text-sm font-medium leading-none">
+                Notify me about...
+              </label>
+              <p class="text-sm text-muted-foreground">
+                Choose what notifications you want to receive
+              </p>
+            </div>
+            <div class="grid gap-4" id="radio-group-notify">
+              <div class="flex items-start gap-3">
+                <button
+                  type="button"
+                  role="radio"
+                  aria-checked="true"
+                  data-state="checked"
+                  data-value="all"
+                  id="radio-notify-1"
+                  class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px] mt-0.5"
+                  onclick="selectRadio('radio-group-notify', this)"
+                ></button>
+                <div class="grid gap-2">
+                  <label
+                    for="radio-notify-1"
+                    class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                  >
+                    All new messages
+                  </label>
+                  <p class="text-sm text-muted-foreground">
+                    Get notified of all new messages.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <button
+                  type="button"
+                  role="radio"
+                  aria-checked="false"
+                  data-state="unchecked"
+                  data-value="mentions"
+                  id="radio-notify-2"
+                  class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px] mt-0.5"
+                  onclick="selectRadio('radio-group-notify', this)"
+                ></button>
+                <div class="grid gap-2">
+                  <label
+                    for="radio-notify-2"
+                    class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                  >
+                    Direct messages and mentions
+                  </label>
+                  <p class="text-sm text-muted-foreground">
+                    Only get notified when someone mentions you or sends a
+                    direct message.
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
+                <button
+                  type="button"
+                  role="radio"
+                  aria-checked="false"
+                  data-state="unchecked"
+                  data-value="none"
+                  id="radio-notify-3"
+                  class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px] mt-0.5"
+                  onclick="selectRadio('radio-group-notify', this)"
+                ></button>
+                <div class="grid gap-2">
+                  <label
+                    for="radio-notify-3"
+                    class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                  >
+                    Nothing
+                  </label>
+                  <p class="text-sm text-muted-foreground">
+                    Turn off all notifications.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-4"&gt;
+  &lt;div class="space-y-2"&gt;
+    &lt;label class="text-sm font-medium leading-none"&gt;
+      Notify me about...
+    &lt;/label&gt;
+    &lt;p class="text-sm text-muted-foreground"&gt;
+      Choose what notifications you want to receive
+    &lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="grid gap-4" id="radio-group-notify"&gt;
+    &lt;div class="flex items-start gap-3"&gt;
+      &lt;button
+        type="button"
+        role="radio"
+        aria-checked="true"
+        data-state="checked"
+        data-value="all"
+        id="radio-notify-1"
+        class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px] mt-0.5"
+        onclick="selectRadio('radio-group-notify', this)"
+      &gt;&lt;/button&gt;
+      &lt;div class="grid gap-2"&gt;
+        &lt;label
+          for="radio-notify-1"
+          class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+        &gt;
+          All new messages
+        &lt;/label&gt;
+        &lt;p class="text-sm text-muted-foreground"&gt;
+          Get notified of all new messages.
+        &lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- Repeat for other options --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Disabled -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Disabled</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="grid gap-4">
+            <div class="flex items-center gap-3">
+              <button
+                type="button"
+                role="radio"
+                aria-checked="false"
+                data-state="unchecked"
+                disabled
+                id="radio-disabled-1"
+                class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px]"
+              ></button>
+              <label
+                for="radio-disabled-1"
+                class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              >
+                Default
+              </label>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <button
+                type="button"
+                role="radio"
+                aria-checked="true"
+                data-state="checked"
+                disabled
+                id="radio-disabled-2"
+                class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px]"
+              ></button>
+              <label
+                for="radio-disabled-2"
+                class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              >
+                Comfortable (selected & disabled)
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="flex items-center gap-3"&gt;
+  &lt;button
+    type="button"
+    role="radio"
+    aria-checked="true"
+    data-state="checked"
+    disabled
+    id="radio-disabled-2"
+    class="peer aspect-square size-4 shrink-0 rounded-full border border-primary shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:border-primary data-[state=checked]:border-[5px]"
+  &gt;&lt;/button&gt;
+  &lt;label
+    for="radio-disabled-2"
+    class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+  &gt;
+    Comfortable (selected & disabled)
+  &lt;/label&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <script>
+        function selectRadio(groupId, selectedBtn) {
+          if (selectedBtn.disabled) return;
+
+          const group = document.getElementById(groupId);
+          const radios = group.querySelectorAll('[role="radio"]');
+
+          radios.forEach(radio => {
+            radio.setAttribute('data-state', 'unchecked');
+            radio.setAttribute('aria-checked', 'false');
+          });
+
+          selectedBtn.setAttribute('data-state', 'checked');
+          selectedBtn.setAttribute('aria-checked', 'true');
+        }
+      </script>
+    </div>
+
+    <script src="../js/theme-manager.js"></script>
+    <script src="../js/code-block.js"></script>
+  </body>
+</html>

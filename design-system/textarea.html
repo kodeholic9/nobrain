@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Textarea - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+  </head>
+  <body>
+    <div class="container mx-auto p-8">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-2">Textarea</h1>
+        <p class="text-muted-foreground">
+          Displays a multi-line text input field.
+        </p>
+      </header>
+
+      <!-- Default -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Default</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <textarea
+            placeholder="Type your message here."
+            class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          ></textarea>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;textarea
+  placeholder="Type your message here."
+  class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+&gt;&lt;/textarea&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Label -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Label</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="space-y-2">
+            <label
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Your message
+            </label>
+            <textarea
+              placeholder="Type your message here."
+              class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2"&gt;
+  &lt;label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"&gt;
+    Your message
+  &lt;/label&gt;
+  &lt;textarea
+    placeholder="Type your message here."
+    class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+  &gt;&lt;/textarea&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Description -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Description</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="space-y-2">
+            <label
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Bio
+            </label>
+            <textarea
+              placeholder="Tell us a little bit about yourself"
+              class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            ></textarea>
+            <p class="text-sm text-muted-foreground">
+              You can use @mentions and #hashtags.
+            </p>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2"&gt;
+  &lt;label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"&gt;
+    Bio
+  &lt;/label&gt;
+  &lt;textarea
+    placeholder="Tell us a little bit about yourself"
+    class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+  &gt;&lt;/textarea&gt;
+  &lt;p class="text-sm text-muted-foreground"&gt;
+    You can use @mentions and #hashtags.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Disabled -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Disabled</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <textarea
+            placeholder="Type your message here."
+            disabled
+            class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          ></textarea>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;textarea
+  placeholder="Type your message here."
+  disabled
+  class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+&gt;&lt;/textarea&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Character Count -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Character Count</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="space-y-2">
+            <label class="text-sm font-medium leading-none"> Comment </label>
+            <textarea
+              id="textarea-counter"
+              maxlength="200"
+              placeholder="Write a comment..."
+              class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            ></textarea>
+            <p class="text-sm text-muted-foreground text-right">
+              <span id="char-count">0</span> / 200
+            </p>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2"&gt;
+  &lt;label class="text-sm font-medium leading-none"&gt;
+    Comment
+  &lt;/label&gt;
+  &lt;textarea
+    id="textarea-counter"
+    maxlength="200"
+    placeholder="Write a comment..."
+    class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+  &gt;&lt;/textarea&gt;
+  &lt;p class="text-sm text-muted-foreground text-right"&gt;
+    &lt;span id="char-count"&gt;0&lt;/span&gt; / 200
+  &lt;/p&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const textarea = document.getElementById('textarea-counter');
+const charCount = document.getElementById('char-count');
+
+textarea.addEventListener('input', () =&gt; {
+  charCount.textContent = textarea.value.length;
+});
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Resizable -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Resizable</h2>
+
+        <!-- Vertical -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Vertical (Default)</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <textarea
+            placeholder="Resize vertically"
+            class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-y"
+          ></textarea>
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;textarea
+  placeholder="Resize vertically"
+  class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-y"
+&gt;&lt;/textarea&gt;</code></pre>
+        </div>
+
+        <!-- Non-resizable -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Non-resizable</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <textarea
+            placeholder="Cannot resize"
+            class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+          ></textarea>
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;textarea
+  placeholder="Cannot resize"
+  class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none"
+&gt;&lt;/textarea&gt;</code></pre>
+        </div>
+
+        <!-- Both directions -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Both Directions</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <textarea
+            placeholder="Resize both directions"
+            class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize"
+          ></textarea>
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;textarea
+  placeholder="Resize both directions"
+  class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize"
+&gt;&lt;/textarea&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Auto-growing -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Auto-growing</h2>
+        <p class="text-muted-foreground mb-6">
+          Automatically adjusts height based on content.
+        </p>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="space-y-2">
+            <label class="text-sm font-medium leading-none">
+              Description
+            </label>
+            <textarea
+              id="auto-grow-textarea"
+              placeholder="Start typing... (grows automatically)"
+              class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none overflow-hidden"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;textarea
+  id="auto-grow-textarea"
+  placeholder="Start typing... (grows automatically)"
+  class="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 resize-none overflow-hidden"
+  rows="3"
+&gt;&lt;/textarea&gt;
+
+&lt;script&gt;
+const autoGrowTextarea = document.getElementById('auto-grow-textarea');
+
+autoGrowTextarea.addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = this.scrollHeight + 'px';
+});
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <script>
+        // Character counter
+        const textarea = document.getElementById('textarea-counter');
+        const charCount = document.getElementById('char-count');
+
+        textarea.addEventListener('input', () => {
+          charCount.textContent = textarea.value.length;
+        });
+
+        // Auto-growing textarea
+        const autoGrowTextarea = document.getElementById('auto-grow-textarea');
+
+        autoGrowTextarea.addEventListener('input', function () {
+          this.style.height = 'auto';
+          this.style.height = this.scrollHeight + 'px';
+        });
+      </script>
+    </div>
+
+    <script src="../js/theme-manager.js"></script>
+    <script src="../js/code-block.js"></script>
+  </body>
+</html>

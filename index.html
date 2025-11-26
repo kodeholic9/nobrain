@@ -3,60 +3,682 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>두뇌 게임 챌린지 - 뇌 활성화 게임</title>
+    <title>두뇌를 깨우고 진실을 찾는 공간</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome for icons -->
     <link
       rel="stylesheet"
-      href="https://unpkg.com/swiper/swiper-bundle.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-    <link rel="stylesheet" href="css/main.css" />
+
+    <script>
+      // Tailwind 커스텀 설정 (다크 테마)
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-in-out',
+              'slide-up': 'slideUp 0.3s ease-out',
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* 기본 스타일 */
+      * {
+        font-family: 'Inter', sans-serif;
+      }
+
+      /* 다크모드 스크롤바 */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #1f2937;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #4b5563;
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #6b7280;
+      }
+
+      /* 버튼 스타일 */
+      /* 버튼 스타일 - @apply 대신 실제 CSS 속성 사용 */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s;
+        height: 2.25rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .btn:focus-visible {
+        outline: none;
+        box-shadow:
+          0 0 0 2px rgba(156, 163, 175, 0.5),
+          0 0 0 4px rgba(156, 163, 175, 0.2);
+      }
+
+      .btn:disabled {
+        pointer-events: none;
+        opacity: 0.5;
+      }
+
+      .btn-primary {
+        background-color: #ffffff;
+        color: #111827;
+      }
+
+      .btn-primary:hover {
+        background-color: #e5e7eb;
+      }
+
+      .btn-ghost {
+        color: #d1d5db;
+      }
+
+      .btn-ghost:hover {
+        background-color: #1f2937;
+        color: #ffffff;
+      }
+
+      .btn-outline {
+        border: 1px solid #374151;
+        color: #d1d5db;
+      }
+
+      .btn-outline:hover {
+        background-color: #1f2937;
+        color: #ffffff;
+      }
+
+      /* 카드 스타일도 동일하게 수정 */
+      .card {
+        border-radius: 0.5rem;
+        border: 1px solid #1f2937;
+        background-color: #111827;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      .card-hover {
+        transition: all 0.2s;
+      }
+
+      .card-hover:hover {
+        border-color: #374151;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        transform: translateY(-0.25rem);
+      }
+
+      /* 스와이프 컨테이너 스타일 */
+      .swipe-container {
+        display: flex;
+        overflow-x: hidden;
+        position: relative;
+        scroll-behavior: smooth;
+      }
+
+      .swipe-wrapper {
+        display: flex;
+        transition: transform 0.3s ease-out;
+      }
+
+      .swipe-item {
+        flex: 0 0 auto;
+        width: 100%;
+        padding: 0 0.5rem;
+      }
+
+      @media (min-width: 768px) {
+        .swipe-item {
+          width: 350px;
+        }
+      }
+
+      /* 스크롤 숨김 */
+      .no-scrollbar {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* 애니메이션 */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
   </head>
-  <body>
-    <header>
-      <div class="container">
-        <h1>뇌를 깨우는 즐거움</h1>
-        <nav>
-          <ul>
-            <li><a href="#">게임 소개</a></li>
-            <li><a href="#">랭킹</a></li>
-            <li><a href="#">커뮤니티</a></li>
-          </ul>
-        </nav>
+  <body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col">
+    <!-- 헤더 -->
+    <header
+      class="sticky top-0 z-50 w-full border-b border-gray-800 bg-gray-950/95 backdrop-blur supports-[backdrop-filter]:bg-gray-950/60"
+    >
+      <div class="container mx-auto px-4">
+        <div class="flex h-16 items-center justify-between">
+          <!-- 로고 -->
+          <div class="flex items-center">
+            <a href="#" class="flex items-center space-x-2">
+              <span class="text-xl">🎮</span>
+              <span class="font-semibold text-lg text-white">장난</span>
+            </a>
+          </div>
+
+          <!-- 데스크톱 네비게이션 -->
+          <nav class="hidden md:flex items-center space-x-2">
+            <button class="btn btn-ghost">로그인</button>
+            <button class="btn btn-primary">회원가입</button>
+          </nav>
+
+          <!-- 모바일 메뉴 버튼 -->
+          <button id="mobileMenuBtn" class="md:hidden p-2 text-gray-300">
+            <i class="fas fa-user"></i>
+          </button>
+        </div>
+
+        <!-- 모바일 드롭다운 메뉴 -->
+        <div
+          id="mobileMenu"
+          class="hidden md:hidden pb-4 space-y-2 border-t border-gray-800 mt-2 pt-4"
+        >
+          <button class="w-full btn btn-ghost justify-start">로그인</button>
+          <button class="w-full btn btn-primary justify-start">회원가입</button>
+        </div>
       </div>
     </header>
 
-    <main>
-      <section class="intro-section">
-        <div class="container">
-          <h2>당신의 뇌를 깨울 시간!</h2>
-          <p>
-            두뇌는 끊임없이 발전하는 놀라운 기관입니다. '두뇌 게임 챌린지'는
-            여러분의 인지 능력, 기억력, 집중력, 문제 해결 능력 강화를 목표로
-            합니다. **틀린그림찾기**는 시각적 관찰력을, **메모리 게임**은
-            기억력을 효과적으로 훈련시켜줍니다.
-          </p>
+    <!-- 메인 콘텐츠 -->
+    <main class="flex-1 container mx-auto px-4 py-8 space-y-8 max-w-6xl">
+      <!-- 히어로 섹션 -->
+      <section class="text-center py-8 md:py-12 animate-fade-in">
+        <h1
+          class="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4"
+        >
+          두뇌를 깨우고, 진실을 찾아보세요
+        </h1>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+          재미있는 게임으로 두뇌를 훈련하고, 유튜브 콘텐츠의 사실을 확인하세요
+        </p>
+      </section>
+
+      <!-- 게임 섹션 -->
+      <section>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-2xl font-semibold tracking-tight text-white">
+            두뇌 게임
+          </h2>
+          <span class="text-sm text-gray-500 hidden md:block">
+            좌우 버튼으로 탐색
+          </span>
+          <span class="text-sm text-gray-500 md:hidden"> 좌우로 스와이프 </span>
+        </div>
+
+        <!-- 스와이프 컨테이너 -->
+        <div class="relative">
+          <div class="card p-4 overflow-hidden">
+            <div class="relative">
+              <!-- 스와이프 영역 -->
+              <div id="gameSwiper" class="swipe-container">
+                <div id="swiperWrapper" class="swipe-wrapper">
+                  <!-- 게임 카드 1 - 동전키우기 (활성) -->
+                  <div class="swipe-item">
+                    <div
+                      class="card card-hover p-6 bg-gradient-to-br from-purple-900/50 to-gray-900 border-purple-800/50"
+                    >
+                      <div class="flex items-center justify-between mb-4">
+                        <span
+                          class="inline-flex items-center rounded-md bg-purple-500/20 px-2.5 py-0.5 text-xs font-medium text-purple-300"
+                        >
+                          NEW
+                        </span>
+                        <i class="fas fa-coins text-2xl text-purple-400"></i>
+                      </div>
+                      <h3 class="font-semibold text-lg mb-2 text-white">
+                        동전키우기
+                      </h3>
+                      <p class="text-sm text-gray-400 mb-4">
+                        반사신경과 집중력을 테스트하세요. 떨어지는 동전을 모아
+                        최고 점수에 도전하세요!
+                      </p>
+                      <button
+                        onclick="playGame('coin')"
+                        class="w-full btn btn-primary bg-purple-600 hover:bg-purple-700 text-white"
+                      >
+                        <i class="fas fa-play mr-2"></i>
+                        지금 플레이
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- 게임 카드 2 - Coming Soon -->
+                  <div class="swipe-item">
+                    <div
+                      class="card p-6 bg-gray-900/50 opacity-60 border-gray-800"
+                    >
+                      <div class="flex items-center justify-center h-32 mb-4">
+                        <i class="fas fa-lock text-4xl text-gray-600"></i>
+                      </div>
+                      <h3 class="font-semibold text-lg mb-2 text-gray-500">
+                        메모리 게임
+                      </h3>
+                      <p class="text-sm text-gray-600 mb-4">
+                        기억력을 향상시키는 카드 매칭 게임이 곧 출시됩니다.
+                      </p>
+                      <button
+                        disabled
+                        class="w-full btn btn-outline opacity-50 cursor-not-allowed"
+                      >
+                        준비 중
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- 게임 카드 3 - Coming Soon -->
+                  <div class="swipe-item">
+                    <div
+                      class="card p-6 bg-gray-900/50 opacity-60 border-gray-800"
+                    >
+                      <div class="flex items-center justify-center h-32 mb-4">
+                        <i class="fas fa-lock text-4xl text-gray-600"></i>
+                      </div>
+                      <h3 class="font-semibold text-lg mb-2 text-gray-500">
+                        틀린그림찾기
+                      </h3>
+                      <p class="text-sm text-gray-600 mb-4">
+                        관찰력을 키우는 그림 비교 게임이 곧 출시됩니다.
+                      </p>
+                      <button
+                        disabled
+                        class="w-full btn btn-outline opacity-50 cursor-not-allowed"
+                      >
+                        준비 중
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PC용 좌우 화살표 -->
+              <button
+                id="prevBtn"
+                class="hidden md:flex absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 items-center justify-center rounded-full bg-gray-800 border border-gray-700 hover:bg-gray-700 transition-all z-10"
+              >
+                <i class="fas fa-chevron-left text-gray-300"></i>
+              </button>
+              <button
+                id="nextBtn"
+                class="hidden md:flex absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 items-center justify-center rounded-full bg-gray-800 border border-gray-700 hover:bg-gray-700 transition-all z-10"
+              >
+                <i class="fas fa-chevron-right text-gray-300"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- 인디케이터 -->
+          <div class="flex justify-center gap-1.5 mt-4">
+            <div
+              id="indicator-0"
+              class="w-2 h-2 rounded-full bg-white transition-all"
+            ></div>
+            <div
+              id="indicator-1"
+              class="w-2 h-2 rounded-full bg-gray-600 transition-all"
+            ></div>
+            <div
+              id="indicator-2"
+              class="w-2 h-2 rounded-full bg-gray-600 transition-all"
+            ></div>
+          </div>
         </div>
       </section>
 
-      <section class="game-swiper-section">
-        <div class="container">
-          <h2>다양한 두뇌 게임</h2>
-          <div class="swiper mySwiper">
-            <div class="swiper-wrapper"></div>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
+      <!-- 서비스 카드 섹션 -->
+      <section class="grid md:grid-cols-2 gap-4">
+        <!-- 유튜브 검색 카드 -->
+        <div
+          onclick="goToSearch()"
+          class="card card-hover p-6 cursor-pointer group bg-gradient-to-br from-red-900/20 to-gray-900 border-red-900/30"
+        >
+          <div class="flex items-start justify-between mb-4">
+            <div
+              class="w-12 h-12 rounded-lg bg-red-500/20 flex items-center justify-center"
+            >
+              <i class="fas fa-search text-red-400 text-xl"></i>
+            </div>
+            <i
+              class="fas fa-arrow-right text-gray-600 group-hover:text-gray-400 transition-colors"
+            ></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2 text-white">유튜브 검색</h3>
+          <p class="text-sm text-gray-400 mb-4">
+            스마트 필터와 고급 검색으로 원하는 콘텐츠를 더 빠르게 찾아보세요.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-2 py-1 bg-gray-800 text-gray-400 rounded"
+              >고급 필터</span
+            >
+            <span class="text-xs px-2 py-1 bg-gray-800 text-gray-400 rounded"
+              >채널 검색</span
+            >
+            <span class="text-xs px-2 py-1 bg-gray-800 text-gray-400 rounded"
+              >기간 설정</span
+            >
+          </div>
+        </div>
+
+        <!-- 팩트체크 카드 -->
+        <div
+          onclick="goToFactCheck()"
+          class="card card-hover p-6 cursor-pointer group bg-gradient-to-br from-blue-900/20 to-gray-900 border-blue-900/30"
+        >
+          <div class="flex items-start justify-between mb-4">
+            <div
+              class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center"
+            >
+              <i class="fas fa-check-double text-blue-400 text-xl"></i>
+            </div>
+            <i
+              class="fas fa-arrow-right text-gray-600 group-hover:text-gray-400 transition-colors"
+            ></i>
+          </div>
+          <h3 class="font-semibold text-lg mb-2 text-white">팩트체크</h3>
+          <p class="text-sm text-gray-400 mb-4">
+            AI 기반 분석으로 유튜브 영상의 정보를 검증하고 신뢰도를 확인하세요.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <span class="text-xs px-2 py-1 bg-gray-800 text-gray-400 rounded"
+              >AI 검증</span
+            >
+            <span class="text-xs px-2 py-1 bg-gray-800 text-gray-400 rounded"
+              >신뢰도 점수</span
+            >
+            <span class="text-xs px-2 py-1 bg-gray-800 text-gray-400 rounded"
+              >출처 확인</span
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- 통계 섹션 -->
+      <section class="py-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="text-center">
+            <div class="text-2xl md:text-3xl font-bold text-white">1.2K+</div>
+            <div class="text-sm text-gray-500">일일 사용자</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl md:text-3xl font-bold text-white">5.8K+</div>
+            <div class="text-sm text-gray-500">게임 플레이</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl md:text-3xl font-bold text-white">3.4K+</div>
+            <div class="text-sm text-gray-500">팩트체크</div>
+          </div>
+          <div class="text-center">
+            <div class="text-2xl md:text-3xl font-bold text-white">9.2K+</div>
+            <div class="text-sm text-gray-500">검색 수행</div>
           </div>
         </div>
       </section>
     </main>
 
-    <footer>
-      <div class="container">
-        <p>&copy; 2024 jjangnan.xyz. All rights reserved.</p>
+    <!-- 푸터 -->
+    <footer class="border-t border-gray-800 bg-gray-900 mt-auto">
+      <div class="container mx-auto px-4 py-6">
+        <div
+          class="flex flex-col md:flex-row items-center justify-between gap-4"
+        >
+          <div class="text-sm text-gray-400">
+            © 2030 www.jjangnan.xyz. All rights reserved.
+          </div>
+          <div class="flex items-center gap-4 text-sm">
+            <a
+              href="#"
+              class="text-gray-400 hover:text-white transition-colors"
+            >
+              <i class="fas fa-envelope mr-1"></i>
+              www.jjangnan.xyz
+            </a>
+            <span class="text-gray-600">|</span>
+            <span class="text-xs text-gray-500">
+              Created by kodeholic (powered by Claude)
+            </span>
+          </div>
+        </div>
       </div>
     </footer>
 
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="js/main.js"></script>
+    <script>
+      /**
+       * @author kodeholic (powered by Claude)
+       * BrainCheck 대문 페이지 스크립트
+       */
+
+      // 모바일 메뉴 토글
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const mobileMenu = document.getElementById('mobileMenu');
+
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+
+      // 스와이프 기능 구현
+      const gameSwiper = document.getElementById('gameSwiper');
+      const swiperWrapper = document.getElementById('swiperWrapper');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+
+      let currentIndex = 0;
+      const totalCards = 3;
+      let startX = 0;
+      let currentX = 0;
+      let isDragging = false;
+
+      // 카드 너비 계산
+      function getCardWidth() {
+        const isMobile = window.innerWidth < 768;
+        return isMobile ? window.innerWidth - 32 : 350; // 모바일: 전체너비-패딩, PC: 350px
+      }
+
+      // 스와이프 위치 업데이트
+      function updateSwipePosition(animated = true) {
+        const cardWidth = getCardWidth();
+        const offset = -currentIndex * cardWidth;
+
+        if (animated) {
+          swiperWrapper.style.transition = 'transform 0.3s ease-out';
+        } else {
+          swiperWrapper.style.transition = 'none';
+        }
+
+        swiperWrapper.style.transform = `translateX(${offset}px)`;
+
+        // 인디케이터 업데이트
+        for (let i = 0; i < totalCards; i++) {
+          const indicator = document.getElementById(`indicator-${i}`);
+          if (i === currentIndex) {
+            indicator.classList.remove('bg-gray-600');
+            indicator.classList.add('bg-white');
+          } else {
+            indicator.classList.remove('bg-white');
+            indicator.classList.add('bg-gray-600');
+          }
+        }
+
+        // 버튼 상태 업데이트
+        if (prevBtn) {
+          prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+          prevBtn.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
+        }
+        if (nextBtn) {
+          nextBtn.style.opacity = currentIndex === totalCards - 1 ? '0.5' : '1';
+          nextBtn.style.pointerEvents =
+            currentIndex === totalCards - 1 ? 'none' : 'auto';
+        }
+      }
+
+      // PC 버튼 이벤트
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          if (currentIndex > 0) {
+            currentIndex--;
+            updateSwipePosition();
+          }
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          if (currentIndex < totalCards - 1) {
+            currentIndex++;
+            updateSwipePosition();
+          }
+        });
+      }
+
+      // 터치/마우스 이벤트 (스와이프)
+      function handleStart(e) {
+        isDragging = true;
+        startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        swiperWrapper.style.transition = 'none';
+      }
+
+      function handleMove(e) {
+        if (!isDragging) return;
+
+        e.preventDefault();
+        currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        const diff = currentX - startX;
+        const cardWidth = getCardWidth();
+        const offset = -currentIndex * cardWidth + diff;
+
+        swiperWrapper.style.transform = `translateX(${offset}px)`;
+      }
+
+      function handleEnd() {
+        if (!isDragging) return;
+
+        isDragging = false;
+        const diff = currentX - startX;
+        const threshold = getCardWidth() / 4; // 25% 이상 움직이면 카드 변경
+
+        if (Math.abs(diff) > threshold) {
+          if (diff > 0 && currentIndex > 0) {
+            currentIndex--;
+          } else if (diff < 0 && currentIndex < totalCards - 1) {
+            currentIndex++;
+          }
+        }
+
+        updateSwipePosition();
+      }
+
+      // 터치 이벤트 (모바일)
+      gameSwiper.addEventListener('touchstart', handleStart, {
+        passive: false,
+      });
+      gameSwiper.addEventListener('touchmove', handleMove, { passive: false });
+      gameSwiper.addEventListener('touchend', handleEnd);
+
+      // 마우스 이벤트 (PC)
+      gameSwiper.addEventListener('mousedown', handleStart);
+      gameSwiper.addEventListener('mousemove', handleMove);
+      gameSwiper.addEventListener('mouseup', handleEnd);
+      gameSwiper.addEventListener('mouseleave', handleEnd);
+
+      // 윈도우 리사이즈 시 위치 재조정
+      window.addEventListener('resize', () => {
+        updateSwipePosition(false);
+      });
+
+      // 페이지 이동 함수들
+      function playGame(gameType) {
+        if (gameType === 'coin') {
+          console.log('동전키우기 게임으로 이동');
+          window.location.href = '/games/ballpool';
+        }
+      }
+
+      function goToSearch() {
+        console.log('유튜브 검색으로 이동');
+        window.location.href = '/yp';
+      }
+
+      function goToFactCheck() {
+        console.log('팩트체크로 이동');
+        window.location.href = '/design-system';
+      }
+
+      // 페이지 로드 애니메이션
+      document.addEventListener('DOMContentLoaded', () => {
+        // 초기 위치 설정
+        updateSwipePosition(false);
+
+        // 카드 페이드인 애니메이션
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card, index) => {
+          setTimeout(() => {
+            card.style.animation = 'slideUp 0.5s ease-out';
+          }, index * 100);
+        });
+      });
+
+      // 키보드 네비게이션 (선택적)
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' && currentIndex > 0) {
+          currentIndex--;
+          updateSwipePosition();
+        } else if (e.key === 'ArrowRight' && currentIndex < totalCards - 1) {
+          currentIndex++;
+          updateSwipePosition();
+        }
+      });
+    </script>
   </body>
 </html>

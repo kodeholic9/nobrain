@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkbox - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+  </head>
+  <body>
+    <div class="container mx-auto p-8">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-2">Checkbox</h1>
+        <p class="text-muted-foreground">
+          A control that allows the user to toggle between checked and not
+          checked.
+        </p>
+      </header>
+
+      <!-- Default -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Default</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="flex items-center gap-3">
+            <button
+              type="button"
+              role="checkbox"
+              aria-checked="false"
+              data-state="unchecked"
+              id="checkbox-default"
+              class="peer size-4 shrink-0 rounded-[4px] border border-input dark:bg-input/30 shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary"
+              onclick="toggleCheckbox(this)"
+            >
+              <svg
+                class="hidden size-4 text-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </button>
+            <label
+              for="checkbox-default"
+              class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+            >
+              Accept terms and conditions
+            </label>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="flex items-center gap-3"&gt;
+  &lt;button
+    type="button"
+    role="checkbox"
+    aria-checked="false"
+    data-state="unchecked"
+    id="checkbox-default"
+    class="peer size-4 shrink-0 rounded-[4px] border border-input dark:bg-input/30 shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary"
+    onclick="toggleCheckbox(this)"
+  &gt;
+    &lt;svg
+      class="hidden size-4 text-current"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    &gt;
+      &lt;polyline points="20 6 9 17 4 12"/&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;label
+    for="checkbox-default"
+    class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+  &gt;
+    Accept terms and conditions
+  &lt;/label&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function toggleCheckbox(btn) {
+  const isChecked = btn.getAttribute('data-state') === 'checked';
+  const newState = isChecked ? 'unchecked' : 'checked';
+  btn.setAttribute('data-state', newState);
+  btn.setAttribute('aria-checked', !isChecked);
+  
+  const svg = btn.querySelector('svg');
+  if (newState === 'checked') {
+    svg.classList.remove('hidden');
+  } else {
+    svg.classList.add('hidden');
+  }
+}
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Text -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Text</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="flex items-start gap-3">
+            <button
+              type="button"
+              role="checkbox"
+              aria-checked="false"
+              data-state="unchecked"
+              id="checkbox-text"
+              class="peer size-4 shrink-0 rounded-[4px] border border-input dark:bg-input/30 shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary mt-0.5"
+              onclick="toggleCheckbox(this)"
+            >
+              <svg
+                class="hidden size-4 text-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </button>
+            <div class="grid gap-2">
+              <label
+                for="checkbox-text"
+                class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              >
+                Marketing emails
+              </label>
+              <p class="text-sm text-muted-foreground">
+                Receive emails about new products, features, and more.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="flex items-start gap-3"&gt;
+  &lt;button
+    type="button"
+    role="checkbox"
+    aria-checked="false"
+    data-state="unchecked"
+    id="checkbox-text"
+    class="peer size-4 shrink-0 rounded-[4px] border border-input dark:bg-input/30 shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary mt-0.5"
+    onclick="toggleCheckbox(this)"
+  &gt;
+    &lt;svg
+      class="hidden size-4 text-current"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    &gt;
+      &lt;polyline points="20 6 9 17 4 12"/&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;div class="grid gap-2"&gt;
+    &lt;label
+      for="checkbox-text"
+      class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+    &gt;
+      Marketing emails
+    &lt;/label&gt;
+    &lt;p class="text-sm text-muted-foreground"&gt;
+      Receive emails about new products, features, and more.
+    &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Disabled -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Disabled</h2>
+
+        <!-- Unchecked Disabled -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Unchecked</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="flex items-center gap-3">
+            <button
+              type="button"
+              role="checkbox"
+              aria-checked="false"
+              data-state="unchecked"
+              disabled
+              id="checkbox-disabled"
+              class="peer size-4 shrink-0 rounded-[4px] border border-input dark:bg-input/30 shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary"
+            >
+              <svg
+                class="hidden size-4 text-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </button>
+            <label
+              for="checkbox-disabled"
+              class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+            >
+              Accept terms and conditions
+            </label>
+          </div>
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="flex items-center gap-3"&gt;
+  &lt;button
+    type="button"
+    role="checkbox"
+    aria-checked="false"
+    data-state="unchecked"
+    disabled
+    id="checkbox-disabled"
+    class="peer size-4 shrink-0 rounded-[4px] border border-input dark:bg-input/30 shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary"
+  &gt;
+    &lt;svg
+      class="hidden size-4 text-current"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    &gt;
+      &lt;polyline points="20 6 9 17 4 12"/&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;label
+    for="checkbox-disabled"
+    class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+  &gt;
+    Accept terms and conditions
+  &lt;/label&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <!-- Checked Disabled -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Checked</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="flex items-center gap-3">
+            <button
+              type="button"
+              role="checkbox"
+              aria-checked="true"
+              data-state="checked"
+              disabled
+              id="checkbox-disabled-checked"
+              class="peer size-4 shrink-0 rounded-[4px] border border-input dark:bg-input/30 shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary"
+            >
+              <svg
+                class="size-4 text-current"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </button>
+            <label
+              for="checkbox-disabled-checked"
+              class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+            >
+              Accept terms and conditions
+            </label>
+          </div>
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="flex items-center gap-3"&gt;
+  &lt;button
+    type="button"
+    role="checkbox"
+    aria-checked="true"
+    data-state="checked"
+    disabled
+    id="checkbox-disabled-checked"
+    class="peer size-4 shrink-0 rounded-[4px] border border-input dark:bg-input/30 shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary"
+  &gt;
+    &lt;svg
+      class="size-4 text-current"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    &gt;
+      &lt;polyline points="20 6 9 17 4 12"/&gt;
+    &lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;label
+    for="checkbox-disabled-checked"
+    class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+  &gt;
+    Accept terms and conditions
+  &lt;/label&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Multiple Checkboxes -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Multiple Checkboxes</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="flex flex-col gap-6">
+            <div class="flex items-center gap-3">
+              <button
+                type="button"
+                role="checkbox"
+                aria-checked="false"
+                data-state="unchecked"
+                id="checkbox-1"
+                class="peer size-4 shrink-0 rounded-[4px] border border-input dark:bg-input/30 shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary"
+                onclick="toggleCheckbox(this)"
+              >
+                <svg
+                  class="hidden size-4 text-current"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </button>
+              <label
+                for="checkbox-1"
+                class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              >
+                Receive newsletters
+              </label>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <button
+                type="button"
+                role="checkbox"
+                aria-checked="false"
+                data-state="unchecked"
+                id="checkbox-2"
+                class="peer size-4 shrink-0 rounded-[4px] border border-input dark:bg-input/30 shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary"
+                onclick="toggleCheckbox(this)"
+              >
+                <svg
+                  class="hidden size-4 text-current"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </button>
+              <label
+                for="checkbox-2"
+                class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              >
+                Receive product updates
+              </label>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <button
+                type="button"
+                role="checkbox"
+                aria-checked="false"
+                data-state="unchecked"
+                id="checkbox-3"
+                class="peer size-4 shrink-0 rounded-[4px] border border-input dark:bg-input/30 shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary"
+                onclick="toggleCheckbox(this)"
+              >
+                <svg
+                  class="hidden size-4 text-current"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </button>
+              <label
+                for="checkbox-3"
+                class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+              >
+                Receive promotional offers
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="flex flex-col gap-6"&gt;
+  &lt;div class="flex items-center gap-3"&gt;
+    &lt;button
+      type="button"
+      role="checkbox"
+      aria-checked="false"
+      data-state="unchecked"
+      id="checkbox-1"
+      class="peer size-4 shrink-0 rounded-[4px] border border-input dark:bg-input/30 shadow-xs transition-all outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary"
+      onclick="toggleCheckbox(this)"
+    &gt;
+      &lt;svg
+        class="hidden size-4 text-current"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="3"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      &gt;
+        &lt;polyline points="20 6 9 17 4 12"/&gt;
+      &lt;/svg&gt;
+    &lt;/button&gt;
+    &lt;label
+      for="checkbox-1"
+      class="text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+    &gt;
+      Receive newsletters
+    &lt;/label&gt;
+  &lt;/div&gt;
+  &lt;!-- Repeat for other checkboxes --&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <script>
+        function toggleCheckbox(btn) {
+          const isChecked = btn.getAttribute('data-state') === 'checked';
+          const newState = isChecked ? 'unchecked' : 'checked';
+          btn.setAttribute('data-state', newState);
+          btn.setAttribute('aria-checked', !isChecked);
+
+          const svg = btn.querySelector('svg');
+          if (newState === 'checked') {
+            svg.classList.remove('hidden');
+          } else {
+            svg.classList.add('hidden');
+          }
+        }
+      </script>
+    </div>
+
+    <script src="../js/theme-manager.js"></script>
+    <script src="../js/code-block.js"></script>
+  </body>
+</html>

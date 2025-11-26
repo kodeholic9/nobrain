@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accordion - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+    <style>
+      /* Accordion animations */
+      @keyframes accordion-down {
+        from {
+          height: 0;
+          opacity: 0;
+        }
+        to {
+          height: var(--radix-accordion-content-height);
+          opacity: 1;
+        }
+      }
+
+      @keyframes accordion-up {
+        from {
+          height: var(--radix-accordion-content-height);
+          opacity: 1;
+        }
+        to {
+          height: 0;
+          opacity: 0;
+        }
+      }
+
+      .accordion-content[data-state='open'] {
+        animation: accordion-down 0.2s ease-out;
+      }
+
+      .accordion-content[data-state='closed'] {
+        animation: accordion-up 0.2s ease-out;
+      }
+
+      /* Chevron rotation */
+      .accordion-trigger svg {
+        transition: transform 0.2s ease-out;
+      }
+
+      .accordion-trigger[data-state='open'] svg {
+        transform: rotate(180deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2">Accordion</h1>
+      <p class="text-muted-foreground mb-6 sm:mb-8">
+        A vertically stacked set of interactive headings that each reveal a
+        section of content.
+      </p>
+
+      <!-- Default Accordion -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Default</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="w-full max-w-2xl mx-auto">
+            <div class="accordion" data-accordion="default">
+              <!-- Item 1 -->
+              <div class="accordion-item border-b" data-state="closed">
+                <button
+                  class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left"
+                  data-state="closed"
+                  onclick="toggleAccordion('default', 0)"
+                >
+                  Is it accessible?
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="shrink-0 text-muted-foreground transition-transform duration-200"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div
+                  class="accordion-content overflow-hidden text-sm hidden"
+                  data-state="closed"
+                >
+                  <div class="pb-4 pt-0">
+                    Yes. It adheres to the WAI-ARIA design pattern.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="accordion-item border-b" data-state="closed">
+                <button
+                  class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left"
+                  data-state="closed"
+                  onclick="toggleAccordion('default', 1)"
+                >
+                  Is it styled?
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="shrink-0 text-muted-foreground transition-transform duration-200"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div
+                  class="accordion-content overflow-hidden text-sm hidden"
+                  data-state="closed"
+                >
+                  <div class="pb-4 pt-0">
+                    Yes. It comes with default styles that match the shadcn/ui
+                    aesthetic.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="accordion-item border-b" data-state="closed">
+                <button
+                  class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180 w-full text-left"
+                  data-state="closed"
+                  onclick="toggleAccordion('default', 2)"
+                >
+                  Is it animated?
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="shrink-0 text-muted-foreground transition-transform duration-200"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div
+                  class="accordion-content overflow-hidden text-sm hidden"
+                  data-state="closed"
+                >
+                  <div class="pb-4 pt-0">
+                    Yes. It's animated by default, but you can disable it if you
+                    prefer.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="accordion" data-accordion="default"&gt;
+  &lt;div class="accordion-item border-b" data-state="closed"&gt;
+    &lt;button
+      class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline w-full text-left"
+      data-state="closed"
+      onclick="toggleAccordion('default', 0)"
+    &gt;
+      Is it accessible?
+      &lt;svg&gt;...&lt;/svg&gt;
+    &lt;/button&gt;
+    &lt;div class="accordion-content overflow-hidden text-sm hidden" data-state="closed"&gt;
+      &lt;div class="pb-4 pt-0"&gt;
+        Yes. It adheres to the WAI-ARIA design pattern.
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Single Item Open (Type: single) -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          Single (Only One Open)
+        </h2>
+        <p class="text-muted-foreground mb-4">
+          Only one item can be open at a time.
+        </p>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="w-full max-w-2xl mx-auto">
+            <div class="accordion" data-accordion="single" data-type="single">
+              <!-- Item 1 -->
+              <div class="accordion-item border-b" data-state="closed">
+                <button
+                  class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline w-full text-left"
+                  data-state="closed"
+                  onclick="toggleAccordion('single', 0)"
+                >
+                  What is Tailwind CSS?
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="shrink-0 text-muted-foreground transition-transform duration-200"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div
+                  class="accordion-content overflow-hidden text-sm hidden"
+                  data-state="closed"
+                >
+                  <div class="pb-4 pt-0">
+                    Tailwind CSS is a utility-first CSS framework for rapidly
+                    building custom user interfaces.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="accordion-item border-b" data-state="closed">
+                <button
+                  class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline w-full text-left"
+                  data-state="closed"
+                  onclick="toggleAccordion('single', 1)"
+                >
+                  What is shadcn/ui?
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="shrink-0 text-muted-foreground transition-transform duration-200"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div
+                  class="accordion-content overflow-hidden text-sm hidden"
+                  data-state="closed"
+                >
+                  <div class="pb-4 pt-0">
+                    shadcn/ui is a collection of re-usable components that you
+                    can copy and paste into your apps.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="accordion-item border-b" data-state="closed">
+                <button
+                  class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline w-full text-left"
+                  data-state="closed"
+                  onclick="toggleAccordion('single', 2)"
+                >
+                  Can I use this in my project?
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="shrink-0 text-muted-foreground transition-transform duration-200"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div
+                  class="accordion-content overflow-hidden text-sm hidden"
+                  data-state="closed"
+                >
+                  <div class="pb-4 pt-0">
+                    Yes! Feel free to use this code in your projects. It's open
+                    source and free to use.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="accordion" data-accordion="single" data-type="single"&gt;
+  &lt;!-- Items here --&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Multiple Items Open (Type: multiple) -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          Multiple (Multiple Open)
+        </h2>
+        <p class="text-muted-foreground mb-4">
+          Multiple items can be open at the same time.
+        </p>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="w-full max-w-2xl mx-auto">
+            <div
+              class="accordion"
+              data-accordion="multiple"
+              data-type="multiple"
+            >
+              <!-- Item 1 -->
+              <div class="accordion-item border-b" data-state="closed">
+                <button
+                  class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline w-full text-left"
+                  data-state="closed"
+                  onclick="toggleAccordion('multiple', 0)"
+                >
+                  Features
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="shrink-0 text-muted-foreground transition-transform duration-200"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div
+                  class="accordion-content overflow-hidden text-sm hidden"
+                  data-state="closed"
+                >
+                  <div class="pb-4 pt-0">
+                    <ul class="list-disc list-inside space-y-1">
+                      <li>Fully accessible</li>
+                      <li>Smooth animations</li>
+                      <li>Keyboard navigation</li>
+                      <li>Customizable styling</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="accordion-item border-b" data-state="closed">
+                <button
+                  class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline w-full text-left"
+                  data-state="closed"
+                  onclick="toggleAccordion('multiple', 1)"
+                >
+                  Installation
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="shrink-0 text-muted-foreground transition-transform duration-200"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div
+                  class="accordion-content overflow-hidden text-sm hidden"
+                  data-state="closed"
+                >
+                  <div class="pb-4 pt-0">
+                    <code class="bg-muted px-2 py-1 rounded text-xs"
+                      >npm install accordion</code
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="accordion-item border-b" data-state="closed">
+                <button
+                  class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline w-full text-left"
+                  data-state="closed"
+                  onclick="toggleAccordion('multiple', 2)"
+                >
+                  Usage
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="shrink-0 text-muted-foreground transition-transform duration-200"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div
+                  class="accordion-content overflow-hidden text-sm hidden"
+                  data-state="closed"
+                >
+                  <div class="pb-4 pt-0">
+                    Import the component and use it in your project. See
+                    documentation for more details.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="accordion" data-accordion="multiple" data-type="multiple"&gt;
+  &lt;!-- Items here --&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Default Open -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          With Default Open
+        </h2>
+        <p class="text-muted-foreground mb-4">
+          Start with one or more items already open.
+        </p>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="w-full max-w-2xl mx-auto">
+            <div
+              class="accordion"
+              data-accordion="default-open"
+              data-type="single"
+            >
+              <!-- Item 1 - Default Open -->
+              <div class="accordion-item border-b" data-state="open">
+                <button
+                  class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline w-full text-left"
+                  data-state="open"
+                  onclick="toggleAccordion('default-open', 0)"
+                >
+                  Getting Started
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="shrink-0 text-muted-foreground transition-transform duration-200 rotate-180"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div
+                  class="accordion-content overflow-hidden text-sm block"
+                  data-state="open"
+                >
+                  <div class="pb-4 pt-0">
+                    This accordion item is open by default. You can configure
+                    which items start open by setting their initial state.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div class="accordion-item border-b" data-state="closed">
+                <button
+                  class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline w-full text-left"
+                  data-state="closed"
+                  onclick="toggleAccordion('default-open', 1)"
+                >
+                  Advanced Configuration
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="shrink-0 text-muted-foreground transition-transform duration-200"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div
+                  class="accordion-content overflow-hidden text-sm hidden"
+                  data-state="closed"
+                >
+                  <div class="pb-4 pt-0">
+                    Configure animations, transitions, and other advanced
+                    options.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 3 -->
+              <div class="accordion-item border-b" data-state="closed">
+                <button
+                  class="accordion-trigger flex flex-1 items-center justify-between py-4 text-sm font-medium transition-all hover:underline w-full text-left"
+                  data-state="closed"
+                  onclick="toggleAccordion('default-open', 2)"
+                >
+                  API Reference
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="shrink-0 text-muted-foreground transition-transform duration-200"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+                <div
+                  class="accordion-content overflow-hidden text-sm hidden"
+                  data-state="closed"
+                >
+                  <div class="pb-4 pt-0">
+                    Complete API documentation for all available props and
+                    methods.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="accordion-item border-b" data-state="open"&gt;
+  &lt;button class="accordion-trigger..." data-state="open"&gt;
+    Getting Started
+    &lt;svg class="... rotate-180"&gt;...&lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;div class="accordion-content... block" data-state="open"&gt;
+    &lt;div class="pb-4 pt-0"&gt;
+      This item is open by default.
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- JavaScript -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">JavaScript</h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>function toggleAccordion(accordionId, itemIndex) {
+  const accordion = document.querySelector(`[data-accordion="${accordionId}"]`);
+  const type = accordion.getAttribute('data-type') || 'multiple';
+  const items = accordion.querySelectorAll('.accordion-item');
+  const currentItem = items[itemIndex];
+  
+  const trigger = currentItem.querySelector('.accordion-trigger');
+  const content = currentItem.querySelector('.accordion-content');
+  const currentState = currentItem.getAttribute('data-state');
+  
+  // Type: single - close other items
+  if (type === 'single') {
+    items.forEach((item, index) => {
+      if (index !== itemIndex) {
+        const otherTrigger = item.querySelector('.accordion-trigger');
+        const otherContent = item.querySelector('.accordion-content');
+        
+        item.setAttribute('data-state', 'closed');
+        otherTrigger.setAttribute('data-state', 'closed');
+        otherContent.setAttribute('data-state', 'closed');
+        otherContent.classList.add('hidden');
+        otherContent.classList.remove('block');
+      }
+    });
+  }
+  
+  // Toggle current item
+  if (currentState === 'closed') {
+    currentItem.setAttribute('data-state', 'open');
+    trigger.setAttribute('data-state', 'open');
+    content.setAttribute('data-state', 'open');
+    content.classList.remove('hidden');
+    content.classList.add('block');
+  } else {
+    currentItem.setAttribute('data-state', 'closed');
+    trigger.setAttribute('data-state', 'closed');
+    content.setAttribute('data-state', 'closed');
+    
+    // Delay hiding to allow animation
+    setTimeout(() => {
+      if (content.getAttribute('data-state') === 'closed') {
+        content.classList.add('hidden');
+        content.classList.remove('block');
+      }
+    }, 200);
+  }
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- CSS Animations -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">CSS Animations</h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>/* Accordion animations */
+@keyframes accordion-down {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+    opacity: 1;
+  }
+  to {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+.accordion-content[data-state="open"] {
+  animation: accordion-down 0.2s ease-out;
+}
+
+.accordion-content[data-state="closed"] {
+  animation: accordion-up 0.2s ease-out;
+}
+
+/* Chevron rotation */
+.accordion-trigger svg {
+  transition: transform 0.2s ease-out;
+}
+
+.accordion-trigger[data-state="open"] svg {
+  transform: rotate(180deg);
+}</code></pre>
+        </div>
+      </section>
+    </div>
+
+    <script src="../js/code-block.js"></script>
+    <script>
+      function toggleAccordion(accordionId, itemIndex) {
+        const accordion = document.querySelector(
+          `[data-accordion="${accordionId}"]`
+        );
+        const type = accordion.getAttribute('data-type') || 'multiple';
+        const items = accordion.querySelectorAll('.accordion-item');
+        const currentItem = items[itemIndex];
+
+        const trigger = currentItem.querySelector('.accordion-trigger');
+        const content = currentItem.querySelector('.accordion-content');
+        const currentState = currentItem.getAttribute('data-state');
+
+        // Type: single - close other items
+        if (type === 'single') {
+          items.forEach((item, index) => {
+            if (index !== itemIndex) {
+              const otherTrigger = item.querySelector('.accordion-trigger');
+              const otherContent = item.querySelector('.accordion-content');
+
+              item.setAttribute('data-state', 'closed');
+              otherTrigger.setAttribute('data-state', 'closed');
+              otherContent.setAttribute('data-state', 'closed');
+              otherContent.classList.add('hidden');
+              otherContent.classList.remove('block');
+            }
+          });
+        }
+
+        // Toggle current item
+        if (currentState === 'closed') {
+          currentItem.setAttribute('data-state', 'open');
+          trigger.setAttribute('data-state', 'open');
+          content.setAttribute('data-state', 'open');
+          content.classList.remove('hidden');
+          content.classList.add('block');
+        } else {
+          currentItem.setAttribute('data-state', 'closed');
+          trigger.setAttribute('data-state', 'closed');
+          content.setAttribute('data-state', 'closed');
+
+          // Delay hiding to allow animation
+          setTimeout(() => {
+            if (content.getAttribute('data-state') === 'closed') {
+              content.classList.add('hidden');
+              content.classList.remove('block');
+            }
+          }, 200);
+        }
+      }
+    </script>
+  </body>
+</html>

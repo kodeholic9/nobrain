@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slider - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+    <style>
+      /* Slider Styles - shadcn/ui style */
+      .slider {
+        position: relative;
+        display: flex;
+        width: 100%;
+        touch-action: none;
+        user-select: none;
+        align-items: center;
+      }
+
+      .slider input[type='range'] {
+        width: 100%;
+        height: 20px;
+        background: transparent;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      /* Track */
+      .slider input[type='range']::-webkit-slider-track {
+        width: 100%;
+        height: 8px;
+        background: hsl(var(--muted));
+        border-radius: 9999px;
+        border: 1px solid hsl(var(--border));
+      }
+
+      .slider input[type='range']::-moz-range-track {
+        width: 100%;
+        height: 8px;
+        background: hsl(var(--muted));
+        border-radius: 9999px;
+        border: 1px solid hsl(var(--border));
+      }
+
+      /* Thumb */
+      .slider input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 9999px;
+        background: hsl(var(--background));
+        border: 2px solid hsl(var(--primary));
+        cursor: pointer;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+      }
+
+      .slider input[type='range']::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 9999px;
+        background: hsl(var(--background));
+        border: 2px solid hsl(var(--primary));
+        cursor: pointer;
+        box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+      }
+
+      /* Focus */
+      .slider input[type='range']:focus-visible {
+        outline: none;
+      }
+
+      .slider input[type='range']:focus-visible::-webkit-slider-thumb {
+        ring: 2px;
+        ring-color: hsl(var(--ring));
+      }
+
+      .slider input[type='range']:focus-visible::-moz-range-thumb {
+        ring: 2px;
+        ring-color: hsl(var(--ring));
+      }
+
+      /* Disabled */
+      .slider input[type='range']:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2">Slider</h1>
+      <p class="text-muted-foreground mb-6 sm:mb-8">
+        An input where the user selects a value from within a given range.
+      </p>
+
+      <!-- Basic Slider -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Basic Slider</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="max-w-md mx-auto space-y-4">
+            <div class="slider">
+              <input type="range" min="0" max="100" value="50" class="w-full" />
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="slider"&gt;
+  &lt;input type="range" min="0" max="100" value="50" class="w-full" /&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Value Display -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          With Value Display
+        </h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="max-w-md mx-auto space-y-4">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="text-sm font-medium">Volume</label>
+                <span id="volume-value" class="text-sm text-muted-foreground"
+                  >50</span
+                >
+              </div>
+              <div class="slider">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="50"
+                  class="w-full"
+                  oninput="document.getElementById('volume-value').textContent = this.value"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2"&gt;
+  &lt;div class="flex items-center justify-between"&gt;
+    &lt;label class="text-sm font-medium"&gt;Volume&lt;/label&gt;
+    &lt;span id="volume-value" class="text-sm text-muted-foreground"&gt;50&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="slider"&gt;
+    &lt;input 
+      type="range" 
+      min="0" 
+      max="100" 
+      value="50" 
+      class="w-full"
+      oninput="document.getElementById('volume-value').textContent = this.value"
+    /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Different Ranges -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Different Ranges</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="max-w-md mx-auto space-y-6">
+            <!-- 0-10 -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="text-sm font-medium">Rating (0-10)</label>
+                <span id="rating-value" class="text-sm text-muted-foreground"
+                  >5</span
+                >
+              </div>
+              <div class="slider">
+                <input
+                  type="range"
+                  min="0"
+                  max="10"
+                  value="5"
+                  class="w-full"
+                  oninput="document.getElementById('rating-value').textContent = this.value"
+                />
+              </div>
+            </div>
+
+            <!-- 0-1 with step -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="text-sm font-medium">Opacity (0-1)</label>
+                <span id="opacity-value" class="text-sm text-muted-foreground"
+                  >0.5</span
+                >
+              </div>
+              <div class="slider">
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.1"
+                  value="0.5"
+                  class="w-full"
+                  oninput="document.getElementById('opacity-value').textContent = this.value"
+                />
+              </div>
+            </div>
+
+            <!-- -50 to 50 -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="text-sm font-medium"
+                  >Temperature (-50 to 50)</label
+                >
+                <span id="temp-value" class="text-sm text-muted-foreground"
+                  >0</span
+                >
+              </div>
+              <div class="slider">
+                <input
+                  type="range"
+                  min="-50"
+                  max="50"
+                  value="0"
+                  class="w-full"
+                  oninput="document.getElementById('temp-value').textContent = this.value"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- 0-10 --&gt;
+&lt;input type="range" min="0" max="10" value="5" /&gt;
+
+&lt;!-- 0-1 with step --&gt;
+&lt;input type="range" min="0" max="1" step="0.1" value="0.5" /&gt;
+
+&lt;!-- Negative to positive --&gt;
+&lt;input type="range" min="-50" max="50" value="0" /&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Min/Max Labels -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          With Min/Max Labels
+        </h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="max-w-md mx-auto space-y-4">
+            <div class="space-y-2">
+              <label class="text-sm font-medium">Price Range</label>
+              <div class="slider">
+                <input
+                  type="range"
+                  min="0"
+                  max="1000"
+                  value="500"
+                  class="w-full"
+                />
+              </div>
+              <div
+                class="flex items-center justify-between text-xs text-muted-foreground"
+              >
+                <span>$0</span>
+                <span>$1000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2"&gt;
+  &lt;label class="text-sm font-medium"&gt;Price Range&lt;/label&gt;
+  &lt;div class="slider"&gt;
+    &lt;input type="range" min="0" max="1000" value="500" class="w-full" /&gt;
+  &lt;/div&gt;
+  &lt;div class="flex items-center justify-between text-xs text-muted-foreground"&gt;
+    &lt;span&gt;$0&lt;/span&gt;
+    &lt;span&gt;$1000&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Disabled State -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Disabled State</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="max-w-md mx-auto space-y-4">
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-muted-foreground"
+                >Disabled Slider</label
+              >
+              <div class="slider">
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="50"
+                  class="w-full"
+                  disabled
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;input type="range" min="0" max="100" value="50" disabled /&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Multiple Sliders -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Multiple Sliders</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="max-w-md mx-auto space-y-6">
+            <!-- Red -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="text-sm font-medium">Red</label>
+                <span id="red-value" class="text-sm text-muted-foreground"
+                  >255</span
+                >
+              </div>
+              <div class="slider">
+                <input
+                  type="range"
+                  min="0"
+                  max="255"
+                  value="255"
+                  class="w-full"
+                  oninput="document.getElementById('red-value').textContent = this.value; updateColor()"
+                  id="red-slider"
+                />
+              </div>
+            </div>
+
+            <!-- Green -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="text-sm font-medium">Green</label>
+                <span id="green-value" class="text-sm text-muted-foreground"
+                  >128</span
+                >
+              </div>
+              <div class="slider">
+                <input
+                  type="range"
+                  min="0"
+                  max="255"
+                  value="128"
+                  class="w-full"
+                  oninput="document.getElementById('green-value').textContent = this.value; updateColor()"
+                  id="green-slider"
+                />
+              </div>
+            </div>
+
+            <!-- Blue -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="text-sm font-medium">Blue</label>
+                <span id="blue-value" class="text-sm text-muted-foreground"
+                  >64</span
+                >
+              </div>
+              <div class="slider">
+                <input
+                  type="range"
+                  min="0"
+                  max="255"
+                  value="64"
+                  class="w-full"
+                  oninput="document.getElementById('blue-value').textContent = this.value; updateColor()"
+                  id="blue-slider"
+                />
+              </div>
+            </div>
+
+            <!-- Color Preview -->
+            <div class="flex items-center gap-3">
+              <div
+                id="color-preview"
+                class="w-16 h-16 rounded-md border-2 border-border"
+                style="background-color: rgb(255, 128, 64)"
+              ></div>
+              <div class="text-sm">
+                <div class="font-medium">Preview</div>
+                <div id="color-code" class="text-xs text-muted-foreground">
+                  rgb(255, 128, 64)
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Multiple sliders for RGB control --&gt;
+&lt;input type="range" min="0" max="255" value="255" id="red" /&gt;
+&lt;input type="range" min="0" max="255" value="128" id="green" /&gt;
+&lt;input type="range" min="0" max="255" value="64" id="blue" /&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- CSS Styles -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">CSS Styles</h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>/* Slider Styles */
+.slider {
+  position: relative;
+  display: flex;
+  width: 100%;
+  touch-action: none;  /* Optimized for mobile touch */
+  user-select: none;
+  align-items: center;
+}
+
+.slider input[type="range"] {
+  width: 100%;
+  height: 20px;
+  background: transparent;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Track */
+.slider input[type="range"]::-webkit-slider-track {
+  width: 100%;
+  height: 8px;
+  background: hsl(var(--muted));
+  border-radius: 9999px;
+  border: 1px solid hsl(var(--border));
+}
+
+/* Thumb (20px for easy touch) */
+.slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 9999px;
+  background: hsl(var(--background));
+  border: 2px solid hsl(var(--primary));
+  cursor: pointer;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+/* Disabled */
+.slider input[type="range"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- Usage Notes -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Usage Notes</h2>
+        <div class="space-y-4 text-sm sm:text-base">
+          <div class="rounded-lg border p-4 sm:p-6 bg-card">
+            <h3 class="font-semibold mb-2">Mobile Touch Optimization</h3>
+            <p class="text-muted-foreground mb-2">
+              The slider is optimized for mobile touch:
+            </p>
+            <ul class="list-disc list-inside space-y-1 text-muted-foreground">
+              <li>
+                <code class="bg-muted px-2 py-1 rounded text-xs"
+                  >touch-action: none</code
+                >
+                - Prevents scrolling while dragging
+              </li>
+              <li>
+                <code class="bg-muted px-2 py-1 rounded text-xs"
+                  >20px thumb</code
+                >
+                - Large enough for easy touch (Apple recommends 44px minimum
+                touch target)
+              </li>
+              <li>Works with touch events (touchstart, touchmove, touchend)</li>
+            </ul>
+          </div>
+
+          <div class="rounded-lg border p-4 sm:p-6 bg-card">
+            <h3 class="font-semibold mb-2">Attributes</h3>
+            <ul class="list-disc list-inside space-y-1 text-muted-foreground">
+              <li>
+                <code class="bg-muted px-2 py-1 rounded text-xs">min</code> -
+                Minimum value
+              </li>
+              <li>
+                <code class="bg-muted px-2 py-1 rounded text-xs">max</code> -
+                Maximum value
+              </li>
+              <li>
+                <code class="bg-muted px-2 py-1 rounded text-xs">step</code> -
+                Increment value (default: 1)
+              </li>
+              <li>
+                <code class="bg-muted px-2 py-1 rounded text-xs">value</code> -
+                Initial value
+              </li>
+            </ul>
+          </div>
+
+          <div class="rounded-lg border p-4 sm:p-6 bg-card">
+            <h3 class="font-semibold mb-2">Events</h3>
+            <p class="text-muted-foreground">
+              Use
+              <code class="bg-muted px-2 py-1 rounded text-xs">oninput</code>
+              for real-time updates or
+              <code class="bg-muted px-2 py-1 rounded text-xs">onchange</code>
+              for updates after releasing.
+            </p>
+          </div>
+
+          <div class="rounded-lg border p-4 sm:p-6 bg-card">
+            <h3 class="font-semibold mb-2">Accessibility</h3>
+            <p class="text-muted-foreground">
+              The slider can be controlled with keyboard (arrow keys) and
+              supports screen readers. Always include a label.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="../js/code-block.js"></script>
+    <script>
+      // RGB Color Mixer
+      function updateColor() {
+        const red = document.getElementById('red-slider').value;
+        const green = document.getElementById('green-slider').value;
+        const blue = document.getElementById('blue-slider').value;
+
+        const colorPreview = document.getElementById('color-preview');
+        const colorCode = document.getElementById('color-code');
+
+        colorPreview.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+        colorCode.textContent = `rgb(${red}, ${green}, ${blue})`;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toast - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+
+    <!-- Toastify CSS -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+
+    <style>
+      /* Custom Toastify Styles - shadcn inspired */
+      .toastify {
+        padding: 16px 24px 16px 16px;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 14px;
+        line-height: 1.5;
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
+        border: 1px solid var(--border);
+        background: var(--background);
+        color: var(--foreground);
+        min-width: 356px;
+        max-width: 356px;
+      }
+
+      .toastify.on {
+        opacity: 1;
+      }
+
+      /* Success */
+      .toastify.toast-success {
+        background: rgb(240 253 244);
+        border-color: rgb(187 247 208);
+        color: rgb(21 128 61);
+      }
+
+      .dark .toastify.toast-success {
+        background: rgb(20 83 45);
+        border-color: rgb(22 101 52);
+        color: rgb(187 247 208);
+      }
+
+      /* Error */
+      .toastify.toast-error {
+        background: rgb(254 242 242);
+        border-color: rgb(254 202 202);
+        color: rgb(185 28 28);
+      }
+
+      .dark .toastify.toast-error {
+        background: rgb(127 29 29);
+        border-color: rgb(153 27 27);
+        color: rgb(254 202 202);
+      }
+
+      /* Warning */
+      .toastify.toast-warning {
+        background: rgb(254 252 232);
+        border-color: rgb(254 240 138);
+        color: rgb(161 98 7);
+      }
+
+      .dark .toastify.toast-warning {
+        background: rgb(113 63 18);
+        border-color: rgb(133 77 14);
+        color: rgb(254 240 138);
+      }
+
+      /* Info */
+      .toastify.toast-info {
+        background: rgb(239 246 255);
+        border-color: rgb(191 219 254);
+        color: rgb(29 78 216);
+      }
+
+      .dark .toastify.toast-info {
+        background: rgb(30 58 138);
+        border-color: rgb(30 64 175);
+        color: rgb(191 219 254);
+      }
+
+      /* Mobile */
+      @media (max-width: 640px) {
+        .toastify {
+          min-width: auto;
+          max-width: none;
+          width: calc(100% - 32px);
+          margin: 0 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2">Toast</h1>
+      <p class="text-muted-foreground mb-6 sm:mb-8">
+        An opinionated toast component using Toastify.js - a lightweight vanilla
+        JavaScript library.
+      </p>
+
+      <!-- Installation -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Installation</h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Add Toastify CSS --&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"&gt;
+
+&lt;!-- Add Toastify JS --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/toastify-js"&gt;&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Simple Toast -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Simple</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <button
+            onclick="Toastify({text: 'Event has been created', duration: 4000, gravity: 'bottom', position: 'right'}).showToast()"
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+          >
+            Show Toast
+          </button>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>Toastify({
+  text: "Event has been created",
+  duration: 4000,
+  gravity: "bottom",
+  position: "right"
+}).showToast();</code></pre>
+        </div>
+      </section>
+
+      <!-- Different Types (Responsive) -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          Different Types (Responsive)
+        </h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="flex flex-col sm:flex-row flex-wrap gap-2">
+            <button
+              onclick="Toastify({text: 'Event has been created', duration: 4000}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Default
+            </button>
+            <button
+              onclick="Toastify({text: 'Event has been created', duration: 4000, className: 'toast-success'}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Success
+            </button>
+            <button
+              onclick="Toastify({text: 'Something went wrong', duration: 4000, className: 'toast-error'}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Error
+            </button>
+            <button
+              onclick="Toastify({text: 'Please check your input', duration: 4000, className: 'toast-warning'}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Warning
+            </button>
+            <button
+              onclick="Toastify({text: 'New message received', duration: 4000, className: 'toast-info'}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Info
+            </button>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>// Success
+Toastify({
+  text: "Event has been created",
+  className: "toast-success",
+  duration: 4000
+}).showToast();
+
+// Error
+Toastify({
+  text: "Something went wrong",
+  className: "toast-error",
+  duration: 4000
+}).showToast();
+
+// Warning
+Toastify({
+  text: "Please check your input",
+  className: "toast-warning",
+  duration: 4000
+}).showToast();
+
+// Info
+Toastify({
+  text: "New message received",
+  className: "toast-info",
+  duration: 4000
+}).showToast();</code></pre>
+        </div>
+      </section>
+
+      <!-- Positions (Responsive) -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          Positions (Responsive)
+        </h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <button
+              onclick="Toastify({text: 'Top Left', duration: 3000, gravity: 'top', position: 'left'}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Top Left
+            </button>
+            <button
+              onclick="Toastify({text: 'Top Center', duration: 3000, gravity: 'top', position: 'center'}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Top Center
+            </button>
+            <button
+              onclick="Toastify({text: 'Top Right', duration: 3000, gravity: 'top', position: 'right'}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Top Right
+            </button>
+            <button
+              onclick="Toastify({text: 'Bottom Left', duration: 3000, gravity: 'bottom', position: 'left'}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Bottom Left
+            </button>
+            <button
+              onclick="Toastify({text: 'Bottom Center', duration: 3000, gravity: 'bottom', position: 'center'}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Bottom Center
+            </button>
+            <button
+              onclick="Toastify({text: 'Bottom Right', duration: 3000, gravity: 'bottom', position: 'right'}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              Bottom Right
+            </button>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>// Top Left
+Toastify({
+  text: "Notification",
+  gravity: "top",
+  position: "left"
+}).showToast();
+
+// Bottom Center
+Toastify({
+  text: "Notification",
+  gravity: "bottom",
+  position: "center"
+}).showToast();</code></pre>
+        </div>
+      </section>
+
+      <!-- With Callback (Click Action) -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">With Callback</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <button
+            onclick="Toastify({text: 'Click me to trigger action', duration: 4000, onClick: function(){ alert('Toast clicked!'); }}).showToast()"
+            class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+          >
+            Show Toast with Callback
+          </button>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>Toastify({
+  text: "Click me to trigger action",
+  duration: 4000,
+  onClick: function() {
+    console.log('Toast clicked!');
+    // Perform action here
+  }
+}).showToast();</code></pre>
+        </div>
+      </section>
+
+      <!-- Custom Duration -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Custom Duration</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <button
+              onclick="Toastify({text: '2 seconds', duration: 2000}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              2s Duration
+            </button>
+            <button
+              onclick="Toastify({text: '5 seconds', duration: 5000}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              5s Duration
+            </button>
+            <button
+              onclick="Toastify({text: 'No auto-close', duration: -1, close: true}).showToast()"
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+            >
+              No Auto-close
+            </button>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>// 2 seconds
+Toastify({
+  text: "Short notification",
+  duration: 2000
+}).showToast();
+
+// 5 seconds
+Toastify({
+  text: "Longer notification",
+  duration: 5000
+}).showToast();
+
+// No auto-close (requires manual close)
+Toastify({
+  text: "Manual close required",
+  duration: -1,
+  close: true // Show close button
+}).showToast();</code></pre>
+        </div>
+      </section>
+
+      <!-- Advanced Options -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Advanced Options</h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>Toastify({
+  text: "Notification message",
+  duration: 4000,
+  
+  // Position
+  gravity: "top",        // "top" or "bottom"
+  position: "right",     // "left", "center", "right"
+  
+  // Styling
+  className: "toast-success",  // Custom class
+  style: {
+    background: "linear-gradient(to right, #00b09b, #96c93d)",
+  },
+  
+  // Offset
+  offset: {
+    x: 50,  // horizontal offset
+    y: 10   // vertical offset
+  },
+  
+  // Close button
+  close: true,           // Show close button
+  
+  // Callbacks
+  onClick: function() {  // Click handler
+    console.log('Clicked!');
+  },
+  callback: function() { // After dismiss
+    console.log('Dismissed!');
+  },
+  
+  // Behavior
+  stopOnFocus: true,     // Pause auto-dismiss on hover
+  escapeMarkup: true,    // Escape HTML
+  oldestFirst: true      // Stack order
+}).showToast();</code></pre>
+        </div>
+      </section>
+
+      <!-- Helper Functions -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          Helper Functions (Optional)
+        </h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>// Create helper functions for common toast types
+function toast(text, options = {}) {
+  return Toastify({
+    text: text,
+    duration: 4000,
+    gravity: "bottom",
+    position: "right",
+    ...options
+  }).showToast();
+}
+
+function toastSuccess(text) {
+  return toast(text, { className: "toast-success" });
+}
+
+function toastError(text) {
+  return toast(text, { className: "toast-error" });
+}
+
+function toastWarning(text) {
+  return toast(text, { className: "toast-warning" });
+}
+
+function toastInfo(text) {
+  return toast(text, { className: "toast-info" });
+}
+
+// Usage
+toastSuccess("Saved successfully!");
+toastError("Failed to save");
+toastWarning("Please check your input");
+toastInfo("New update available");</code></pre>
+        </div>
+      </section>
+    </div>
+
+    <script src="../js/code-block.js"></script>
+
+    <!-- Toastify JS -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <script>
+      // Optional: Add helper functions
+      function toast(text, options = {}) {
+        return Toastify({
+          text: text,
+          duration: 4000,
+          gravity: 'bottom',
+          position: 'right',
+          ...options,
+        }).showToast();
+      }
+
+      function toastSuccess(text) {
+        return toast(text, { className: 'toast-success' });
+      }
+
+      function toastError(text) {
+        return toast(text, { className: 'toast-error' });
+      }
+
+      function toastWarning(text) {
+        return toast(text, { className: 'toast-warning' });
+      }
+
+      function toastInfo(text) {
+        return toast(text, { className: 'toast-info' });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Switch - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-3xl sm:text-4xl font-bold mb-2">Switch</h1>
+      <p class="text-muted-foreground mb-6 sm:mb-8">
+        A control that allows the user to toggle between checked and not
+        checked.
+      </p>
+
+      <!-- Default Switch -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Default</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <button
+            type="button"
+            role="switch"
+            aria-checked="false"
+            data-state="unchecked"
+            class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-input"
+            onclick="toggleSwitch(this)"
+          >
+            <span
+              data-state="unchecked"
+              class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+            ></span>
+          </button>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;button
+  type="button"
+  role="switch"
+  aria-checked="false"
+  data-state="unchecked"
+  class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-input data-[state=checked]:bg-primary"
+  onclick="toggleSwitch(this)"
+&gt;
+  &lt;span
+    data-state="unchecked"
+    class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+  &gt;&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Label -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">With Label</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="flex items-center space-x-2">
+            <button
+              type="button"
+              role="switch"
+              aria-checked="false"
+              data-state="unchecked"
+              id="airplane-mode"
+              class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-input data-[state=checked]:bg-primary"
+              onclick="toggleSwitch(this)"
+            >
+              <span
+                data-state="unchecked"
+                class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+              ></span>
+            </button>
+            <label
+              for="airplane-mode"
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Airplane Mode
+            </label>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="flex items-center space-x-2"&gt;
+  &lt;button
+    type="button"
+    role="switch"
+    aria-checked="false"
+    data-state="unchecked"
+    id="airplane-mode"
+    class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-input data-[state=checked]:bg-primary"
+    onclick="toggleSwitch(this)"
+  &gt;
+    &lt;span
+      data-state="unchecked"
+      class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+    &gt;&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;label
+    for="airplane-mode"
+    class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+  &gt;
+    Airplane Mode
+  &lt;/label&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Description (Responsive) -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          With Description (Responsive)
+        </h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div
+            class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0"
+          >
+            <div class="space-y-0.5">
+              <label
+                for="marketing"
+                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Marketing emails
+              </label>
+              <p class="text-sm text-muted-foreground">
+                Receive emails about new products, features, and more.
+              </p>
+            </div>
+            <button
+              type="button"
+              role="switch"
+              aria-checked="false"
+              data-state="unchecked"
+              id="marketing"
+              class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-input data-[state=checked]:bg-primary"
+              onclick="toggleSwitch(this)"
+            >
+              <span
+                data-state="unchecked"
+                class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+              ></span>
+            </button>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0"&gt;
+  &lt;div class="space-y-0.5"&gt;
+    &lt;label for="marketing" class="text-sm font-medium"&gt;
+      Marketing emails
+    &lt;/label&gt;
+    &lt;p class="text-sm text-muted-foreground"&gt;
+      Receive emails about new products, features, and more.
+    &lt;/p&gt;
+  &lt;/div&gt;
+  &lt;button type="button" role="switch" ...&gt;
+    &lt;span ...&gt;&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Disabled -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Disabled</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center space-x-2">
+              <button
+                type="button"
+                role="switch"
+                aria-checked="false"
+                data-state="unchecked"
+                disabled
+                class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-input data-[state=checked]:bg-primary"
+              >
+                <span
+                  data-state="unchecked"
+                  class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+                ></span>
+              </button>
+              <label
+                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Disabled (Off)
+              </label>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button
+                type="button"
+                role="switch"
+                aria-checked="true"
+                data-state="checked"
+                disabled
+                class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-input data-[state=checked]:bg-primary"
+              >
+                <span
+                  data-state="checked"
+                  class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+                ></span>
+              </button>
+              <label
+                class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Disabled (On)
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Disabled Off --&gt;
+&lt;button
+  type="button"
+  role="switch"
+  aria-checked="false"
+  data-state="unchecked"
+  disabled
+  class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50 bg-input"
+&gt;
+  &lt;span data-state="unchecked" ...&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Disabled On --&gt;
+&lt;button
+  type="button"
+  role="switch"
+  aria-checked="true"
+  data-state="checked"
+  disabled
+  class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors disabled:cursor-not-allowed disabled:opacity-50 bg-input data-[state=checked]:bg-primary"
+&gt;
+  &lt;span data-state="checked" ...&gt;&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Form Example (Responsive) -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          Form Example (Responsive)
+        </h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <form class="space-y-4 sm:space-y-6">
+            <div>
+              <h3 class="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+                Notification Settings
+              </h3>
+              <div class="space-y-4">
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0"
+                >
+                  <div class="space-y-0.5">
+                    <label for="email-notif" class="text-sm font-medium"
+                      >Email notifications</label
+                    >
+                    <p class="text-xs sm:text-sm text-muted-foreground">
+                      Receive notifications via email
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked="true"
+                    data-state="checked"
+                    id="email-notif"
+                    class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-input data-[state=checked]:bg-primary"
+                    onclick="toggleSwitch(this)"
+                  >
+                    <span
+                      data-state="checked"
+                      class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+                    ></span>
+                  </button>
+                </div>
+
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0"
+                >
+                  <div class="space-y-0.5">
+                    <label for="push-notif" class="text-sm font-medium"
+                      >Push notifications</label
+                    >
+                    <p class="text-xs sm:text-sm text-muted-foreground">
+                      Receive notifications on your device
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked="false"
+                    data-state="unchecked"
+                    id="push-notif"
+                    class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-input data-[state=checked]:bg-primary"
+                    onclick="toggleSwitch(this)"
+                  >
+                    <span
+                      data-state="unchecked"
+                      class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+                    ></span>
+                  </button>
+                </div>
+
+                <div
+                  class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0"
+                >
+                  <div class="space-y-0.5">
+                    <label for="sms-notif" class="text-sm font-medium"
+                      >SMS notifications</label
+                    >
+                    <p class="text-xs sm:text-sm text-muted-foreground">
+                      Receive notifications via SMS
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    role="switch"
+                    aria-checked="false"
+                    data-state="unchecked"
+                    id="sms-notif"
+                    class="peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 bg-input data-[state=checked]:bg-primary"
+                    onclick="toggleSwitch(this)"
+                  >
+                    <span
+                      data-state="unchecked"
+                      class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+                    ></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;form class="space-y-4 sm:space-y-6"&gt;
+  &lt;div&gt;
+    &lt;h3 class="text-base sm:text-lg font-medium mb-3 sm:mb-4"&gt;Notification Settings&lt;/h3&gt;
+    &lt;div class="space-y-4"&gt;
+      &lt;div class="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0"&gt;
+        &lt;div class="space-y-0.5"&gt;
+          &lt;label for="email-notif" class="text-sm font-medium"&gt;Email notifications&lt;/label&gt;
+          &lt;p class="text-xs sm:text-sm text-muted-foreground"&gt;
+            Receive notifications via email
+          &lt;/p&gt;
+        &lt;/div&gt;
+        &lt;button type="button" role="switch" ...&gt;
+          &lt;span ...&gt;&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/div&gt;
+      &lt;!-- More switches --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- JavaScript -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">JavaScript</h2>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>function toggleSwitch(btn) {
+  if (btn.disabled) return;
+  
+  const currentState = btn.getAttribute('data-state');
+  const newState = currentState === 'checked' ? 'unchecked' : 'checked';
+  const isChecked = newState === 'checked';
+  
+  // Update button
+  btn.setAttribute('data-state', newState);
+  btn.setAttribute('aria-checked', isChecked.toString());
+  
+  // Update thumb
+  const thumb = btn.querySelector('span');
+  thumb.setAttribute('data-state', newState);
+}</code></pre>
+        </div>
+      </section>
+    </div>
+
+    <script src="../js/code-block.js"></script>
+    <script>
+      function toggleSwitch(btn) {
+        if (btn.disabled) return;
+
+        const currentState = btn.getAttribute('data-state');
+        const newState = currentState === 'checked' ? 'unchecked' : 'checked';
+        const isChecked = newState === 'checked';
+
+        // Update button
+        btn.setAttribute('data-state', newState);
+        btn.setAttribute('aria-checked', isChecked.toString());
+
+        // Update thumb
+        const thumb = btn.querySelector('span');
+        thumb.setAttribute('data-state', newState);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+  </head>
+  <body>
+    <div class="container mx-auto p-4 sm:p-8">
+      <header class="mb-6 sm:mb-8">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-2">Progress</h1>
+        <p class="text-muted-foreground text-sm sm:text-base">
+          Displays an indicator showing the completion progress of a task,
+          typically displayed as a progress bar.
+        </p>
+      </header>
+
+      <!-- Default -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Default</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div
+            class="relative h-2 w-full sm:w-[60%] overflow-hidden rounded-full bg-primary/20"
+          >
+            <div
+              class="h-full w-full flex-1 bg-primary transition-all"
+              style="transform: translateX(-40%)"
+            ></div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="relative h-2 w-full overflow-hidden rounded-full bg-primary/20"&gt;
+  &lt;div 
+    class="h-full w-full flex-1 bg-primary transition-all"
+    style="transform: translateX(-40%)"
+  &gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Label -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">With Label</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="space-y-2 w-full sm:w-[60%]">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-medium">Uploading...</span>
+              <span class="text-muted-foreground">60%</span>
+            </div>
+            <div
+              class="relative h-2 w-full overflow-hidden rounded-full bg-primary/20"
+            >
+              <div
+                class="h-full w-full flex-1 bg-primary transition-all"
+                style="transform: translateX(-40%)"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2 w-full"&gt;
+  &lt;div class="flex items-center justify-between text-sm"&gt;
+    &lt;span class="font-medium"&gt;Uploading...&lt;/span&gt;
+    &lt;span class="text-muted-foreground"&gt;60%&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="relative h-2 w-full overflow-hidden rounded-full bg-primary/20"&gt;
+    &lt;div 
+      class="h-full w-full flex-1 bg-primary transition-all"
+      style="transform: translateX(-40%)"
+    &gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Sizes -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Sizes</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="space-y-4 w-full sm:w-[60%]">
+            <!-- Small -->
+            <div class="space-y-2">
+              <p class="text-sm text-muted-foreground">Small (h-1)</p>
+              <div
+                class="relative h-1 w-full overflow-hidden rounded-full bg-primary/20"
+              >
+                <div
+                  class="h-full w-full flex-1 bg-primary transition-all"
+                  style="transform: translateX(-30%)"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Default -->
+            <div class="space-y-2">
+              <p class="text-sm text-muted-foreground">Default (h-2)</p>
+              <div
+                class="relative h-2 w-full overflow-hidden rounded-full bg-primary/20"
+              >
+                <div
+                  class="h-full w-full flex-1 bg-primary transition-all"
+                  style="transform: translateX(-30%)"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Large -->
+            <div class="space-y-2">
+              <p class="text-sm text-muted-foreground">Large (h-4)</p>
+              <div
+                class="relative h-4 w-full overflow-hidden rounded-full bg-primary/20"
+              >
+                <div
+                  class="h-full w-full flex-1 bg-primary transition-all"
+                  style="transform: translateX(-30%)"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Small --&gt;
+&lt;div class="relative h-1 w-full overflow-hidden rounded-full bg-primary/20"&gt;
+  &lt;div class="h-full w-full flex-1 bg-primary transition-all" style="transform: translateX(-30%)"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Default --&gt;
+&lt;div class="relative h-2 w-full overflow-hidden rounded-full bg-primary/20"&gt;
+  &lt;div class="h-full w-full flex-1 bg-primary transition-all" style="transform: translateX(-30%)"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Large --&gt;
+&lt;div class="relative h-4 w-full overflow-hidden rounded-full bg-primary/20"&gt;
+  &lt;div class="h-full w-full flex-1 bg-primary transition-all" style="transform: translateX(-30%)"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Colors -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Colors</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="space-y-4 w-full sm:w-[60%]">
+            <!-- Success -->
+            <div class="space-y-2">
+              <p class="text-sm text-muted-foreground">Success</p>
+              <div
+                class="relative h-2 w-full overflow-hidden rounded-full bg-green-500/20"
+              >
+                <div
+                  class="h-full w-full flex-1 bg-green-500 transition-all"
+                  style="transform: translateX(-25%)"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Warning -->
+            <div class="space-y-2">
+              <p class="text-sm text-muted-foreground">Warning</p>
+              <div
+                class="relative h-2 w-full overflow-hidden rounded-full bg-yellow-500/20"
+              >
+                <div
+                  class="h-full w-full flex-1 bg-yellow-500 transition-all"
+                  style="transform: translateX(-50%)"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Error -->
+            <div class="space-y-2">
+              <p class="text-sm text-muted-foreground">Error</p>
+              <div
+                class="relative h-2 w-full overflow-hidden rounded-full bg-red-500/20"
+              >
+                <div
+                  class="h-full w-full flex-1 bg-red-500 transition-all"
+                  style="transform: translateX(-20%)"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Success --&gt;
+&lt;div class="relative h-2 w-full overflow-hidden rounded-full bg-green-500/20"&gt;
+  &lt;div class="h-full w-full flex-1 bg-green-500 transition-all" style="transform: translateX(-25%)"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Warning --&gt;
+&lt;div class="relative h-2 w-full overflow-hidden rounded-full bg-yellow-500/20"&gt;
+  &lt;div class="h-full w-full flex-1 bg-yellow-500 transition-all" style="transform: translateX(-50%)"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Error --&gt;
+&lt;div class="relative h-2 w-full overflow-hidden rounded-full bg-red-500/20"&gt;
+  &lt;div class="h-full w-full flex-1 bg-red-500 transition-all" style="transform: translateX(-20%)"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Animated Demo -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">Animated Demo</h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="space-y-2 w-full sm:w-[60%]">
+            <div class="flex items-center justify-between text-sm">
+              <span class="font-medium">Processing...</span>
+              <span class="text-muted-foreground" id="progress-value">0%</span>
+            </div>
+            <div
+              class="relative h-2 w-full overflow-hidden rounded-full bg-primary/20"
+            >
+              <div
+                id="progress-bar"
+                class="h-full w-full flex-1 bg-primary transition-all duration-300"
+                style="transform: translateX(-100%)"
+              ></div>
+            </div>
+            <button
+              onclick="startProgress()"
+              class="mt-4 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4"
+            >
+              Start Progress
+            </button>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2"&gt;
+  &lt;div class="flex items-center justify-between text-sm"&gt;
+    &lt;span class="font-medium"&gt;Processing...&lt;/span&gt;
+    &lt;span class="text-muted-foreground" id="progress-value"&gt;0%&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="relative h-2 w-full overflow-hidden rounded-full bg-primary/20"&gt;
+    &lt;div 
+      id="progress-bar"
+      class="h-full w-full flex-1 bg-primary transition-all duration-300"
+      style="transform: translateX(-100%)"
+    &gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function startProgress() {
+  let progress = 0;
+  const bar = document.getElementById('progress-bar');
+  const value = document.getElementById('progress-value');
+  
+  const interval = setInterval(() => {
+    progress += 1;
+    value.textContent = progress + '%';
+    bar.style.transform = `translateX(-${100 - progress}%)`;
+    
+    if (progress >= 100) {
+      clearInterval(interval);
+    }
+  }, 30);
+}
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Multiple Progress Bars -->
+      <section class="mb-8 sm:mb-12">
+        <h2 class="text-xl sm:text-2xl font-semibold mb-4">
+          Multiple Progress Bars
+        </h2>
+        <div class="mb-4 p-4 sm:p-6 border rounded-lg bg-card">
+          <div class="space-y-6 w-full sm:w-[80%]">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-sm">
+                <span class="font-medium">HTML/CSS</span>
+                <span class="text-muted-foreground">95%</span>
+              </div>
+              <div
+                class="relative h-2 w-full overflow-hidden rounded-full bg-primary/20"
+              >
+                <div
+                  class="h-full w-full flex-1 bg-primary transition-all"
+                  style="transform: translateX(-5%)"
+                ></div>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-sm">
+                <span class="font-medium">JavaScript</span>
+                <span class="text-muted-foreground">80%</span>
+              </div>
+              <div
+                class="relative h-2 w-full overflow-hidden rounded-full bg-blue-500/20"
+              >
+                <div
+                  class="h-full w-full flex-1 bg-blue-500 transition-all"
+                  style="transform: translateX(-20%)"
+                ></div>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between text-sm">
+                <span class="font-medium">React</span>
+                <span class="text-muted-foreground">65%</span>
+              </div>
+              <div
+                class="relative h-2 w-full overflow-hidden rounded-full bg-cyan-500/20"
+              >
+                <div
+                  class="h-full w-full flex-1 bg-cyan-500 transition-all"
+                  style="transform: translateX(-35%)"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-6"&gt;
+  &lt;div class="space-y-2"&gt;
+    &lt;div class="flex items-center justify-between text-sm"&gt;
+      &lt;span class="font-medium"&gt;HTML/CSS&lt;/span&gt;
+      &lt;span class="text-muted-foreground"&gt;95%&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="relative h-2 w-full overflow-hidden rounded-full bg-primary/20"&gt;
+      &lt;div class="h-full w-full flex-1 bg-primary transition-all" style="transform: translateX(-5%)"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Repeat for other skills --&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <script>
+        function startProgress() {
+          let progress = 0;
+          const bar = document.getElementById('progress-bar');
+          const value = document.getElementById('progress-value');
+
+          const interval = setInterval(() => {
+            progress += 1;
+            value.textContent = progress + '%';
+            bar.style.transform = `translateX(-${100 - progress}%)`;
+
+            if (progress >= 100) {
+              clearInterval(interval);
+            }
+          }, 30);
+        }
+      </script>
+    </div>
+
+    <script src="../js/theme-manager.js"></script>
+    <script src="../js/code-block.js"></script>
+  </body>
+</html>

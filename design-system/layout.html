@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Layout - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+  </head>
+  <body>
+    <div class="container mx-auto p-8">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-2">Layout</h1>
+        <p class="text-muted-foreground">
+          Responsive layout patterns using Tailwind CSS. Breakpoint: sm (640px)
+        </p>
+      </header>
+
+      <!-- 1. Header + Main -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Header + Main</h2>
+        <p class="text-muted-foreground mb-6">
+          Basic layout with header and main content area.
+        </p>
+
+        <div class="mb-4 border rounded-lg bg-card overflow-hidden">
+          <div class="h-96 bg-background">
+            <!-- Header -->
+            <header class="h-16 bg-background border-b flex items-center px-6">
+              <h1 class="text-lg font-semibold">Header</h1>
+            </header>
+
+            <!-- Main -->
+            <main class="p-6 bg-muted/30">
+              <div class="bg-card border rounded-lg p-4">
+                <p class="text-sm text-muted-foreground">Main Content</p>
+              </div>
+            </main>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="min-h-screen flex flex-col"&gt;
+  &lt;!-- Header --&gt;
+  &lt;header class="h-16 bg-background border-b flex items-center px-6"&gt;
+    &lt;h1 class="text-lg font-semibold"&gt;Header&lt;/h1&gt;
+  &lt;/header&gt;
+  
+  &lt;!-- Main --&gt;
+  &lt;main class="flex-1 p-6"&gt;
+    &lt;p&gt;Main Content&lt;/p&gt;
+  &lt;/main&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- 2. Header + Aside + Main -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">
+          Header + Aside + Main (Sidebar)
+        </h2>
+        <p class="text-muted-foreground mb-6">
+          Dashboard layout with sidebar. Sidebar toggles on mobile (< 640px).
+        </p>
+
+        <div class="mb-4 border rounded-lg bg-card overflow-hidden">
+          <div class="h-96 bg-background">
+            <!-- Header -->
+            <header class="h-16 bg-background border-b flex items-center px-6">
+              <button class="sm:hidden mr-4">☰</button>
+              <h1 class="text-lg font-semibold">Header</h1>
+            </header>
+
+            <!-- Container -->
+            <div class="flex h-[calc(100%-4rem)]">
+              <!-- Sidebar -->
+              <aside class="hidden sm:block w-64 bg-muted/50 border-r p-4">
+                <p class="text-sm text-muted-foreground">Sidebar</p>
+              </aside>
+
+              <!-- Main -->
+              <main class="flex-1 p-6 overflow-auto">
+                <div class="bg-card border rounded-lg p-4">
+                  <p class="text-sm text-muted-foreground">Main Content</p>
+                </div>
+              </main>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="min-h-screen flex flex-col"&gt;
+  &lt;!-- Header --&gt;
+  &lt;header class="h-16 bg-background border-b flex items-center px-6"&gt;
+    &lt;button class="sm:hidden mr-4"&gt;☰&lt;/button&gt;
+    &lt;h1 class="text-lg font-semibold"&gt;Header&lt;/h1&gt;
+  &lt;/header&gt;
+  
+  &lt;!-- Container --&gt;
+  &lt;div class="flex flex-1"&gt;
+    &lt;!-- Sidebar: hidden on mobile, visible on sm+ --&gt;
+    &lt;aside class="hidden sm:block w-64 bg-muted border-r p-4"&gt;
+      &lt;p&gt;Sidebar&lt;/p&gt;
+    &lt;/aside&gt;
+    
+    &lt;!-- Main --&gt;
+    &lt;main class="flex-1 p-6"&gt;
+      &lt;p&gt;Main Content&lt;/p&gt;
+    &lt;/main&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- 3. Header + Aside + Main + Footer -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">
+          Header + Aside + Main + Footer
+        </h2>
+        <p class="text-muted-foreground mb-6">
+          Complete layout with header, sidebar, main content, and footer.
+        </p>
+
+        <div class="mb-4 border rounded-lg bg-card overflow-hidden">
+          <div class="h-96 bg-background flex flex-col">
+            <!-- Header -->
+            <header class="h-16 bg-background border-b flex items-center px-6">
+              <button class="sm:hidden mr-4">☰</button>
+              <h1 class="text-lg font-semibold">Header</h1>
+            </header>
+
+            <!-- Container -->
+            <div class="flex flex-1 overflow-hidden">
+              <!-- Sidebar -->
+              <aside
+                class="hidden sm:block w-64 bg-muted/50 border-r p-4 overflow-auto"
+              >
+                <p class="text-sm text-muted-foreground">Sidebar</p>
+              </aside>
+
+              <!-- Main -->
+              <main class="flex-1 p-6 overflow-auto">
+                <div class="bg-card border rounded-lg p-4">
+                  <p class="text-sm text-muted-foreground">Main Content</p>
+                </div>
+              </main>
+            </div>
+
+            <!-- Footer -->
+            <footer
+              class="h-16 bg-muted border-t flex items-center justify-center px-6"
+            >
+              <p class="text-sm text-muted-foreground">Footer</p>
+            </footer>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="min-h-screen flex flex-col"&gt;
+  &lt;!-- Header --&gt;
+  &lt;header class="h-16 bg-background border-b flex items-center px-6"&gt;
+    &lt;button class="sm:hidden mr-4"&gt;☰&lt;/button&gt;
+    &lt;h1 class="text-lg font-semibold"&gt;Header&lt;/h1&gt;
+  &lt;/header&gt;
+  
+  &lt;!-- Container --&gt;
+  &lt;div class="flex flex-1 overflow-hidden"&gt;
+    &lt;!-- Sidebar --&gt;
+    &lt;aside class="hidden sm:block w-64 bg-muted border-r p-4 overflow-auto"&gt;
+      &lt;p&gt;Sidebar&lt;/p&gt;
+    &lt;/aside&gt;
+    
+    &lt;!-- Main --&gt;
+    &lt;main class="flex-1 p-6 overflow-auto"&gt;
+      &lt;p&gt;Main Content&lt;/p&gt;
+    &lt;/main&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Footer --&gt;
+  &lt;footer class="h-16 bg-muted border-t flex items-center justify-center px-6"&gt;
+    &lt;p&gt;Footer&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- 4. Header with Nav + Main -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Header with Nav + Main</h2>
+        <p class="text-muted-foreground mb-6">
+          Header contains navigation menu. Nav items stack on mobile.
+        </p>
+
+        <div class="mb-4 border rounded-lg bg-card overflow-hidden">
+          <div class="h-96 bg-background">
+            <!-- Header with Nav -->
+            <header class="bg-background border-b">
+              <div class="h-16 flex items-center justify-between px-6">
+                <h1 class="text-lg font-semibold">Logo</h1>
+                <button class="sm:hidden">☰</button>
+              </div>
+
+              <!-- Nav: hidden on mobile -->
+              <nav class="hidden sm:flex border-t">
+                <a class="px-6 py-3 text-sm hover:bg-accent">Home</a>
+                <a class="px-6 py-3 text-sm hover:bg-accent">About</a>
+                <a class="px-6 py-3 text-sm hover:bg-accent">Services</a>
+                <a class="px-6 py-3 text-sm hover:bg-accent">Contact</a>
+              </nav>
+            </header>
+
+            <!-- Main -->
+            <main class="p-6">
+              <div class="bg-card border rounded-lg p-4">
+                <p class="text-sm text-muted-foreground">Main Content</p>
+              </div>
+            </main>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="min-h-screen flex flex-col"&gt;
+  &lt;!-- Header with Nav --&gt;
+  &lt;header class="bg-background border-b"&gt;
+    &lt;div class="h-16 flex items-center justify-between px-6"&gt;
+      &lt;h1 class="text-lg font-semibold"&gt;Logo&lt;/h1&gt;
+      &lt;button class="sm:hidden"&gt;☰&lt;/button&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- Nav: hidden on mobile, flex on sm+ --&gt;
+    &lt;nav class="hidden sm:flex border-t"&gt;
+      &lt;a class="px-6 py-3 text-sm hover:bg-accent"&gt;Home&lt;/a&gt;
+      &lt;a class="px-6 py-3 text-sm hover:bg-accent"&gt;About&lt;/a&gt;
+      &lt;a class="px-6 py-3 text-sm hover:bg-accent"&gt;Services&lt;/a&gt;
+      &lt;a class="px-6 py-3 text-sm hover:bg-accent"&gt;Contact&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+  
+  &lt;!-- Main --&gt;
+  &lt;main class="flex-1 p-6"&gt;
+    &lt;p&gt;Main Content&lt;/p&gt;
+  &lt;/main&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- 5. Header + Main + Right Aside -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Header + Main + Right Aside</h2>
+        <p class="text-muted-foreground mb-6">
+          Layout with right sidebar for widgets or ads. Right sidebar stacks
+          below on mobile.
+        </p>
+
+        <div class="mb-4 border rounded-lg bg-card overflow-hidden">
+          <div class="h-96 bg-background">
+            <!-- Header -->
+            <header class="h-16 bg-background border-b flex items-center px-6">
+              <h1 class="text-lg font-semibold">Header</h1>
+            </header>
+
+            <!-- Container -->
+            <div class="flex flex-col sm:flex-row h-[calc(100%-4rem)]">
+              <!-- Main -->
+              <main class="flex-1 p-6 overflow-auto">
+                <div class="bg-card border rounded-lg p-4">
+                  <p class="text-sm text-muted-foreground">Main Content</p>
+                </div>
+              </main>
+
+              <!-- Right Sidebar -->
+              <aside
+                class="w-full sm:w-64 bg-muted/50 border-t sm:border-t-0 sm:border-l p-4 overflow-auto"
+              >
+                <p class="text-sm text-muted-foreground">Widgets / Ads</p>
+              </aside>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="min-h-screen flex flex-col"&gt;
+  &lt;!-- Header --&gt;
+  &lt;header class="h-16 bg-background border-b flex items-center px-6"&gt;
+    &lt;h1 class="text-lg font-semibold"&gt;Header&lt;/h1&gt;
+  &lt;/header&gt;
+  
+  &lt;!-- Container: column on mobile, row on sm+ --&gt;
+  &lt;div class="flex flex-col sm:flex-row flex-1"&gt;
+    &lt;!-- Main --&gt;
+    &lt;main class="flex-1 p-6"&gt;
+      &lt;p&gt;Main Content&lt;/p&gt;
+    &lt;/main&gt;
+    
+    &lt;!-- Right Sidebar: stacks below on mobile, right side on sm+ --&gt;
+    &lt;aside class="w-full sm:w-64 bg-muted border-t sm:border-t-0 sm:border-l p-4"&gt;
+      &lt;p&gt;Widgets / Ads&lt;/p&gt;
+    &lt;/aside&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- 6. FAB (Floating Action Button) -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">
+          Floating Action Button (FAB)
+        </h2>
+        <p class="text-muted-foreground mb-6">
+          Fixed button that floats at the bottom-right corner of the screen.
+        </p>
+
+        <div class="mb-4 border rounded-lg bg-card overflow-hidden relative">
+          <div class="h-96 bg-background p-6">
+            <div class="bg-card border rounded-lg p-4">
+              <p class="text-sm text-muted-foreground">Page Content</p>
+              <p class="text-xs text-muted-foreground mt-2">
+                Scroll down to see more...
+              </p>
+            </div>
+
+            <!-- FAB -->
+            <button
+              class="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 flex items-center justify-center"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 5v14" />
+                <path d="M5 12h14" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Page Content --&gt;
+&lt;div class="min-h-screen p-6"&gt;
+  &lt;p&gt;Page Content&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- FAB: Fixed at bottom-right --&gt;
+&lt;button class="fixed bottom-6 right-6 h-14 w-14 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 flex items-center justify-center"&gt;
+  &lt;svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"&gt;
+    &lt;path d="M12 5v14"/&gt;
+    &lt;path d="M5 12h14"/&gt;
+  &lt;/svg&gt;
+&lt;/button&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- 7. Complete Grid Layout with Mobile Menu -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">
+          Complete Grid Layout (Mobile Menu)
+        </h2>
+        <p class="text-muted-foreground mb-6">
+          Full layout using CSS Grid with Header, Nav, Sidebar, Main, and
+          Footer. Click hamburger menu on mobile to toggle sidebar.
+        </p>
+
+        <div class="mb-4 border rounded-lg bg-card overflow-hidden">
+          <div class="h-[600px] bg-background relative">
+            <!-- Mobile Overlay -->
+            <div
+              id="sidebar-overlay"
+              class="hidden fixed inset-0 bg-black/50 z-40"
+              onclick="toggleSidebar()"
+            ></div>
+
+            <!-- Grid Container -->
+            <div
+              class="grid h-full grid-cols-[250px_1fr] grid-rows-[64px_48px_1fr_64px]"
+            >
+              <!-- Header -->
+              <header
+                class="col-span-2 bg-background border-b flex items-center justify-between px-6"
+              >
+                <h1 class="text-lg font-semibold">Logo</h1>
+                <div class="flex items-center gap-4">
+                  <button
+                    id="menu-toggle"
+                    class="sm:hidden p-2 hover:bg-accent rounded-md"
+                    onclick="toggleSidebar()"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="3" y1="12" x2="21" y2="12" />
+                      <line x1="3" y1="6" x2="21" y2="6" />
+                      <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                  </button>
+                  <button
+                    class="h-9 w-9 rounded-full bg-muted flex items-center justify-center"
+                  >
+                    <span class="text-sm font-medium">U</span>
+                  </button>
+                </div>
+              </header>
+
+              <!-- Navigation -->
+              <nav
+                class="col-span-2 bg-background border-b hidden sm:flex items-center px-6 gap-1"
+              >
+                <a class="px-4 py-2 text-sm rounded-md hover:bg-accent"
+                  >Dashboard</a
+                >
+                <a class="px-4 py-2 text-sm rounded-md hover:bg-accent"
+                  >Analytics</a
+                >
+                <a class="px-4 py-2 text-sm rounded-md hover:bg-accent"
+                  >Reports</a
+                >
+                <a class="px-4 py-2 text-sm rounded-md hover:bg-accent"
+                  >Settings</a
+                >
+              </nav>
+
+              <!-- Sidebar -->
+              <aside
+                id="sidebar"
+                class="bg-muted/50 border-r p-4 overflow-auto fixed sm:static inset-y-0 left-0 w-64 transform -translate-x-full sm:translate-x-0 transition-transform z-50 sm:row-start-3 sm:row-end-4 top-[112px]"
+              >
+                <div class="space-y-2">
+                  <div
+                    class="text-xs font-semibold text-muted-foreground uppercase px-3 py-2"
+                  >
+                    Menu
+                  </div>
+                  <a class="block px-3 py-2 text-sm rounded-md hover:bg-accent"
+                    >Home</a
+                  >
+                  <a class="block px-3 py-2 text-sm rounded-md hover:bg-accent"
+                    >Projects</a
+                  >
+                  <a class="block px-3 py-2 text-sm rounded-md hover:bg-accent"
+                    >Tasks</a
+                  >
+                  <a class="block px-3 py-2 text-sm rounded-md hover:bg-accent"
+                    >Team</a
+                  >
+                  <div
+                    class="text-xs font-semibold text-muted-foreground uppercase px-3 py-2 mt-4"
+                  >
+                    Settings
+                  </div>
+                  <a class="block px-3 py-2 text-sm rounded-md hover:bg-accent"
+                    >Profile</a
+                  >
+                  <a class="block px-3 py-2 text-sm rounded-md hover:bg-accent"
+                    >Preferences</a
+                  >
+                </div>
+              </aside>
+
+              <!-- Main Content -->
+              <main class="p-6 overflow-auto col-start-2 row-start-3">
+                <div class="space-y-4">
+                  <div class="bg-card border rounded-lg p-6">
+                    <h2 class="text-xl font-semibold mb-2">Welcome</h2>
+                    <p class="text-sm text-muted-foreground">
+                      This is a complete grid-based layout with all sections.
+                    </p>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-card border rounded-lg p-4">
+                      <div class="text-2xl font-bold">150</div>
+                      <div class="text-xs text-muted-foreground">
+                        Total Users
+                      </div>
+                    </div>
+                    <div class="bg-card border rounded-lg p-4">
+                      <div class="text-2xl font-bold">48</div>
+                      <div class="text-xs text-muted-foreground">
+                        Active Projects
+                      </div>
+                    </div>
+                    <div class="bg-card border rounded-lg p-4">
+                      <div class="text-2xl font-bold">12</div>
+                      <div class="text-xs text-muted-foreground">
+                        Pending Tasks
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </main>
+
+              <!-- Footer -->
+              <footer
+                class="col-span-2 bg-muted border-t flex items-center justify-center px-6"
+              >
+                <p class="text-xs text-muted-foreground">
+                  © 2024 Company Name. All rights reserved.
+                </p>
+              </footer>
+            </div>
+
+            <script>
+              function toggleSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebar-overlay');
+
+                if (sidebar.classList.contains('-translate-x-full')) {
+                  sidebar.classList.remove('-translate-x-full');
+                  overlay.classList.remove('hidden');
+                } else {
+                  sidebar.classList.add('-translate-x-full');
+                  overlay.classList.add('hidden');
+                }
+              }
+            </script>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;!-- Mobile Overlay --&gt;
+&lt;div id="sidebar-overlay" class="hidden fixed inset-0 bg-black/50 z-40" onclick="toggleSidebar()"&gt;&lt;/div&gt;
+
+&lt;!-- Grid Container --&gt;
+&lt;div class="grid min-h-screen grid-cols-[250px_1fr] grid-rows-[64px_48px_1fr_64px]"&gt;
+  
+  &lt;!-- Header: spans 2 columns --&gt;
+  &lt;header class="col-span-2 bg-background border-b flex items-center justify-between px-6"&gt;
+    &lt;h1 class="text-lg font-semibold"&gt;Logo&lt;/h1&gt;
+    &lt;button class="sm:hidden" onclick="toggleSidebar()"&gt;☰&lt;/button&gt;
+  &lt;/header&gt;
+
+  &lt;!-- Navigation: spans 2 columns --&gt;
+  &lt;nav class="col-span-2 bg-background border-b hidden sm:flex items-center px-6"&gt;
+    &lt;a class="px-4 py-2 text-sm hover:bg-accent"&gt;Dashboard&lt;/a&gt;
+    &lt;a class="px-4 py-2 text-sm hover:bg-accent"&gt;Analytics&lt;/a&gt;
+  &lt;/nav&gt;
+
+  &lt;!-- Sidebar: first column, third row --&gt;
+  &lt;aside id="sidebar" class="bg-muted border-r p-4 fixed sm:static inset-y-0 left-0 w-64 transform -translate-x-full sm:translate-x-0 transition-transform z-50"&gt;
+    &lt;a class="block px-3 py-2 text-sm hover:bg-accent"&gt;Home&lt;/a&gt;
+    &lt;a class="block px-3 py-2 text-sm hover:bg-accent"&gt;Projects&lt;/a&gt;
+  &lt;/aside&gt;
+
+  &lt;!-- Main: second column, third row --&gt;
+  &lt;main class="p-6 overflow-auto"&gt;
+    &lt;h2&gt;Content&lt;/h2&gt;
+  &lt;/main&gt;
+
+  &lt;!-- Footer: spans 2 columns --&gt;
+  &lt;footer class="col-span-2 bg-muted border-t flex items-center justify-center"&gt;
+    &lt;p class="text-xs"&gt;© 2024 Company&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  sidebar.classList.toggle('-translate-x-full');
+  overlay.classList.toggle('hidden');
+}
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+    </div>
+
+    <script src="../js/theme-manager.js"></script>
+    <script src="../js/code-block.js"></script>
+  </body>
+</html>

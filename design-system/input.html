@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Input - Design System</title>
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/code-block.css" />
+    <link rel="stylesheet" href="../css/scrollbar.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../js/config.js"></script>
+  </head>
+  <body>
+    <div class="container mx-auto p-8">
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold mb-2">Input</h1>
+        <p class="text-muted-foreground">
+          Displays a form input field or a component that looks like an input
+          field.
+        </p>
+      </header>
+
+      <!-- Default -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Default</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <input
+            type="text"
+            placeholder="Email"
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          />
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;input
+  type="text"
+  placeholder="Email"
+  class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+/&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Types -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Input Types</h2>
+
+        <!-- Text -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Text</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <input
+            type="text"
+            placeholder="Enter text"
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          />
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;input
+  type="text"
+  placeholder="Enter text"
+  class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+/&gt;</code></pre>
+        </div>
+
+        <!-- Email -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Email</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <input
+            type="email"
+            placeholder="Email"
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          />
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;input
+  type="email"
+  placeholder="Email"
+  class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+/&gt;</code></pre>
+        </div>
+
+        <!-- Password -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Password</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <input
+            type="password"
+            placeholder="Password"
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          />
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;input
+  type="password"
+  placeholder="Password"
+  class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+/&gt;</code></pre>
+        </div>
+
+        <!-- Number -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Number</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <input
+            type="number"
+            placeholder="Enter number"
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          />
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;input
+  type="number"
+  placeholder="Enter number"
+  class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+/&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- File -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">File</h2>
+
+        <!-- Basic File Input -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Basic</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <input
+            type="file"
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          />
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;input
+  type="file"
+  class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+/&gt;</code></pre>
+        </div>
+
+        <!-- File Input with Preview -->
+        <h3 class="text-lg font-medium mb-2 mt-6">With Image Preview</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="space-y-4">
+            <input
+              type="file"
+              id="file-preview-input"
+              accept="image/*"
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            />
+            <div id="preview-container" class="hidden">
+              <div class="text-sm font-medium mb-2">Preview:</div>
+              <img id="preview-image" class="max-w-xs rounded-lg border" />
+            </div>
+          </div>
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-4"&gt;
+  &lt;input
+    type="file"
+    id="file-preview-input"
+    accept="image/*"
+    class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+  /&gt;
+  &lt;div id="preview-container" class="hidden"&gt;
+    &lt;div class="text-sm font-medium mb-2"&gt;Preview:&lt;/div&gt;
+    &lt;img id="preview-image" class="max-w-xs rounded-lg border" /&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+document.getElementById('file-preview-input').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (file &amp;&amp; file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('preview-image').src = e.target.result;
+      document.getElementById('preview-container').classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  }
+});
+&lt;/script&gt;</code></pre>
+        </div>
+
+        <!-- Drag and Drop -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Drag and Drop</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div
+            id="dropzone"
+            class="border-2 border-dashed border-input rounded-lg p-8 text-center hover:border-primary transition-colors cursor-pointer"
+          >
+            <svg
+              class="mx-auto h-12 w-12 text-muted-foreground mb-4"
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            <p class="text-sm text-muted-foreground mb-2">
+              <span class="font-semibold text-primary">Click to upload</span> or
+              drag and drop
+            </p>
+            <p class="text-xs text-muted-foreground">
+              PNG, JPG, GIF up to 10MB
+            </p>
+            <input
+              type="file"
+              id="dropzone-input"
+              accept="image/*"
+              class="hidden"
+            />
+          </div>
+          <div id="dropzone-preview" class="mt-4 hidden">
+            <div class="text-sm font-medium mb-2">Selected file:</div>
+            <div class="flex items-center gap-4 p-4 border rounded-lg">
+              <img
+                id="dropzone-thumbnail"
+                class="h-20 w-20 object-cover rounded"
+              />
+              <div class="flex-1">
+                <p id="dropzone-filename" class="text-sm font-medium"></p>
+                <p
+                  id="dropzone-filesize"
+                  class="text-xs text-muted-foreground"
+                ></p>
+              </div>
+              <button
+                id="dropzone-remove"
+                class="text-destructive hover:text-destructive/80 text-sm"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div
+  id="dropzone"
+  class="border-2 border-dashed border-input rounded-lg p-8 text-center hover:border-primary transition-colors cursor-pointer"
+&gt;
+  &lt;svg
+    class="mx-auto h-12 w-12 text-muted-foreground mb-4"
+    xmlns="http://www.w3.org/2000/svg"
+    width="48"
+    height="48"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  &gt;
+    &lt;path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/&gt;
+    &lt;polyline points="17 8 12 3 7 8"/&gt;
+    &lt;line x1="12" y1="3" x2="12" y2="15"/&gt;
+  &lt;/svg&gt;
+  &lt;p class="text-sm text-muted-foreground mb-2"&gt;
+    &lt;span class="font-semibold text-primary"&gt;Click to upload&lt;/span&gt; or drag and drop
+  &lt;/p&gt;
+  &lt;p class="text-xs text-muted-foreground"&gt;
+    PNG, JPG, GIF up to 10MB
+  &lt;/p&gt;
+  &lt;input
+    type="file"
+    id="dropzone-input"
+    accept="image/*"
+    class="hidden"
+  /&gt;
+&lt;/div&gt;
+&lt;div id="dropzone-preview" class="mt-4 hidden"&gt;
+  &lt;div class="text-sm font-medium mb-2"&gt;Selected file:&lt;/div&gt;
+  &lt;div class="flex items-center gap-4 p-4 border rounded-lg"&gt;
+    &lt;img id="dropzone-thumbnail" class="h-20 w-20 object-cover rounded" /&gt;
+    &lt;div class="flex-1"&gt;
+      &lt;p id="dropzone-filename" class="text-sm font-medium"&gt;&lt;/p&gt;
+      &lt;p id="dropzone-filesize" class="text-xs text-muted-foreground"&gt;&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;button
+      id="dropzone-remove"
+      class="text-destructive hover:text-destructive/80 text-sm"
+    &gt;
+      Remove
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+const dropzone = document.getElementById('dropzone');
+const dropzoneInput = document.getElementById('dropzone-input');
+const dropzonePreview = document.getElementById('dropzone-preview');
+const dropzoneThumbnail = document.getElementById('dropzone-thumbnail');
+const dropzoneFilename = document.getElementById('dropzone-filename');
+const dropzoneFilesize = document.getElementById('dropzone-filesize');
+const dropzoneRemove = document.getElementById('dropzone-remove');
+
+// Click to upload
+dropzone.addEventListener('click', () =&gt; dropzoneInput.click());
+
+// Handle file selection
+dropzoneInput.addEventListener('change', handleFiles);
+
+// Drag and drop handlers
+dropzone.addEventListener('dragover', (e) =&gt; {
+  e.preventDefault();
+  dropzone.classList.add('border-primary');
+});
+
+dropzone.addEventListener('dragleave', () =&gt; {
+  dropzone.classList.remove('border-primary');
+});
+
+dropzone.addEventListener('drop', (e) =&gt; {
+  e.preventDefault();
+  dropzone.classList.remove('border-primary');
+  const files = e.dataTransfer.files;
+  if (files.length) {
+    dropzoneInput.files = files;
+    handleFiles();
+  }
+});
+
+function handleFiles() {
+  const file = dropzoneInput.files[0];
+  if (file &amp;&amp; file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = (e) =&gt; {
+      dropzoneThumbnail.src = e.target.result;
+      dropzoneFilename.textContent = file.name;
+      dropzoneFilesize.textContent = (file.size / 1024).toFixed(2) + ' KB';
+      dropzonePreview.classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+// Remove file
+dropzoneRemove.addEventListener('click', (e) =&gt; {
+  e.stopPropagation();
+  dropzoneInput.value = '';
+  dropzonePreview.classList.add('hidden');
+});
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <script>
+        // File preview script
+        document
+          .getElementById('file-preview-input')
+          .addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                document.getElementById('preview-image').src = e.target.result;
+                document
+                  .getElementById('preview-container')
+                  .classList.remove('hidden');
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+
+        // Drag and drop script
+        const dropzone = document.getElementById('dropzone');
+        const dropzoneInput = document.getElementById('dropzone-input');
+        const dropzonePreview = document.getElementById('dropzone-preview');
+        const dropzoneThumbnail = document.getElementById('dropzone-thumbnail');
+        const dropzoneFilename = document.getElementById('dropzone-filename');
+        const dropzoneFilesize = document.getElementById('dropzone-filesize');
+        const dropzoneRemove = document.getElementById('dropzone-remove');
+
+        // Click to upload
+        dropzone.addEventListener('click', () => dropzoneInput.click());
+
+        // Handle file selection
+        dropzoneInput.addEventListener('change', handleFiles);
+
+        // Drag and drop handlers
+        dropzone.addEventListener('dragover', e => {
+          e.preventDefault();
+          dropzone.classList.add('border-primary');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+          dropzone.classList.remove('border-primary');
+        });
+
+        dropzone.addEventListener('drop', e => {
+          e.preventDefault();
+          dropzone.classList.remove('border-primary');
+          const files = e.dataTransfer.files;
+          if (files.length) {
+            dropzoneInput.files = files;
+            handleFiles();
+          }
+        });
+
+        function handleFiles() {
+          const file = dropzoneInput.files[0];
+          if (file && file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = e => {
+              dropzoneThumbnail.src = e.target.result;
+              dropzoneFilename.textContent = file.name;
+              dropzoneFilesize.textContent =
+                (file.size / 1024).toFixed(2) + ' KB';
+              dropzonePreview.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+
+        // Remove file
+        dropzoneRemove.addEventListener('click', e => {
+          e.stopPropagation();
+          dropzoneInput.value = '';
+          dropzonePreview.classList.add('hidden');
+        });
+      </script>
+
+      <!-- Disabled -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">Disabled</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <input
+            type="text"
+            placeholder="Email"
+            disabled
+            class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          />
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;input
+  type="text"
+  placeholder="Email"
+  disabled
+  class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+/&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Label -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Label</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="space-y-2">
+            <label
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            />
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2"&gt;
+  &lt;label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"&gt;
+    Email
+  &lt;/label&gt;
+  &lt;input
+    type="email"
+    placeholder="Enter your email"
+    class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+  /&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Description -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Description</h2>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="space-y-2">
+            <label
+              class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              placeholder="Enter your username"
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            />
+            <p class="text-sm text-muted-foreground">
+              This is your public display name.
+            </p>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="space-y-2"&gt;
+  &lt;label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"&gt;
+    Username
+  &lt;/label&gt;
+  &lt;input
+    type="text"
+    placeholder="Enter your username"
+    class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+  /&gt;
+  &lt;p class="text-sm text-muted-foreground"&gt;
+    This is your public display name.
+  &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- With Icon -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-semibold mb-4">With Icon</h2>
+
+        <!-- Left Icon -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Left Icon</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="relative">
+            <svg
+              class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+            <input
+              type="text"
+              placeholder="Search..."
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pl-10 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            />
+          </div>
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="relative"&gt;
+  &lt;svg
+    class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  &gt;
+    &lt;circle cx="11" cy="11" r="8"/&gt;
+    &lt;path d="m21 21-4.3-4.3"/&gt;
+  &lt;/svg&gt;
+  &lt;input
+    type="text"
+    placeholder="Search..."
+    class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pl-10 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+  /&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+
+        <!-- Right Icon -->
+        <h3 class="text-lg font-medium mb-2 mt-6">Right Icon</h3>
+        <div class="mb-4 p-6 border rounded-lg bg-card">
+          <div class="relative">
+            <input
+              type="email"
+              placeholder="Email"
+              class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pr-10 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            />
+            <svg
+              class="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+          </div>
+        </div>
+        <div class="code-block">
+          <button class="copy-btn">Copy</button>
+          <pre><code>&lt;div class="relative"&gt;
+  &lt;input
+    type="email"
+    placeholder="Email"
+    class="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pr-10 text-sm shadow-xs transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+  /&gt;
+  &lt;svg
+    class="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  &gt;
+    &lt;rect width="20" height="16" x="2" y="4" rx="2"/&gt;
+    &lt;path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/&gt;
+  &lt;/svg&gt;
+&lt;/div&gt;</code></pre>
+        </div>
+      </section>
+    </div>
+
+    <script src="../js/theme-manager.js"></script>
+    <script src="../js/code-block.js"></script>
+  </body>
+</html>
